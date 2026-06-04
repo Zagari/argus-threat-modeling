@@ -1,0 +1,43 @@
+# ARGUS & Cíclope — orquestração local.
+# `docker compose up --build`            → backend (8000) + frontend (8080)
+# `docker compose --profile full up`     → inclui Neo4j (usado a partir da Fase 3)
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      ARGUS_CORS_ORIGINS: "http://localhost:8080"
+      ARGUS_LLM_PROVIDER: "${ARGUS_LLM_PROVIDER:-gemini}"
+      ARGUS_LLM_MODEL: "${ARGUS_LLM_MODEL:-gemini/gemini-2.5-flash}"
+      ARGUS_LLM_MOCK: "${ARGUS_LLM_MOCK:-0}"
+      GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  # Banco de grafo do Graph-RAG — só entra na Fase 3 (profile "full").
+  neo4j:
+    image: neo4j:5
+    profiles: ["full"]
+    environment:
+      NEO4J_AUTH: "neo4j/arguspass"
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+
+volumes:
+  neo4j_data:
