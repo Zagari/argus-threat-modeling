@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Env / secrets
+.env
+*.local
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ML artefatos (vão para HF Hub / Releases, não para o git)
+training/runs/
+*.pt
+*.onnx
+data/synthetic/images/
+data/synthetic/labels/
+data/real/images/
+data/real/labels/
+data/knowledge/raw/
+
+# Vector store / grafo
+*.sqlite3
+chroma/
+neo4j/data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Relatórios gerados em runtime
+*.pdf
+
+# Documentos de planejamento/trabalho (mantidos localmente, fora do repo)
+/PROPOSTA-TECNICA.md
+/PLANO-IMPLEMENTACAO.md
+/docs/
