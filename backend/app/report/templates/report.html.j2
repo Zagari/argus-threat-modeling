@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: A4; margin: 2cm; }
+  body { font-family: "Helvetica", "Arial", sans-serif; color: #1a1a1a; font-size: 11px; line-height: 1.45; }
+  h1 { font-size: 20px; margin: 0 0 2px; }
+  h2 { font-size: 14px; margin: 18px 0 6px; border-bottom: 2px solid #333; padding-bottom: 3px; }
+  h3 { font-size: 12px; margin: 12px 0 4px; color: #b8860b; }
+  .sub { color: #666; font-size: 10px; margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0; }
+  th, td { border: 1px solid #ccc; padding: 4px 6px; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; }
+  .badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 9px; color: #fff; }
+  .crit { background: #b00020; } .high { background: #d9534f; }
+  .med { background: #e0a800; } .low { background: #6c757d; }
+  .threat { border: 1px solid #ddd; border-left: 4px solid #b8860b; padding: 6px 8px; margin: 6px 0; page-break-inside: avoid; }
+  .threat .meta { color: #666; font-size: 9px; }
+  .refs { color: #0645ad; font-size: 9px; }
+  ul { margin: 3px 0 3px 16px; padding: 0; }
+</style>
+</head>
+<body>
+  <h1>Relatório de Modelagem de Ameaças — STRIDE</h1>
+  <div class="sub">
+    Sistema: <strong>{{ tm.system_name }}</strong> ·
+    Origem: <strong>{{ tm.meta.get("system", "—") }}</strong> ·
+    Modelo: {{ tm.meta.get("provider", "—") }} / {{ tm.meta.get("model", "—") }}
+    {% if tm.meta.get("latency_s") is not none %} · {{ tm.meta.get("latency_s") }}s{% endif %}
+  </div>
+
+  <h2>1. Componentes ({{ tm.components|length }})</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Rótulo</th><th>Classe canônica</th><th>Elemento DFD</th></tr></thead>
+    <tbody>
+    {% for c in tm.components %}
+      <tr><td>{{ c.id }}</td><td>{{ c.label or "—" }}</td><td>{{ c.canonical }}</td><td>{{ c.element_type }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% if tm.edges %}
+  <h2>2. Fluxos de dados ({{ tm.edges|length }})</h2>
+  <table>
+    <thead><tr><th>Origem</th><th>Destino</th><th>Rótulo</th><th>Cruza fronteira?</th></tr></thead>
+    <tbody>
+    {% for e in tm.edges %}
+      <tr><td>{{ e.source }}</td><td>{{ e.target }}</td><td>{{ e.label or "—" }}</td><td>{{ "Sim" if e.crosses_boundary else "Não" }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <h2>3. Ameaças ({{ tm.threats|length }})</h2>
+  {% for category, threats in groups.items() %}
+    {% if threats %}
+    <h3>{{ category }} ({{ threats|length }})</h3>
+    {% for t in threats %}
+      <div class="threat">
+        <strong>{{ t.id }} — {{ t.title }}</strong>
+        <span class="badge {{ sev_class(t.impact) }}">{{ t.impact }}</span>
+        <div class="meta">
+          Componente: {{ t.component_id }} ({{ t.element_type }}) ·
+          Probabilidade: {{ t.likelihood }} · Risco: {{ t.risk_score }}/25
+          {% if t.cwe_ids %} · {{ t.cwe_ids|join(", ") }}{% endif %}
+          {% if t.capec_ids %} · {{ t.capec_ids|join(", ") }}{% endif %}
+          {% if t.grounded %} · <em>ancorada</em>{% endif %}
+        </div>
+        <div>{{ t.attack_scenario }}</div>
+        {% if t.mitigations %}
+        <ul>
+          {% for m in t.mitigations %}
+            <li>{{ m.description }}{% if m.refs %} <span class="refs">[{{ m.refs|join(", ") }}]</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+    {% endif %}
+  {% endfor %}
+</body>
+</html>

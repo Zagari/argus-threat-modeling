@@ -1,0 +1,32 @@
+Analise o DIAGRAMA DE ARQUITETURA na imagem anexa e produza um modelo de ameaças STRIDE completo.
+
+Você deve, em uma única passagem:
+
+1) IDENTIFICAR OS COMPONENTES visíveis (usuários, gateways, balanceadores, servidores,
+   funções, bancos, caches, filas, storage, identidade, segredos, monitoramento, CDNs,
+   segurança de borda/WAF, sistemas externos, fronteiras/VPC, etc.).
+   - Atribua a cada um uma `canonical` (classe canônica AGNÓSTICA de nuvem) desta lista:
+     {{ canonical_classes | join(", ") }}
+   - Use `label` para o nome lido no diagrama (ex.: "Amazon RDS (Primary)", "API Management").
+   - Atribua `element_type` (Process, DataStore, DataFlow, ExternalEntity, TrustBoundary).
+
+2) IDENTIFICAR AS CONEXÕES (setas/fluxos de dados) como `edges` dirigidas (source→target),
+   com `label` do protocolo quando visível e `crosses_boundary=true` quando o fluxo cruza
+   uma fronteira de confiança (ex.: Internet → Nuvem).
+
+3) APLICAR STRIDE-PER-ELEMENT — para cada componente, considere APENAS as categorias
+   aplicáveis ao seu tipo de elemento:
+   - ExternalEntity: Spoofing, Repudiation
+   - DataFlow: Tampering, Information Disclosure, Denial of Service
+   - DataStore: Tampering, Repudiation, Information Disclosure, Denial of Service
+   - Process: todas as 6
+   - TrustBoundary: não gera ameaça própria; é gatilho para analisar a fundo os Data Flows que a cruzam.
+   Gere ameaças ESPECÍFICAS, citando o componente concreto. NÃO produza recomendações genéricas
+   ("valide entradas") desconectadas de um componente.
+
+4) Para cada ameaça, sugira `mitigations` CONCRETAS e implementáveis (e, quando souber,
+   inclua referências como CWE-XXX ou 'ASVS V…' no campo `refs`). Estime `likelihood`,
+   `impact` e um `risk_score` 1–25 (probabilidade × impacto).
+
+Dê IDs estáveis: componentes "C1","C2",…; ameaças "THR-001","THR-002",….
+Defina `system_name` com um nome curto do sistema retratado.

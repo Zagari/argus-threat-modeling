@@ -1,0 +1,23 @@
+# API
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic>=2.6
+pydantic-settings
+python-dotenv
+
+# LLM (camada de abstração multi-provider)
+litellm
+
+# Imagem / relatório
+pillow
+jinja2
+weasyprint
+
+# HTTP
+httpx
+
+# Dev / testes
+pytest
+ruff
+mypy
