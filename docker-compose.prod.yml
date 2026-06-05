@@ -1,0 +1,27 @@
+# Produção — usa as imagens publicadas no GHCR (não builda nada no servidor).
+#
+# Topologia:
+#   [Cloudflare/HTTPS] -> [NGINX reverso do servidor] -> 127.0.0.1:${APP_PORT}
+#        -> [container frontend (nginx + React)] --(rede interna)--> [container backend:8000]
+#
+# Só o frontend é publicado no host, e ESCUTANDO APENAS EM 127.0.0.1 (o público chega
+# unicamente pelo seu NGINX). O backend não publica porta — fica interno à rede do compose.
+#
+# Antes de subir, crie um arquivo .env neste diretório (ver deploy/.env.prod.example).
+
+services:
+  backend:
+    image: ghcr.io/zagari/argus-backend:latest
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "8000"   # interno à rede do compose; NÃO publicado no host
+
+  frontend:
+    image: ghcr.io/zagari/argus-frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      # Apenas localhost:${APP_PORT} -> porta 80 do container. Seu NGINX faz o proxy público.
+      - "127.0.0.1:${APP_PORT:-8090}:80"
