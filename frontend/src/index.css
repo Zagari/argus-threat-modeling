@@ -69,6 +69,11 @@ button.ghost {
 .muted { color: var(--muted); font-size: 13px; }
 .error { color: #ff6b6b; font-size: 13px; margin-top: 8px; }
 .ok { color: #51cf66; font-size: 13px; margin-top: 8px; }
+.banner-mock {
+  background: #4a3b10; color: #ffe08a; border: 1px solid #7a5e1a;
+  padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 13px;
+}
+.banner-mock strong { color: #ffd24a; }
 .kv { font-size: 12px; color: var(--muted); }
 .spinner { display: inline-block; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

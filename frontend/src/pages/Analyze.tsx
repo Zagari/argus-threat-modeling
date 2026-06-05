@@ -61,6 +61,11 @@ export default function Analyze() {
       <div className="col">
         {tm ? (
           <div className="card">
+            {(tm.meta.mock === true || tm.meta.provider === 'mock') && (
+              <div className="banner-mock" style={{ marginBottom: 10 }}>
+                Resultado de exemplo (mock) — não reflete o diagrama enviado.
+              </div>
+            )}
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <h2 style={{ margin: 0, fontSize: 16, flex: 1 }}>{tm.system_name}</h2>
               <button className="ghost" onClick={() => downloadPdf(tm).catch((e) => setError(String(e)))}>

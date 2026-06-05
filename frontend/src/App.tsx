@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getSettings } from './api/client'
 import Analyze from './pages/Analyze'
 import SettingsPage from './pages/Settings'
 
@@ -6,6 +7,14 @@ type Tab = 'analyze' | 'settings'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('analyze')
+  const [mock, setMock] = useState(false)
+
+  useEffect(() => {
+    getSettings()
+      .then((s) => setMock(s.mock))
+      .catch(() => {})
+  }, [tab])
+
   return (
     <div className="app">
       <header className="top">
@@ -22,6 +31,12 @@ export default function App() {
           </button>
         </nav>
       </header>
+      {mock && (
+        <div className="banner-mock">
+          ⚠️ <strong>Modo de exemplo (mock)</strong> — o resultado é ilustrativo e fixo; <em>não</em> é uma
+          análise real do diagrama. Configure uma chave de LLM e desligue o mock para análise real.
+        </div>
+      )}
       {tab === 'analyze' ? <Analyze /> : <SettingsPage />}
     </div>
   )
