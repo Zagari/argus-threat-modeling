@@ -1,0 +1,9 @@
+# Extra OPCIONAL para servir o estágio E1 (detector YOLO) a partir do backend.
+# Pesado (torch) e exige Python 3.12 — NÃO instalar no backend de produção 3.14.
+# Use num ambiente de ML dedicado:
+#   python3.12 -m venv .venv-ml && source .venv-ml/bin/activate
+#   pip install -r requirements.txt -r requirements-ml.txt
+# e aponte o modelo via ARGUS_DETECTOR_WEIGHTS=/caminho/best.pt
+# ou ARGUS_DETECTOR_HF=Zagari/argus-detector
+ultralytics>=8.3.0
+huggingface_hub>=0.24

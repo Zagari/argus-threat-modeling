@@ -96,3 +96,13 @@ class ThreatModel(BaseModel):
         default_factory=dict,
         description="provider, modelo, latência (s), custo, versões, etc.",
     )
+
+
+class DetectionResult(BaseModel):
+    """Saída do estágio E1 (detector YOLO): componentes + imagem anotada."""
+
+    components: list[Component] = Field(default_factory=list)
+    annotated_image: str | None = Field(
+        default=None, description="Imagem com as caixas desenhadas (data URL base64)."
+    )
+    model: dict = Field(default_factory=dict, description="pesos, nº de detecções, conf, imgsz.")

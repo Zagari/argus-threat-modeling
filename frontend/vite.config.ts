@@ -14,6 +14,7 @@ export default defineConfig({
       '/settings': API,
       '/report': API,
       '/health': API,
+      '/stage': API,
     },
   },
 })

@@ -57,6 +57,18 @@ export interface ThreatModel {
   meta: Record<string, unknown>
 }
 
+export interface DetectionResult {
+  components: Component[]
+  annotated_image: string | null
+  model: Record<string, unknown>
+}
+
+export interface DetectStatus {
+  available: boolean
+  weights?: string
+  reason?: string
+}
+
 export interface Settings {
   provider: string
   model: string

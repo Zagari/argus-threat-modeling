@@ -1,4 +1,4 @@
-import type { Settings, ThreatModel } from '../types'
+import type { DetectStatus, DetectionResult, Settings, ThreatModel } from '../types'
 
 async function j<T>(r: Response): Promise<T> {
   if (!r.ok) {
@@ -31,6 +31,18 @@ export async function analyze(file: File, system: string): Promise<ThreatModel> 
   fd.append('file', file)
   const r = await fetch(`/analyze?system=${encodeURIComponent(system)}`, { method: 'POST', body: fd })
   return j<ThreatModel>(r)
+}
+
+export function detectStatus(): Promise<DetectStatus> {
+  return fetch('/stage/detect/status').then(j<DetectStatus>)
+}
+
+export async function detectStage(file: File, conf?: number): Promise<DetectionResult> {
+  const fd = new FormData()
+  fd.append('file', file)
+  const q = conf != null ? `?conf=${conf}` : ''
+  const r = await fetch(`/stage/detect${q}`, { method: 'POST', body: fd })
+  return j<DetectionResult>(r)
 }
 
 export async function downloadPdf(tm: ThreatModel): Promise<void> {
