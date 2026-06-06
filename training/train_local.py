@@ -112,6 +112,13 @@ def main() -> None:
         raise SystemExit(f"data.yaml não encontrado: {cfg['data']}\n"
                          f"Gere antes: python training/synthetic/generate_synthetic.py --out data/synthetic")
 
+    # `project` ABSOLUTO → salva sempre em <repo>/training/runs/<name> (sem o ultralytics
+    # aninhar dentro do runs/detect/ padrão dele quando o caminho é relativo).
+    proj = Path(cfg.get("project", "training/runs"))
+    if not proj.is_absolute():
+        proj = (HERE.parent / proj).resolve()
+    cfg["project"] = str(proj)
+
     try:
         from ultralytics import YOLO
     except ImportError:
