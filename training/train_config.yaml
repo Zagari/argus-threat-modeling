@@ -1,0 +1,26 @@
+# Hiperparâmetros de treino do detector ARGUS (YOLO11).
+# Lido tanto por train_local.py (A5000) quanto por train_colab.ipynb — mesma config
+# nos dois ambientes. CLI sobrescreve qualquer campo (ex.: --epochs, --device).
+model: yolo11s.pt          # base p/ fine-tune (s = small; troque p/ yolo11m se couber)
+data: data/synthetic/data.yaml
+imgsz: 1280
+epochs: 100
+batch: -1                  # -1 = auto pela VRAM (A5000 24GB folga em imgsz 1280)
+patience: 30               # early stopping
+freeze: 10                 # congela o backbone nas primeiras épocas
+optimizer: auto
+lr0: 0.01
+cos_lr: true
+mosaic: 0.5                # augmentation reduzido (diagramas não são fotos naturais)
+close_mosaic: 10           # desliga mosaic nas últimas N épocas
+hsv_h: 0.0                 # sem jitter de matiz (cor do ícone é informativa)
+hsv_s: 0.2
+hsv_v: 0.3
+degrees: 3.0               # leve rotação
+translate: 0.05
+scale: 0.3
+fliplr: 0.0                # NÃO espelhar (texto/setas têm direção)
+flipud: 0.0
+project: training/runs
+name: argus-detector
+seed: 0

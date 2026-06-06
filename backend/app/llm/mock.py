@@ -11,7 +11,7 @@ from app.schemas import Component, Edge, Mitigation, Threat, ThreatModel
 
 def mock_threat_model(system_name: str = "Sistema (mock)", provenance: str = "ciclope") -> ThreatModel:
     components = [
-        Component(id="C1", canonical="actor/user", label="Usuários", element_type="ExternalEntity"),
+        Component(id="C1", canonical="actor_user", label="Usuários", element_type="ExternalEntity"),
         Component(id="C2", canonical="api_gateway", label="API Gateway", element_type="Process"),
         Component(id="C3", canonical="database_sql", label="Banco de Dados", element_type="DataStore"),
     ]

@@ -1,0 +1,10 @@
+# Ferramentas de DADOS (geração do dataset sintético + testes). Leve, sem torch.
+# Roda em Python 3.11–3.13 (e provavelmente 3.14). Para o TREINO use requirements-train.txt.
+Pillow>=10.2
+PyYAML>=6.0
+pytest>=8.0
+
+# Opcional — só p/ icons/fetch_icons.py rasterizar SVG→PNG (precisa de cairo nativo:
+# macOS `brew install cairo`, Debian/Ubuntu `apt-get install libcairo2`).
+# Descomente se for usar os ícones oficiais:
+# cairosvg>=2.7

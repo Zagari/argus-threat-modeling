@@ -67,6 +67,32 @@ jobs:
       - name: Build
         run: npm run build
 
+  training:
+    name: Dataset sintético (gerador · testes)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: training/requirements.txt
+
+      - name: Instalar data-tooling (sem torch)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r training/requirements.txt ruff
+
+      - name: Lint (ruff)
+        run: ruff check training --exclude '*.ipynb'
+
+      - name: Sanidade do gerador (formato YOLO)
+        run: python training/synthetic/generate_synthetic.py --n 20 --out /tmp/ds --imgsz 640
+
+      - name: Testes do dataset (pytest)
+        run: pytest training/tests -q
+
   build-push:
     name: Build & push imagens (GHCR)
     needs: [backend, frontend]            # só roda se os testes passarem

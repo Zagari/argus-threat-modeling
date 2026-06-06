@@ -19,13 +19,16 @@ frontend/.vite/
 
 # ML artefatos (vão para HF Hub / Releases, não para o git)
 training/runs/
+training/.venv-train/
 *.pt
 *.onnx
-data/synthetic/images/
-data/synthetic/labels/
+# Dataset sintético é reproduzível (gerado por generate_synthetic.py) → fora do git
+data/synthetic/
 data/real/images/
 data/real/labels/
 data/knowledge/raw/
+# Ícones oficiais AWS/Azure: download manual (licença) → não versionar
+data/icons/
 
 # Vector store / grafo
 *.sqlite3

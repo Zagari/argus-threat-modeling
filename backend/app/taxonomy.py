@@ -10,7 +10,7 @@ from __future__ import annotations
 
 # classe canônica -> tipo DFD primário
 CANONICAL_ELEMENT_TYPE: dict[str, str] = {
-    "actor/user": "ExternalEntity",
+    "actor_user": "ExternalEntity",
     "edge_security": "Process",
     "api_gateway": "Process",
     "load_balancer": "Process",

@@ -1,0 +1,236 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# ARGUS — Taxonomia agnóstica de nuvem (fonte de verdade da Fase 1)
+#
+# Cada `classe_canonica` (a chave) carrega:
+#   dfd_type   : tipo DFD primário (Process | DataStore | ExternalEntity | TrustBoundary)
+#   stride     : categorias STRIDE aplicáveis (nomes completos Microsoft/Shostack)
+#   aws        : palavras-chave que aparecem nos NOMES dos ícones oficiais AWS
+#   azure      : idem para os ícones oficiais Azure
+#   labels     : sinônimos de RÓTULO-TEXTO (caminho por OCR — cobre genérico/whiteboard/GCP)
+#   cpe_hints  : pistas de CPE (vendor:product) para a busca de CVE na Fase 3/5
+#
+# Dois usos distintos dos sinônimos:
+#   (a) aws/azure  -> usados por icons/fetch_icons.py para indexar cada SVG oficial
+#                     na sua classe canônica (alimenta o detector visual, E1).
+#   (b) labels     -> usados pelo caminho OCR (E2) p/ classificar por texto quando o
+#                     glifo é desconhecido (qualquer nuvem por nome, incl. GCP).
+#
+# A ORDEM das classes abaixo define o índice da classe no YOLO (0..N-1).
+# Mantida em sincronia com backend/app/taxonomy.py (CANONICAL_ELEMENT_TYPE).
+# Só o E1 (visão) é acoplado à nuvem; E2–E6 operam só sobre as classes canônicas.
+# ─────────────────────────────────────────────────────────────────────────────
+version: 1
+
+classes:
+
+  actor_user:
+    dfd_type: ExternalEntity
+    stride: [Spoofing, Repudiation]
+    aws: ["user", "users", "mobile client", "client"]
+    azure: ["user", "users"]
+    labels: ["user", "users", "usuário", "usuários", "client", "cliente", "browser",
+             "navegador", "mobile", "app", "end user", "actor", "ator", "people"]
+    cpe_hints: []
+
+  edge_security:
+    dfd_type: Process
+    stride: [Tampering, Information Disclosure, Denial of Service]
+    aws: ["waf", "shield", "cloudfront"]
+    azure: ["front door", "web application firewall", "waf", "ddos protection"]
+    labels: ["waf", "web application firewall", "firewall", "shield", "ddos",
+             "front door", "edge", "cdn edge", "cloudflare", "akamai"]
+    cpe_hints: ["cpe:2.3:a:cloudflare:cloudflare", "cpe:2.3:a:f5:nginx"]
+
+  api_gateway:
+    dfd_type: Process
+    stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
+    aws: ["api gateway"]
+    azure: ["api management"]
+    labels: ["api gateway", "apigw", "apim", "api management", "gateway", "kong",
+             "apigee", "gateway de api", "ingress", "tyk"]
+    cpe_hints: ["cpe:2.3:a:apache:apisix", "cpe:2.3:a:kong:kong"]
+
+  load_balancer:
+    dfd_type: Process
+    stride: [Tampering, Information Disclosure, Denial of Service]
+    aws: ["elastic load balancing", "load balancer", "elb", "alb", "nlb"]
+    azure: ["load balancer", "application gateway"]
+    labels: ["load balancer", "balanceador", "elb", "alb", "nlb", "lb",
+             "application gateway", "haproxy", "nginx lb", "traffic manager"]
+    cpe_hints: ["cpe:2.3:a:haproxy:haproxy", "cpe:2.3:a:f5:nginx"]
+
+  compute:
+    dfd_type: Process
+    stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
+    aws: ["ec2", "elastic compute cloud", "elastic container service", "ecs",
+          "elastic kubernetes service", "eks", "fargate"]
+    azure: ["virtual machine", "kubernetes service", "aks", "container instances",
+            "container apps"]
+    labels: ["ec2", "vm", "virtual machine", "máquina virtual", "server", "servidor",
+             "compute", "container", "docker", "kubernetes", "k8s", "ecs", "eks",
+             "aks", "pod", "node", "gce", "compute engine"]
+    cpe_hints: ["cpe:2.3:o:linux:linux_kernel", "cpe:2.3:a:docker:docker",
+                "cpe:2.3:a:kubernetes:kubernetes"]
+
+  serverless_fn:
+    dfd_type: Process
+    stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
+    aws: ["lambda"]
+    azure: ["function apps", "functions", "logic apps"]
+    labels: ["lambda", "function", "função", "functions", "serverless", "faas",
+             "logic app", "logic apps", "cloud function", "cloud functions",
+             "step functions", "durable function"]
+    cpe_hints: []
+
+  app_service:
+    dfd_type: Process
+    stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
+    aws: ["elastic beanstalk", "app runner", "amplify"]
+    azure: ["app service", "app services", "web app", "static web apps"]
+    labels: ["app service", "web app", "aplicação web", "beanstalk", "paas",
+             "app runner", "heroku", "amplify", "static web app", "web service"]
+    cpe_hints: []
+
+  database_sql:
+    dfd_type: DataStore
+    stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
+    aws: ["rds", "relational database service", "aurora"]
+    azure: ["sql database", "sql server", "azure database for", "postgresql", "mysql"]
+    labels: ["rds", "aurora", "sql", "sql database", "postgres", "postgresql",
+             "mysql", "mariadb", "banco de dados", "banco relacional", "database",
+             "db", "oracle", "sql server", "cloud sql"]
+    cpe_hints: ["cpe:2.3:a:postgresql:postgresql", "cpe:2.3:a:mysql:mysql",
+                "cpe:2.3:a:mariadb:mariadb", "cpe:2.3:a:oracle:database_server"]
+
+  database_nosql:
+    dfd_type: DataStore
+    stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
+    aws: ["dynamodb", "documentdb", "keyspaces"]
+    azure: ["cosmos db", "cosmosdb", "table storage"]
+    labels: ["dynamodb", "cosmos db", "cosmosdb", "nosql", "mongodb", "mongo",
+             "cassandra", "documentdb", "firestore", "couchbase", "bigtable"]
+    cpe_hints: ["cpe:2.3:a:mongodb:mongodb", "cpe:2.3:a:apache:cassandra"]
+
+  cache:
+    dfd_type: DataStore
+    stride: [Tampering, Information Disclosure, Denial of Service]
+    aws: ["elasticache", "memorydb"]
+    azure: ["cache for redis", "cache redis", "redis"]
+    labels: ["cache", "redis", "elasticache", "memcached", "in-memory",
+             "cache for redis", "memorydb", "hazelcast"]
+    cpe_hints: ["cpe:2.3:a:redis:redis", "cpe:2.3:a:memcached:memcached"]
+
+  object_storage:
+    dfd_type: DataStore
+    stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
+    aws: ["s3", "simple storage service"]
+    azure: ["blob storage", "storage account", "storage accounts"]
+    labels: ["s3", "bucket", "object storage", "armazenamento de objetos",
+             "blob", "blob storage", "storage account", "gcs", "cloud storage",
+             "minio", "data lake"]
+    cpe_hints: ["cpe:2.3:a:minio:minio"]
+
+  file_storage:
+    dfd_type: DataStore
+    stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
+    aws: ["efs", "elastic file system", "fsx"]
+    azure: ["files", "azure files", "netapp files"]
+    labels: ["efs", "fsx", "file storage", "file share", "nfs", "smb",
+             "azure files", "filer", "nas"]
+    cpe_hints: []
+
+  message_queue:
+    dfd_type: DataStore
+    stride: [Tampering, Information Disclosure, Denial of Service]
+    aws: ["sqs", "simple queue service", "sns", "simple notification service",
+          "eventbridge", "kinesis", "msk"]
+    azure: ["service bus", "event grid", "event hubs", "queue storage"]
+    labels: ["sqs", "sns", "queue", "fila", "message queue", "fila de mensagens",
+             "kafka", "rabbitmq", "service bus", "event grid", "event hub",
+             "eventbridge", "kinesis", "pub/sub", "pubsub", "broker", "topic"]
+    cpe_hints: ["cpe:2.3:a:apache:kafka", "cpe:2.3:a:pivotal_software:rabbitmq",
+                "cpe:2.3:a:vmware:rabbitmq"]
+
+  cdn:
+    dfd_type: Process
+    stride: [Information Disclosure, Denial of Service]
+    aws: ["cloudfront"]
+    azure: ["cdn", "content delivery network", "front door cdn"]
+    labels: ["cdn", "cloudfront", "content delivery", "rede de entrega",
+             "edge cache", "fastly", "akamai cdn", "cloud cdn"]
+    cpe_hints: []
+
+  identity:
+    dfd_type: Process
+    stride: [Spoofing, Elevation of Privilege]
+    aws: ["iam", "identity and access management", "cognito", "iam identity center",
+          "sso"]
+    azure: ["active directory", "entra", "entra id", "aad", "b2c"]
+    labels: ["iam", "identity", "identidade", "cognito", "entra id", "entra",
+             "active directory", "aad", "sso", "oauth", "okta", "auth0", "keycloak",
+             "idp", "openid", "ldap", "rbac"]
+    cpe_hints: ["cpe:2.3:a:keycloak:keycloak", "cpe:2.3:a:okta:okta"]
+
+  secrets:
+    dfd_type: DataStore
+    stride: [Information Disclosure, Elevation of Privilege]
+    aws: ["secrets manager", "kms", "key management service"]
+    azure: ["key vault", "key vaults"]
+    labels: ["secrets", "segredos", "secrets manager", "kms", "key vault",
+             "key management", "vault", "hsm", "credentials", "credenciais",
+             "parameter store", "certificate"]
+    cpe_hints: ["cpe:2.3:a:hashicorp:vault"]
+
+  search:
+    dfd_type: DataStore
+    stride: [Tampering, Information Disclosure, Denial of Service]
+    aws: ["opensearch", "elasticsearch", "cloudsearch", "kendra"]
+    azure: ["cognitive search", "ai search", "search service"]
+    labels: ["search", "busca", "opensearch", "elasticsearch", "elastic",
+             "solr", "cognitive search", "ai search", "lucene", "algolia"]
+    cpe_hints: ["cpe:2.3:a:elastic:elasticsearch", "cpe:2.3:a:apache:solr",
+                "cpe:2.3:a:apache:lucene"]
+
+  monitoring:
+    dfd_type: DataStore
+    stride: [Repudiation, Information Disclosure]
+    aws: ["cloudwatch", "cloudtrail", "x-ray"]
+    azure: ["monitor", "log analytics", "application insights"]
+    labels: ["monitoring", "monitoramento", "cloudwatch", "cloudtrail", "logs",
+             "log analytics", "observability", "observabilidade", "prometheus",
+             "grafana", "datadog", "splunk", "siem", "application insights",
+             "telemetria", "metrics", "métricas"]
+    cpe_hints: ["cpe:2.3:a:grafana:grafana", "cpe:2.3:a:elastic:kibana"]
+
+  email_notify:
+    dfd_type: Process
+    stride: [Spoofing, Information Disclosure]
+    aws: ["ses", "simple email service", "pinpoint"]
+    azure: ["communication services", "email communication"]
+    labels: ["email", "e-mail", "ses", "smtp", "notification", "notificação",
+             "sendgrid", "mailgun", "communication services", "push notification",
+             "twilio", "sms"]
+    cpe_hints: []
+
+  backend_external:
+    dfd_type: ExternalEntity
+    stride: [Spoofing, Repudiation]
+    aws: ["third party", "3rd party", "external", "partner", "saas"]
+    azure: ["third party", "external", "saas", "partner"]
+    labels: ["external", "externo", "third party", "terceiro", "3rd party",
+             "saas", "web service", "serviço externo", "partner", "parceiro",
+             "external api", "legacy", "on-premises", "on-prem", "internet"]
+    cpe_hints: []
+
+  trust_boundary:
+    dfd_type: TrustBoundary
+    stride: []        # gatilho: analisar os Data Flows que cruzam a fronteira
+    aws: ["vpc", "virtual private cloud", "subnet", "availability zone",
+          "private subnet", "public subnet", "region"]
+    azure: ["virtual network", "vnet", "subnet", "resource group"]
+    labels: ["vpc", "vnet", "subnet", "sub-rede", "trust boundary",
+             "fronteira de confiança", "availability zone", "zona de disponibilidade",
+             "dmz", "private network", "rede privada", "security group",
+             "resource group", "região", "region", "perimeter", "perímetro",
+             "on-premises", "internal network"]
+    cpe_hints: []

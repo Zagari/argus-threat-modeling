@@ -1,0 +1,8 @@
+# Dependências de TREINO (YOLO11). Pesadas (torch). Use venv Python 3.12 dedicado:
+#   python3.12 -m venv training/.venv && source training/.venv/bin/activate
+#   pip install -r training/requirements-train.txt
+# No A5000 (Linux/CUDA) o torch certo vem como dependência do ultralytics; se precisar
+# de uma roda CUDA específica, instale torch antes via https://pytorch.org.
+-r requirements.txt
+ultralytics>=8.3.0
+huggingface_hub>=0.24
