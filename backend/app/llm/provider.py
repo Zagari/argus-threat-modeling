@@ -65,6 +65,10 @@ def _completion_kwargs(temperature: float | None) -> dict:
         "temperature": cfg.temperature if temperature is None else temperature,
         "timeout": cfg.timeout,   # falha limpa em vez de pendurar (ver config)
     }
+    if cfg.provider == "gemini":
+        # Desliga o "thinking" do Gemini (litellm -> thinkingConfig.thinkingBudget=0).
+        # Sem isso, a análise de visão leva ~80s; com isso, ~3s. Ver config.timeout.
+        kw["reasoning_effort"] = "disable"
     key = cfg.active_key()
     if key:
         kw["api_key"] = key
