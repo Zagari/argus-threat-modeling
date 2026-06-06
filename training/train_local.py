@@ -7,7 +7,11 @@ Exemplos:
   python training/train_local.py                       # treino completo (config)
   python training/train_local.py --epochs 1 --quick    # sanidade (1 época, imgsz 640)
   python training/train_local.py --data data/merged/data.yaml --model yolo11m.pt
+  python training/train_local.py --resume               # retoma após queda (last.pt do run)
   python training/train_local.py --yolo-world-baseline  # baseline zero-shot p/ comparar
+
+Dica: rode sob `tmux` para sobreviver a quedas de SSH:
+  tmux new -s train  →  (treina)  →  Ctrl-b d (destaca)  →  tmux attach -t train
 """
 
 from __future__ import annotations
@@ -86,6 +90,9 @@ def main() -> None:
     ap.add_argument("--device", default=None, help="ex.: 0, 0,1, cpu, mps")
     ap.add_argument("--name", default=None)
     ap.add_argument("--quick", action="store_true", help="smoke: 1 época, imgsz 640, batch pequeno")
+    ap.add_argument("--resume", nargs="?", const="auto", default=None,
+                    help="retoma do last.pt após interrupção (sem valor = run padrão; "
+                         "ou passe o caminho do last.pt)")
     ap.add_argument("--yolo-world-baseline", action="store_true")
     args = ap.parse_args()
 
@@ -117,14 +124,22 @@ def main() -> None:
         run_yolo_world_baseline(cfg, cfg["data"])
         return
 
-    train_keys = {"data", "imgsz", "epochs", "batch", "patience", "freeze", "optimizer",
-                  "lr0", "cos_lr", "mosaic", "close_mosaic", "hsv_h", "hsv_s", "hsv_v",
-                  "degrees", "translate", "scale", "fliplr", "flipud", "project", "name",
-                  "seed", "device"}
-    train_args = {k: cfg[k] for k in train_keys if k in cfg}
-
-    model = YOLO(cfg["model"])
-    results = model.train(**train_args)
+    if args.resume:
+        last = (args.resume if args.resume != "auto"
+                else str(Path(cfg["project"]) / cfg.get("name", "argus-detector") / "weights" / "last.pt"))
+        if not Path(last).exists():
+            raise SystemExit(f"checkpoint p/ resume não encontrado: {last}")
+        print(f"Retomando treino de {last}")
+        model = YOLO(last)
+        results = model.train(resume=True)  # usa os args salvos no checkpoint
+    else:
+        train_keys = {"data", "imgsz", "epochs", "batch", "patience", "freeze", "optimizer",
+                      "lr0", "cos_lr", "mosaic", "close_mosaic", "hsv_h", "hsv_s", "hsv_v",
+                      "degrees", "translate", "scale", "fliplr", "flipud", "project", "name",
+                      "seed", "device"}
+        train_args = {k: cfg[k] for k in train_keys if k in cfg}
+        model = YOLO(cfg["model"])
+        results = model.train(**train_args)
     val_metrics = model.val()
 
     out_dir = Path(cfg["project"]) / cfg.get("name", "argus-detector")

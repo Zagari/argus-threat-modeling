@@ -32,8 +32,10 @@ python training/icons/fetch_icons.py --aws-zip aws.zip --azure-zip azure.zip --g
 python training/synthetic/generate_synthetic.py --n 3000 --out data/synthetic
 
 # 3) sanidade (1 época) e depois treino completo (lê train_config.yaml)
+#    Rode sob tmux p/ sobreviver a quedas de SSH: tmux new -s train (Ctrl-b d destaca)
 python training/train_local.py --epochs 1 --quick      # smoke
 python training/train_local.py                          # treino real (A5000)
+python training/train_local.py --resume                # retoma do last.pt após queda
 #   …ou abra training/train_colab.ipynb no Colab (mesma config)
 
 # 4) publicar o modelo
