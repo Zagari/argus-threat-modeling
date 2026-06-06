@@ -46,15 +46,25 @@ def _svgs_from(source: str | None, workdir: Path) -> list[Path]:
     raise SystemExit(f"fonte inválida (esperado .zip ou pasta): {source}")
 
 
-def _rasterize(svg: Path, png: Path, size: int) -> bool:
+def _cairosvg_status() -> tuple[bool, str]:
+    """(disponível, motivo). Captura ImportError (não instalado) E OSError (lib
+    nativa do cairo ausente — cairocffi falha ao carregar libcairo)."""
     try:
-        import cairosvg  # type: ignore
-    except ImportError:
-        return False
+        import cairosvg  # type: ignore  # noqa: F401
+        return True, ""
+    except Exception as e:  # noqa: BLE001
+        return False, f"{type(e).__name__}: {e}"
+
+
+def _rasterize(svg: Path, png: Path, size: int) -> bool:
+    """Rasteriza UM SVG. Retorna False só p/ este arquivo (SVG malformado),
+    sem desligar a rasterização dos demais. Pressupõe cairosvg disponível."""
+    import cairosvg  # type: ignore
+
     try:
         cairosvg.svg2png(url=str(svg), write_to=str(png), output_width=size, output_height=size)
         return True
-    except Exception:  # noqa: BLE001 — SVG malformado: pula
+    except Exception:  # noqa: BLE001 — SVG específico falhou: pula só ele
         return False
 
 
@@ -77,9 +87,18 @@ def main() -> None:
     manifest: list[dict] = []
     unmatched: list[str] = []
     per_class: dict[str, int] = {c.yolo_name: 0 for c in taxo.classes}
-    rasterize_ok = not args.no_rasterize
-    warned_cairo = False
 
+    # decide UMA vez se dá p/ rasterizar (cairosvg + cairo nativo presentes)
+    rasterize = not args.no_rasterize
+    if rasterize:
+        ok, reason = _cairosvg_status()
+        if not ok:
+            print(f"⚠ cairosvg indisponível ({reason}). Gerando só o manifest.\n"
+                  "  • instale no venv ATIVO: pip install cairosvg\n"
+                  "  • lib nativa do cairo (Debian/Ubuntu): sudo apt-get install -y libcairo2")
+            rasterize = False
+
+    raster_fail = 0
     with tempfile.TemporaryDirectory() as tmp:
         workdir = Path(tmp)
         sources = [
@@ -97,16 +116,15 @@ def main() -> None:
                 folder = out / yname
                 folder.mkdir(parents=True, exist_ok=True)
                 png = folder / f"{cloud}_{svg.stem}.png"
-                if rasterize_ok:
-                    if not _rasterize(svg, png, args.size):
-                        if not warned_cairo:
-                            print("⚠ cairosvg indisponível ou SVG inválido — gerando só o "
-                                  "manifest. Instale com `pip install cairosvg` (+ cairo nativo).")
-                            warned_cairo = True
-                        rasterize_ok = False
+                png_written = False
+                if rasterize:
+                    if _rasterize(svg, png, args.size):
+                        png_written = True
+                    else:
+                        raster_fail += 1  # SVG específico falhou: pula só ele
                 per_class[yname] += 1
                 manifest.append({"cloud": cloud, "svg": svg.name, "class": yname,
-                                 "png": str(png) if rasterize_ok else None})
+                                 "png": str(png) if png_written else None})
 
     out.mkdir(parents=True, exist_ok=True)
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -117,11 +135,13 @@ def main() -> None:
     for name, count in per_class.items():
         flag = " " if count else "✗"
         print(f"  {flag} {name:18s} {count}")
+    if rasterize and raster_fail:
+        print(f"\n{raster_fail} SVG(s) não rasterizaram e foram pulados (os demais viraram PNG).")
     if args.list_unmatched and unmatched:
         print("\nSem classe (considere acrescentar sinônimos em mapeamento.yaml):")
         for u in unmatched[:120]:
             print(f"  {u}")
-    if not rasterize_ok and not args.no_rasterize:
+    if not rasterize and not args.no_rasterize:
         print("\nNenhum PNG gravado (sem cairosvg). O gerador seguirá usando glifos "
               "primitivos até os PNGs existirem.")
 
