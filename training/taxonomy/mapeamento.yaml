@@ -37,7 +37,7 @@ classes:
   edge_security:
     dfd_type: Process
     stride: [Tampering, Information Disclosure, Denial of Service]
-    aws: ["waf", "shield", "cloudfront"]
+    aws: ["waf", "shield"]   # CloudFront fica em `cdn` (evita colisão; é primariamente CDN)
     azure: ["front door", "web application firewall", "waf", "ddos protection"]
     gcp: ["cloud armor", "armor"]
     labels: ["waf", "web application firewall", "firewall", "shield", "ddos",
@@ -47,7 +47,7 @@ classes:
   api_gateway:
     dfd_type: Process
     stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
-    aws: ["api gateway"]
+    aws: ["api gateway", "appsync"]
     azure: ["api management"]
     gcp: ["api gateway", "apigee"]
     labels: ["api gateway", "apigw", "apim", "api management", "gateway", "kong",
@@ -68,7 +68,8 @@ classes:
     dfd_type: Process
     stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
     aws: ["ec2", "elastic compute cloud", "elastic container service", "ecs",
-          "elastic kubernetes service", "eks", "fargate"]
+          "elastic kubernetes service", "eks", "fargate", "auto scaling", "spot fleet",
+          "lightsail", "outposts"]
     azure: ["virtual machine", "kubernetes service", "aks", "container instances",
             "container apps"]
     gcp: ["compute engine", "kubernetes engine", "gke", "gce"]
@@ -81,7 +82,7 @@ classes:
   serverless_fn:
     dfd_type: Process
     stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
-    aws: ["lambda"]
+    aws: ["lambda", "step functions", "express workflows", "managed workflows", "airflow"]
     azure: ["function apps", "functions", "logic apps"]
     gcp: ["cloud functions", "cloud run", "workflows"]
     labels: ["lambda", "function", "função", "functions", "serverless", "faas",
@@ -102,12 +103,14 @@ classes:
   database_sql:
     dfd_type: DataStore
     stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
-    aws: ["rds", "relational database service", "aurora"]
-    azure: ["sql database", "sql server", "azure database for", "postgresql", "mysql"]
-    gcp: ["cloud sql", "alloydb", "spanner", "cloud spanner"]
+    aws: ["rds", "relational database service", "aurora", "redshift"]
+    azure: ["sql database", "sql server", "azure database for", "postgresql", "mysql",
+            "synapse"]
+    gcp: ["cloud sql", "alloydb", "spanner", "cloud spanner", "bigquery"]
     labels: ["rds", "aurora", "sql", "sql database", "postgres", "postgresql",
              "mysql", "mariadb", "banco de dados", "banco relacional", "database",
-             "db", "oracle", "sql server", "cloud sql"]
+             "db", "oracle", "sql server", "cloud sql", "redshift", "bigquery",
+             "synapse", "data warehouse"]
     cpe_hints: ["cpe:2.3:a:postgresql:postgresql", "cpe:2.3:a:mysql:mysql",
                 "cpe:2.3:a:mariadb:mariadb", "cpe:2.3:a:oracle:database_server"]
 
@@ -156,12 +159,14 @@ classes:
     dfd_type: DataStore
     stride: [Tampering, Information Disclosure, Denial of Service]
     aws: ["sqs", "simple queue service", "sns", "simple notification service",
-          "eventbridge", "kinesis", "msk"]
+          "eventbridge", "kinesis", "msk", "amazon mq", "apache kafka",
+          "managed streaming", "data firehose"]
     azure: ["service bus", "event grid", "event hubs", "queue storage"]
     gcp: ["pub sub", "pubsub", "cloud tasks"]
     labels: ["sqs", "sns", "queue", "fila", "message queue", "fila de mensagens",
              "kafka", "rabbitmq", "service bus", "event grid", "event hub",
-             "eventbridge", "kinesis", "pub/sub", "pubsub", "broker", "topic"]
+             "eventbridge", "kinesis", "pub/sub", "pubsub", "broker", "topic",
+             "amazon mq", "firehose"]
     cpe_hints: ["cpe:2.3:a:apache:kafka", "cpe:2.3:a:pivotal_software:rabbitmq",
                 "cpe:2.3:a:vmware:rabbitmq"]
 
@@ -234,7 +239,8 @@ classes:
   backend_external:
     dfd_type: ExternalEntity
     stride: [Spoofing, Repudiation]
-    aws: ["third party", "3rd party", "external", "partner", "saas"]
+    aws: ["third party", "3rd party", "external", "partner", "saas",
+          "corporate data center", "data center"]
     azure: ["third party", "external", "saas", "partner"]
     labels: ["external", "externo", "third party", "terceiro", "3rd party",
              "saas", "web service", "serviço externo", "partner", "parceiro",

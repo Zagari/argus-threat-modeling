@@ -42,6 +42,16 @@ def test_icon_and_label_matching() -> None:
     assert match_label("API Gateway", None) == "api_gateway"
     assert match_label("Postgres DB", None) == "database_sql"
     assert match_icon_filename("totally-unknown-thing.svg", "aws") is None
+    # CloudFront é CDN (não pode ser roubado por edge_security)
+    assert match_icon_filename("Arch_Amazon-CloudFront_48.svg", "aws") == "cdn"
+    # WAF/Shield seguem em edge_security
+    assert match_icon_filename("Arch_AWS-WAF_48.svg", "aws") == "edge_security"
+    # MSK (Kafka) e Amazon MQ → fila; Step Functions → serverless
+    assert match_icon_filename("Arch_Amazon-Managed-Streaming-for-Apache-Kafka_48.svg", "aws") == "message_queue"
+    assert match_icon_filename("Arch_Amazon-MQ_48.svg", "aws") == "message_queue"
+    assert match_icon_filename("Arch_AWS-Step-Functions_48.svg", "aws") == "serverless_fn"
+    # Storage Account NÃO pode regredir para outra classe
+    assert match_icon_filename("10086-icon-service-Storage-Accounts.svg", "azure") == "object_storage"
 
 
 def test_gcp_icon_matching() -> None:
