@@ -27,8 +27,10 @@ data/synthetic/
 data/real/images/
 data/real/labels/
 data/knowledge/raw/
-# Ícones oficiais AWS/Azure: download manual (licença) → não versionar
+# Ícones oficiais AWS/Azure/GCP: download manual (licença, arquivos grandes) → não versionar
 data/icons/
+training/icons/*.zip
+training/icons/_extracted/
 
 # Vector store / grafo
 *.sqlite3
