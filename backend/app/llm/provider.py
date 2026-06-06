@@ -63,6 +63,7 @@ def _completion_kwargs(temperature: float | None) -> dict:
     kw: dict = {
         "model": cfg.model,
         "temperature": cfg.temperature if temperature is None else temperature,
+        "timeout": cfg.timeout,   # falha limpa em vez de pendurar (ver config)
     }
     key = cfg.active_key()
     if key:

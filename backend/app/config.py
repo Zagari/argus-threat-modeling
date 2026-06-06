@@ -36,6 +36,7 @@ class EnvSettings(BaseSettings):
     llm_provider: Provider = "gemini"
     llm_model: str = "gemini/gemini-2.5-flash"
     llm_temperature: float = 0.2
+    llm_timeout: float = 90.0   # segundos; abaixo do limite ~100s do Cloudflare
     llm_mock: bool = False
     cors_origins: str = "http://localhost:5173"
 
@@ -47,6 +48,7 @@ class RuntimeConfig:
         self.provider: str = env.llm_provider
         self.model: str = env.llm_model
         self.temperature: float = env.llm_temperature
+        self.timeout: float = env.llm_timeout
         self.mock: bool = env.llm_mock
         self.cors_origins: list[str] = [o.strip() for o in env.cors_origins.split(",") if o.strip()]
         # chaves carregadas do ambiente (uma por provider, se presente)
