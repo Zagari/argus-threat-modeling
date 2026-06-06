@@ -44,6 +44,17 @@ def test_icon_and_label_matching() -> None:
     assert match_icon_filename("totally-unknown-thing.svg", "aws") is None
 
 
+def test_gcp_icon_matching() -> None:
+    assert match_icon_filename("cloud-storage.svg", "gcp") == "object_storage"
+    assert match_icon_filename("kubernetes-engine.svg", "gcp") == "compute"
+    assert match_icon_filename("cloud-sql.svg", "gcp") == "database_sql"
+    assert match_icon_filename("pubsub.svg", "gcp") == "message_queue"
+    assert match_icon_filename("cloud-functions.svg", "gcp") == "serverless_fn"
+    # toda classe com ícone AWS/Azure deveria ter cobertura GCP ou estar consciente disso
+    t = load_taxonomy()
+    assert t.by_name("compute").gcp  # campo gcp carregado do YAML
+
+
 def test_generate_produces_valid_yolo_labels(tmp_path: Path) -> None:
     meta = write_dataset(_args(tmp_path))
     t = load_taxonomy()

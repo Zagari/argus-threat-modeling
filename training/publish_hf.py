@@ -45,7 +45,7 @@ operam só sobre as classes canônicas.
 {metrics}
 
 ## Dados de treino
-Dataset **sintético auto-rotulado** (ícones oficiais AWS/Azure compostos em diagramas
+Dataset **sintético auto-rotulado** (ícones oficiais AWS/Azure/GCP compostos em diagramas
 com setas/rótulos/fronteiras) + diagramas reais anotados. Os 2 diagramas-exemplo do
 enunciado ficam **apenas no split de teste**.
 

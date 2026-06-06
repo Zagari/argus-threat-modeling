@@ -6,14 +6,15 @@
 #   stride     : categorias STRIDE aplicáveis (nomes completos Microsoft/Shostack)
 #   aws        : palavras-chave que aparecem nos NOMES dos ícones oficiais AWS
 #   azure      : idem para os ícones oficiais Azure
-#   labels     : sinônimos de RÓTULO-TEXTO (caminho por OCR — cobre genérico/whiteboard/GCP)
+#   gcp        : idem para os ícones oficiais Google Cloud (cloud.google.com/icons)
+#   labels     : sinônimos de RÓTULO-TEXTO (caminho por OCR — cobre genérico/whiteboard)
 #   cpe_hints  : pistas de CPE (vendor:product) para a busca de CVE na Fase 3/5
 #
 # Dois usos distintos dos sinônimos:
-#   (a) aws/azure  -> usados por icons/fetch_icons.py para indexar cada SVG oficial
-#                     na sua classe canônica (alimenta o detector visual, E1).
-#   (b) labels     -> usados pelo caminho OCR (E2) p/ classificar por texto quando o
-#                     glifo é desconhecido (qualquer nuvem por nome, incl. GCP).
+#   (a) aws/azure/gcp -> usados por icons/fetch_icons.py para indexar cada SVG oficial
+#                        na sua classe canônica (alimenta o detector visual, E1).
+#   (b) labels        -> usados pelo caminho OCR (E2) p/ classificar por texto quando o
+#                        glifo é desconhecido (qualquer nuvem por nome).
 #
 # A ORDEM das classes abaixo define o índice da classe no YOLO (0..N-1).
 # Mantida em sincronia com backend/app/taxonomy.py (CANONICAL_ELEMENT_TYPE).
@@ -28,6 +29,7 @@ classes:
     stride: [Spoofing, Repudiation]
     aws: ["user", "users", "mobile client", "client"]
     azure: ["user", "users"]
+    gcp: ["user", "users"]
     labels: ["user", "users", "usuário", "usuários", "client", "cliente", "browser",
              "navegador", "mobile", "app", "end user", "actor", "ator", "people"]
     cpe_hints: []
@@ -37,6 +39,7 @@ classes:
     stride: [Tampering, Information Disclosure, Denial of Service]
     aws: ["waf", "shield", "cloudfront"]
     azure: ["front door", "web application firewall", "waf", "ddos protection"]
+    gcp: ["cloud armor", "armor"]
     labels: ["waf", "web application firewall", "firewall", "shield", "ddos",
              "front door", "edge", "cdn edge", "cloudflare", "akamai"]
     cpe_hints: ["cpe:2.3:a:cloudflare:cloudflare", "cpe:2.3:a:f5:nginx"]
@@ -46,6 +49,7 @@ classes:
     stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
     aws: ["api gateway"]
     azure: ["api management"]
+    gcp: ["api gateway", "apigee"]
     labels: ["api gateway", "apigw", "apim", "api management", "gateway", "kong",
              "apigee", "gateway de api", "ingress", "tyk"]
     cpe_hints: ["cpe:2.3:a:apache:apisix", "cpe:2.3:a:kong:kong"]
@@ -55,6 +59,7 @@ classes:
     stride: [Tampering, Information Disclosure, Denial of Service]
     aws: ["elastic load balancing", "load balancer", "elb", "alb", "nlb"]
     azure: ["load balancer", "application gateway"]
+    gcp: ["cloud load balancing", "load balancing"]
     labels: ["load balancer", "balanceador", "elb", "alb", "nlb", "lb",
              "application gateway", "haproxy", "nginx lb", "traffic manager"]
     cpe_hints: ["cpe:2.3:a:haproxy:haproxy", "cpe:2.3:a:f5:nginx"]
@@ -66,6 +71,7 @@ classes:
           "elastic kubernetes service", "eks", "fargate"]
     azure: ["virtual machine", "kubernetes service", "aks", "container instances",
             "container apps"]
+    gcp: ["compute engine", "kubernetes engine", "gke", "gce"]
     labels: ["ec2", "vm", "virtual machine", "máquina virtual", "server", "servidor",
              "compute", "container", "docker", "kubernetes", "k8s", "ecs", "eks",
              "aks", "pod", "node", "gce", "compute engine"]
@@ -77,6 +83,7 @@ classes:
     stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
     aws: ["lambda"]
     azure: ["function apps", "functions", "logic apps"]
+    gcp: ["cloud functions", "cloud run", "workflows"]
     labels: ["lambda", "function", "função", "functions", "serverless", "faas",
              "logic app", "logic apps", "cloud function", "cloud functions",
              "step functions", "durable function"]
@@ -87,6 +94,7 @@ classes:
     stride: [Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege]
     aws: ["elastic beanstalk", "app runner", "amplify"]
     azure: ["app service", "app services", "web app", "static web apps"]
+    gcp: ["app engine"]
     labels: ["app service", "web app", "aplicação web", "beanstalk", "paas",
              "app runner", "heroku", "amplify", "static web app", "web service"]
     cpe_hints: []
@@ -96,6 +104,7 @@ classes:
     stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
     aws: ["rds", "relational database service", "aurora"]
     azure: ["sql database", "sql server", "azure database for", "postgresql", "mysql"]
+    gcp: ["cloud sql", "alloydb", "spanner", "cloud spanner"]
     labels: ["rds", "aurora", "sql", "sql database", "postgres", "postgresql",
              "mysql", "mariadb", "banco de dados", "banco relacional", "database",
              "db", "oracle", "sql server", "cloud sql"]
@@ -107,6 +116,7 @@ classes:
     stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
     aws: ["dynamodb", "documentdb", "keyspaces"]
     azure: ["cosmos db", "cosmosdb", "table storage"]
+    gcp: ["firestore", "bigtable", "datastore"]
     labels: ["dynamodb", "cosmos db", "cosmosdb", "nosql", "mongodb", "mongo",
              "cassandra", "documentdb", "firestore", "couchbase", "bigtable"]
     cpe_hints: ["cpe:2.3:a:mongodb:mongodb", "cpe:2.3:a:apache:cassandra"]
@@ -116,6 +126,7 @@ classes:
     stride: [Tampering, Information Disclosure, Denial of Service]
     aws: ["elasticache", "memorydb"]
     azure: ["cache for redis", "cache redis", "redis"]
+    gcp: ["memorystore"]
     labels: ["cache", "redis", "elasticache", "memcached", "in-memory",
              "cache for redis", "memorydb", "hazelcast"]
     cpe_hints: ["cpe:2.3:a:redis:redis", "cpe:2.3:a:memcached:memcached"]
@@ -125,6 +136,7 @@ classes:
     stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
     aws: ["s3", "simple storage service"]
     azure: ["blob storage", "storage account", "storage accounts"]
+    gcp: ["cloud storage", "gcs"]
     labels: ["s3", "bucket", "object storage", "armazenamento de objetos",
              "blob", "blob storage", "storage account", "gcs", "cloud storage",
              "minio", "data lake"]
@@ -135,6 +147,7 @@ classes:
     stride: [Tampering, Repudiation, Information Disclosure, Denial of Service]
     aws: ["efs", "elastic file system", "fsx"]
     azure: ["files", "azure files", "netapp files"]
+    gcp: ["filestore"]
     labels: ["efs", "fsx", "file storage", "file share", "nfs", "smb",
              "azure files", "filer", "nas"]
     cpe_hints: []
@@ -145,6 +158,7 @@ classes:
     aws: ["sqs", "simple queue service", "sns", "simple notification service",
           "eventbridge", "kinesis", "msk"]
     azure: ["service bus", "event grid", "event hubs", "queue storage"]
+    gcp: ["pub sub", "pubsub", "cloud tasks"]
     labels: ["sqs", "sns", "queue", "fila", "message queue", "fila de mensagens",
              "kafka", "rabbitmq", "service bus", "event grid", "event hub",
              "eventbridge", "kinesis", "pub/sub", "pubsub", "broker", "topic"]
@@ -156,6 +170,7 @@ classes:
     stride: [Information Disclosure, Denial of Service]
     aws: ["cloudfront"]
     azure: ["cdn", "content delivery network", "front door cdn"]
+    gcp: ["cloud cdn", "media cdn"]
     labels: ["cdn", "cloudfront", "content delivery", "rede de entrega",
              "edge cache", "fastly", "akamai cdn", "cloud cdn"]
     cpe_hints: []
@@ -166,6 +181,7 @@ classes:
     aws: ["iam", "identity and access management", "cognito", "iam identity center",
           "sso"]
     azure: ["active directory", "entra", "entra id", "aad", "b2c"]
+    gcp: ["cloud iam", "identity and access management", "identity platform"]
     labels: ["iam", "identity", "identidade", "cognito", "entra id", "entra",
              "active directory", "aad", "sso", "oauth", "okta", "auth0", "keycloak",
              "idp", "openid", "ldap", "rbac"]
@@ -176,6 +192,7 @@ classes:
     stride: [Information Disclosure, Elevation of Privilege]
     aws: ["secrets manager", "kms", "key management service"]
     azure: ["key vault", "key vaults"]
+    gcp: ["secret manager", "cloud kms"]
     labels: ["secrets", "segredos", "secrets manager", "kms", "key vault",
              "key management", "vault", "hsm", "credentials", "credenciais",
              "parameter store", "certificate"]
@@ -186,6 +203,7 @@ classes:
     stride: [Tampering, Information Disclosure, Denial of Service]
     aws: ["opensearch", "elasticsearch", "cloudsearch", "kendra"]
     azure: ["cognitive search", "ai search", "search service"]
+    gcp: ["vertex ai search", "enterprise search"]
     labels: ["search", "busca", "opensearch", "elasticsearch", "elastic",
              "solr", "cognitive search", "ai search", "lucene", "algolia"]
     cpe_hints: ["cpe:2.3:a:elastic:elasticsearch", "cpe:2.3:a:apache:solr",
@@ -196,6 +214,7 @@ classes:
     stride: [Repudiation, Information Disclosure]
     aws: ["cloudwatch", "cloudtrail", "x-ray"]
     azure: ["monitor", "log analytics", "application insights"]
+    gcp: ["cloud monitoring", "cloud logging", "cloud trace", "operations suite"]
     labels: ["monitoring", "monitoramento", "cloudwatch", "cloudtrail", "logs",
              "log analytics", "observability", "observabilidade", "prometheus",
              "grafana", "datadog", "splunk", "siem", "application insights",
@@ -228,6 +247,7 @@ classes:
     aws: ["vpc", "virtual private cloud", "subnet", "availability zone",
           "private subnet", "public subnet", "region"]
     azure: ["virtual network", "vnet", "subnet", "resource group"]
+    gcp: ["virtual private cloud", "vpc network", "subnet", "project"]
     labels: ["vpc", "vnet", "subnet", "sub-rede", "trust boundary",
              "fronteira de confiança", "availability zone", "zona de disponibilidade",
              "dmz", "private network", "rede privada", "security group",

@@ -26,7 +26,7 @@ pip install -r training/requirements-train.txt
 
 ```bash
 # 1) (opcional) ícones oficiais → PNGs reais por classe (senão usa glifos)
-python training/icons/fetch_icons.py --aws-zip aws.zip --azure-zip azure.zip --out data/icons
+python training/icons/fetch_icons.py --aws-zip aws.zip --azure-zip azure.zip --gcp-zip gcp.zip --out data/icons
 
 # 2) dataset sintético auto-rotulado (~3–5k imgs)  [+ --icons-dir data/icons se houver]
 python training/synthetic/generate_synthetic.py --n 3000 --out data/synthetic

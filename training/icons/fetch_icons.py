@@ -9,11 +9,13 @@ gerador (`icon_bank.py`) consome automaticamente.
 Onde baixar (ver icons/README.md):
   AWS  : "AWS Architecture Icons" (Asset Package, .zip)
   Azure: "Azure architecture icons" (Azure_Public_Service_Icons_*.zip)
+  GCP  : "Google Cloud icons" (cloud.google.com/icons, .zip de SVGs)
 
 Uso:
   python training/icons/fetch_icons.py --aws-zip ~/Downloads/AWS-Icons.zip \\
-         --azure-zip ~/Downloads/Azure-Icons.zip --out data/icons
-  python training/icons/fetch_icons.py --aws-dir ~/aws-svgs --list-unmatched
+         --azure-zip ~/Downloads/Azure-Icons.zip --gcp-zip ~/Downloads/GCP-Icons.zip \\
+         --out data/icons
+  python training/icons/fetch_icons.py --gcp-dir ~/gcp-svgs --list-unmatched
 """
 
 from __future__ import annotations
@@ -62,6 +64,8 @@ def main() -> None:
     ap.add_argument("--aws-dir")
     ap.add_argument("--azure-zip")
     ap.add_argument("--azure-dir")
+    ap.add_argument("--gcp-zip")
+    ap.add_argument("--gcp-dir")
     ap.add_argument("--out", default="data/icons")
     ap.add_argument("--size", type=int, default=256, help="lado do PNG rasterizado")
     ap.add_argument("--no-rasterize", action="store_true", help="só gera o manifest (sem PNG)")
@@ -81,6 +85,7 @@ def main() -> None:
         sources = [
             ("aws", _svgs_from(args.aws_zip or args.aws_dir, workdir)),
             ("azure", _svgs_from(args.azure_zip or args.azure_dir, workdir)),
+            ("gcp", _svgs_from(args.gcp_zip or args.gcp_dir, workdir)),
         ]
         for cloud, svgs in sources:
             for svg in svgs:

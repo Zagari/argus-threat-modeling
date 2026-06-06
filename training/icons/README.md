@@ -11,6 +11,8 @@ e aponte `fetch_icons.py` para o `.zip` (ou para a pasta já extraída).
 - **Azure — "Azure architecture icons"**:
   https://learn.microsoft.com/azure/architecture/icons/
   Baixe o `Azure_Public_Service_Icons_*.zip` (~705 SVGs).
+- **GCP — "Google Cloud icons"**: https://cloud.google.com/icons
+  Baixe o `.zip` de SVGs (core product + category icons, renovados em 2025).
 
 ## Como indexar
 
@@ -21,8 +23,12 @@ pip install cairosvg                       # + cairo nativo (brew install cairo 
 python training/icons/fetch_icons.py \
   --aws-zip   ~/Downloads/AWS-Architecture-Icons.zip \
   --azure-zip ~/Downloads/Azure_Public_Service_Icons.zip \
+  --gcp-zip   ~/Downloads/GCP-Icons.zip \
   --out data/icons --list-unmatched
 ```
+
+> GCP é opcional (o enunciado pede AWS+Azure); incluí-la reforça o design agnóstico.
+> Basta acrescentar `--gcp-zip`; as classes ganham os sinônimos `gcp:` do `mapeamento.yaml`.
 
 Isso grava `data/icons/<classe_canonica>/<cloud>_<nome>.png` e um `manifest.json`.
 O gerador (`synthetic/generate_synthetic.py --icons-dir data/icons`) passa a usar os

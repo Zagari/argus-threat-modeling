@@ -36,6 +36,7 @@ class CanonicalClass:
     stride: list[str]
     aws: list[str] = field(default_factory=list)
     azure: list[str] = field(default_factory=list)
+    gcp: list[str] = field(default_factory=list)
     labels: list[str] = field(default_factory=list)
     cpe_hints: list[str] = field(default_factory=list)
 
@@ -93,6 +94,7 @@ def load_taxonomy(path: str | None = None) -> Taxonomy:
                 stride=list(spec.get("stride", [])),
                 aws=list(spec.get("aws", [])),
                 azure=list(spec.get("azure", [])),
+                gcp=list(spec.get("gcp", [])),
                 labels=list(spec.get("labels", [])),
                 cpe_hints=list(spec.get("cpe_hints", [])),
             )
