@@ -18,7 +18,9 @@ load_dotenv(find_dotenv(usecwd=True))
 Provider = Literal["gemini", "anthropic", "openai"]
 
 DEFAULT_MODELS: dict[str, str] = {
-    "gemini": "gemini/gemini-2.5-flash",
+    # 2.0-flash não tem "thinking" → análise rápida (~10-20s). O 2.5-flash é mais
+    # capaz, porém lento por padrão (thinking) e pode estourar timeouts de proxy.
+    "gemini": "gemini/gemini-2.0-flash",
     "anthropic": "anthropic/claude-sonnet-4-5",
     "openai": "openai/gpt-4o",
 }
@@ -34,7 +36,7 @@ class EnvSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="ARGUS_", extra="ignore")
 
     llm_provider: Provider = "gemini"
-    llm_model: str = "gemini/gemini-2.5-flash"
+    llm_model: str = "gemini/gemini-2.0-flash"
     llm_temperature: float = 0.2
     llm_timeout: float = 90.0   # segundos; abaixo do limite ~100s do Cloudflare
     llm_mock: bool = False
