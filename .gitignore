@@ -19,7 +19,11 @@ frontend/.vite/
 
 # ML artefatos (vão para HF Hub / Releases, não para o git)
 training/runs/
+runs/
 training/.venv-train/
+.venv-ml/
+*.tgz
+*.tar.gz
 *.pt
 *.onnx
 # Dataset sintético é reproduzível (gerado por generate_synthetic.py) → fora do git
