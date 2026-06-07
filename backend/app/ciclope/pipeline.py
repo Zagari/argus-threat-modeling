@@ -35,19 +35,24 @@ def analyze(image_bytes: bytes, *, system_name: str | None = None, mime: str = "
 
     if cfg.mock:
         mock_tm = mock_threat_model(system_name or "Sistema (mock)", provenance="ciclope")
-        mock_tm.meta.update({"provider": "mock", "model": "mock", "latency_s": 0.0})
+        mock_tm.meta.update({
+            "provider": "mock", "model": "mock", "latency_s": 0.0,
+            "usage": {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0,
+                      "total_tokens": 0, "cost_usd": 0.0, "cost_known": False, "mock": True},
+        })
         return mock_tm
 
     prompt = _env.get_template("ciclope.j2").render(canonical_classes=CANONICAL_CLASSES)
 
     t0 = time.perf_counter()
-    tm: ThreatModel = provider.vision(  # type: ignore[assignment]
-        image_bytes,
-        prompt,
-        response_model=ThreatModel,
-        mime=mime,
-        system=SYSTEM_PROMPT,
-    )
+    with provider.meter() as usage:
+        tm: ThreatModel = provider.vision(  # type: ignore[assignment]
+            image_bytes,
+            prompt,
+            response_model=ThreatModel,
+            mime=mime,
+            system=SYSTEM_PROMPT,
+        )
     latency = round(time.perf_counter() - t0, 3)
 
     # Garante a proveniência e registra metadados de execução.
@@ -61,6 +66,7 @@ def analyze(image_bytes: bytes, *, system_name: str | None = None, mime: str = "
             "model": cfg.model,
             "latency_s": latency,
             "system": "ciclope",
+            "usage": usage.snapshot(),
         }
     )
     return tm

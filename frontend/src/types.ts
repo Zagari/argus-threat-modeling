@@ -69,6 +69,54 @@ export interface DetectStatus {
   reason?: string
 }
 
+export interface Capabilities {
+  version: string
+  argus_ml: boolean
+  llm: { provider: string; model: string; mock: boolean }
+}
+
+export interface TextRegion {
+  text: string
+  bbox: number[]
+  confidence: number | null
+}
+
+export interface Usage {
+  calls: number
+  prompt_tokens: number
+  completion_tokens: number
+  total_tokens: number
+  cost_usd: number
+  cost_known?: boolean
+  mock?: boolean
+}
+
+// Payload de um evento SSE por estágio (campos variam conforme o estágio).
+export interface StageEvent {
+  system_name?: string
+  components?: Component[]
+  edges?: Edge[]
+  threats?: Threat[]
+  text_regions?: TextRegion[]
+  annotated_image?: string | null
+  model?: Record<string, unknown>
+  summary?: Record<string, unknown>
+  threat_model?: ThreatModel
+  usage_delta?: Usage
+  elapsed_s?: number
+  latency_s?: number
+  ocr_used?: boolean
+  fused?: boolean
+  crosscheck_used?: boolean
+  added?: number
+  n_text?: number
+  n_labeled?: number
+  n_edges?: number
+  n_threats?: number
+  status?: number
+  message?: string
+}
+
 export interface Settings {
   provider: string
   model: string

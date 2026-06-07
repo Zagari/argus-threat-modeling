@@ -1,4 +1,4 @@
-import type { DetectStatus, DetectionResult, Settings, ThreatModel } from '../types'
+import type { Capabilities, DetectStatus, DetectionResult, Settings, StageEvent, ThreatModel } from '../types'
 
 async function j<T>(r: Response): Promise<T> {
   if (!r.ok) {
@@ -10,6 +10,10 @@ async function j<T>(r: Response): Promise<T> {
 
 export function getSettings(): Promise<Settings> {
   return fetch('/settings').then(j<Settings>)
+}
+
+export function getCapabilities(): Promise<Capabilities> {
+  return fetch('/capabilities').then(j<Capabilities>)
 }
 
 export function updateSettings(
@@ -31,6 +35,48 @@ export async function analyze(file: File, system: string): Promise<ThreatModel> 
   fd.append('file', file)
   const r = await fetch(`/analyze?system=${encodeURIComponent(system)}`, { method: 'POST', body: fd })
   return j<ThreatModel>(r)
+}
+
+/**
+ * Roda a análise por streaming (SSE) e chama `onEvent(stage, data)` a cada estágio.
+ * Usa POST + ReadableStream (o EventSource nativo não envia upload). Lança em erro de
+ * transporte; o evento `error` (pipeline) também é entregue via `onEvent` para a UI tratar.
+ */
+export async function analyzeStream(
+  file: File,
+  system: string,
+  onEvent: (stage: string, data: StageEvent) => void,
+  signal?: AbortSignal,
+): Promise<void> {
+  const fd = new FormData()
+  fd.append('file', file)
+  const r = await fetch(`/analyze/stream?system=${encodeURIComponent(system)}`, {
+    method: 'POST',
+    body: fd,
+    signal,
+  })
+  if (!r.ok || !r.body) throw new Error((await r.text()) || r.statusText)
+
+  const reader = r.body.getReader()
+  const dec = new TextDecoder()
+  let buf = ''
+  for (;;) {
+    const { value, done } = await reader.read()
+    if (done) break
+    buf += dec.decode(value, { stream: true })
+    let i: number
+    while ((i = buf.indexOf('\n\n')) >= 0) {
+      const frame = buf.slice(0, i)
+      buf = buf.slice(i + 2)
+      let stage = 'message'
+      const dataLines: string[] = []
+      for (const line of frame.split('\n')) {
+        if (line.startsWith('event:')) stage = line.slice(6).trim()
+        else if (line.startsWith('data:')) dataLines.push(line.slice(5).replace(/^ /, ''))
+      }
+      if (dataLines.length) onEvent(stage, JSON.parse(dataLines.join('\n')) as StageEvent)
+    }
+  }
 }
 
 export function detectStatus(): Promise<DetectStatus> {

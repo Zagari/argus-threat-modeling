@@ -9,6 +9,10 @@ from __future__ import annotations
 
 import base64
 import json
+from collections.abc import Iterator
+from contextlib import contextmanager
+from contextvars import ContextVar
+from dataclasses import dataclass
 from typing import TypeVar
 
 import litellm
@@ -23,6 +27,95 @@ T = TypeVar("T", bound=BaseModel)
 
 class LLMError(RuntimeError):
     pass
+
+
+# ── Medição de uso (tokens + custo) por requisição ───────────────────────────
+@dataclass
+class UsageMeter:
+    """Acumula tokens e custo das chamadas de LLM dentro de um escopo (`meter()`).
+
+    Os tokens vêm do provider (exatos; para visão, os tokens da imagem entram em
+    `prompt_tokens`). O custo é a estimativa do litellm (`completion_cost`) — pode faltar
+    para algum modelo, daí `cost_known=False`. Acumula as N chamadas do ARGUS (cross-check,
+    topologia, STRIDE) ou a única do Cíclope.
+    """
+
+    calls: int = 0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    total_tokens: int = 0
+    cost_usd: float = 0.0
+    cost_known: bool = False
+
+    def add(self, *, prompt: int, completion: int, total: int, cost: float, cost_known: bool) -> None:
+        self.calls += 1
+        self.prompt_tokens += prompt
+        self.completion_tokens += completion
+        self.total_tokens += total
+        self.cost_usd += cost
+        self.cost_known = self.cost_known or cost_known
+
+    def snapshot(self) -> dict:
+        return {
+            "calls": self.calls,
+            "prompt_tokens": self.prompt_tokens,
+            "completion_tokens": self.completion_tokens,
+            "total_tokens": self.total_tokens,
+            "cost_usd": round(self.cost_usd, 6),
+            "cost_known": self.cost_known,
+        }
+
+
+_meter: ContextVar[UsageMeter | None] = ContextVar("argus_llm_meter", default=None)
+
+
+@contextmanager
+def meter() -> Iterator[UsageMeter]:
+    """Escopo de medição. Reentrante: se já houver um medidor ativo, reusa (não aninha)."""
+    existing = _meter.get()
+    if existing is not None:
+        yield existing
+        return
+    m = UsageMeter()
+    token = _meter.set(m)
+    try:
+        yield m
+    finally:
+        _meter.reset(token)
+
+
+def current_usage() -> dict | None:
+    """Snapshot do medidor ativo (ou None se não houver escopo `meter()`)."""
+    m = _meter.get()
+    return m.snapshot() if m is not None else None
+
+
+def _u(usage: object, key: str) -> int:
+    if usage is None:
+        return 0
+    if isinstance(usage, dict):
+        return int(usage.get(key) or 0)
+    return int(getattr(usage, key, 0) or 0)
+
+
+def _record_usage(resp: object) -> None:
+    """Lê tokens (provider) + custo (litellm) da resposta e soma no medidor ativo."""
+    m = _meter.get()
+    if m is None:
+        return
+    usage = getattr(resp, "usage", None)
+    if usage is None and hasattr(resp, "get"):
+        usage = resp.get("usage")  # type: ignore[attr-defined]
+    pt, ct = _u(usage, "prompt_tokens"), _u(usage, "completion_tokens")
+    tt = _u(usage, "total_tokens") or (pt + ct)
+    cost, cost_known = 0.0, False
+    try:
+        c = litellm.completion_cost(completion_response=resp)
+        if c is not None:
+            cost, cost_known = float(c), True
+    except Exception:  # noqa: BLE001 — custo é estimativa; nunca derruba a chamada
+        cost, cost_known = 0.0, False
+    m.add(prompt=pt, completion=ct, total=tt, cost=cost, cost_known=cost_known)
 
 
 def _extract_text(resp) -> str:
@@ -99,6 +192,7 @@ def _complete(
         cfg = get_config()
         raise LLMError(f"Falha ao chamar o LLM ({cfg.provider} / {cfg.model}): {e}") from e
 
+    _record_usage(resp)
     text = _extract_text(resp)
     if response_model is None:
         return text

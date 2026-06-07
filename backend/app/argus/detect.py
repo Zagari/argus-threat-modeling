@@ -20,6 +20,7 @@ Configuração por ambiente:
 from __future__ import annotations
 
 import base64
+import importlib.util
 import io
 import os
 import threading
@@ -78,6 +79,18 @@ def _load() -> Any:
         _model = YOLO(weights)
         _weights_label = Path(weights).name
     return _model
+
+
+def configured() -> bool:
+    """True se o detector está configurado (env + deps importáveis), SEM carregar o modelo.
+
+    Barato: não baixa pesos do HF nem importa torch/ultralytics. Serve para a UI decidir
+    se o ARGUS está disponível neste ambiente (ARGUS_ML). O carregamento real só acontece
+    na primeira detecção (`detect`/`available`).
+    """
+    if not (os.getenv("ARGUS_DETECTOR_WEIGHTS") or os.getenv("ARGUS_DETECTOR_HF")):
+        return False
+    return importlib.util.find_spec("ultralytics") is not None
 
 
 def available() -> bool:

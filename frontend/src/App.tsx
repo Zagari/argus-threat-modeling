@@ -1,21 +1,27 @@
 import { useEffect, useState } from 'react'
-import { getSettings } from './api/client'
-import Analyze from './pages/Analyze'
-import Detect from './pages/Detect'
-import Pipeline from './pages/Pipeline'
+import { getCapabilities } from './api/client'
+import Argus from './pages/Argus'
+import Ciclope from './pages/Ciclope'
+import Home from './pages/Home'
 import SettingsPage from './pages/Settings'
+import type { Capabilities } from './types'
 
-type Tab = 'analyze' | 'detect' | 'pipeline' | 'settings'
+type Tab = 'home' | 'ciclope' | 'argus' | 'settings'
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('analyze')
-  const [mock, setMock] = useState(false)
+  const [tab, setTab] = useState<Tab>('home')
+  const [caps, setCaps] = useState<Capabilities | null>(null)
 
-  useEffect(() => {
-    getSettings()
-      .then((s) => setMock(s.mock))
-      .catch(() => {})
-  }, [tab])
+  function refreshCaps() {
+    getCapabilities()
+      .then(setCaps)
+      .catch(() => setCaps(null))
+  }
+
+  // Recarrega capacidades ao voltar para Início/Configurações (o mock pode ter mudado).
+  useEffect(refreshCaps, [tab === 'home' || tab === 'settings'])
+
+  const mock = caps?.llm.mock ?? false
 
   return (
     <div className="app">
@@ -25,14 +31,14 @@ export default function App() {
           <div className="sub">Modelagem de ameaças STRIDE a partir de diagramas de arquitetura</div>
         </div>
         <nav className="tabs">
-          <button className={tab === 'analyze' ? 'active' : ''} onClick={() => setTab('analyze')}>
-            Analisar
+          <button className={tab === 'home' ? 'active' : ''} onClick={() => setTab('home')}>
+            Início
           </button>
-          <button className={tab === 'detect' ? 'active' : ''} onClick={() => setTab('detect')}>
-            Detector (E1)
+          <button className={tab === 'ciclope' ? 'active' : ''} onClick={() => setTab('ciclope')}>
+            Cíclope
           </button>
-          <button className={tab === 'pipeline' ? 'active' : ''} onClick={() => setTab('pipeline')}>
-            Pipeline ARGUS
+          <button className={tab === 'argus' ? 'active' : ''} onClick={() => setTab('argus')}>
+            ARGUS
           </button>
           <button className={tab === 'settings' ? 'active' : ''} onClick={() => setTab('settings')}>
             Configurações
@@ -45,9 +51,9 @@ export default function App() {
           análise real do diagrama. Configure uma chave de LLM e desligue o mock para análise real.
         </div>
       )}
-      {tab === 'analyze' && <Analyze />}
-      {tab === 'detect' && <Detect />}
-      {tab === 'pipeline' && <Pipeline />}
+      {tab === 'home' && <Home caps={caps} onNavigate={setTab} />}
+      {tab === 'ciclope' && <Ciclope />}
+      {tab === 'argus' && <Argus caps={caps} />}
       {tab === 'settings' && <SettingsPage />}
     </div>
   )
