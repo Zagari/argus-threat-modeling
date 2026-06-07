@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { getSettings } from './api/client'
 import Analyze from './pages/Analyze'
 import Detect from './pages/Detect'
+import Pipeline from './pages/Pipeline'
 import SettingsPage from './pages/Settings'
 
-type Tab = 'analyze' | 'detect' | 'settings'
+type Tab = 'analyze' | 'detect' | 'pipeline' | 'settings'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('analyze')
@@ -30,6 +31,9 @@ export default function App() {
           <button className={tab === 'detect' ? 'active' : ''} onClick={() => setTab('detect')}>
             Detector (E1)
           </button>
+          <button className={tab === 'pipeline' ? 'active' : ''} onClick={() => setTab('pipeline')}>
+            Pipeline ARGUS
+          </button>
           <button className={tab === 'settings' ? 'active' : ''} onClick={() => setTab('settings')}>
             Configurações
           </button>
@@ -43,6 +47,7 @@ export default function App() {
       )}
       {tab === 'analyze' && <Analyze />}
       {tab === 'detect' && <Detect />}
+      {tab === 'pipeline' && <Pipeline />}
       {tab === 'settings' && <SettingsPage />}
     </div>
   )
