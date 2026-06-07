@@ -6,10 +6,12 @@ endpoint próprio para a UI mostrar resultados parciais.
 
 from __future__ import annotations
 
+import os
+
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 
+from app.argus import crosscheck, fusion, ocr, topology
 from app.argus import detect as detector
-from app.argus import fusion, ocr, topology
 from app.schemas import DetectionResult, TextRegion, TopologyResult
 
 router = APIRouter(prefix="/stage", tags=["stage"])
@@ -90,6 +92,15 @@ async def stage_topology(
         except Exception:  # noqa: BLE001 — OCR é um reforço; não derruba o estágio
             text_regions = []
 
+    # E2 — cross-check de classificação via VLM (corrige componentes incertos)
+    crosscheck_used = False
+    if os.getenv("ARGUS_CROSSCHECK", "1") == "1":
+        try:
+            components = crosscheck.verify(data, components)
+            crosscheck_used = True
+        except Exception:  # noqa: BLE001 — cross-check é reforço; não derruba o estágio
+            crosscheck_used = False
+
     # E2b — topologia (VLM)
     try:
         edges = topology.extract(data, components)
@@ -101,5 +112,8 @@ async def stage_topology(
         edges=edges,
         text_regions=text_regions,
         annotated_image=det.get("annotated_image"),
-        meta={"detections": len(components), "edges": len(edges), "ocr_used": ocr_used},
+        meta={
+            "detections": len(components), "edges": len(edges),
+            "ocr_used": ocr_used, "crosscheck_used": crosscheck_used,
+        },
     )

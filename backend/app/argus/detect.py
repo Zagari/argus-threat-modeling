@@ -107,7 +107,9 @@ def detect(image_bytes: bytes, *, conf: float | None = None, imgsz: int | None =
 
     img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
     width, height = img.size
-    results = model.predict(source=img, conf=conf, imgsz=imgsz, verbose=False)
+    # agnostic_nms: suprime caixas sobrepostas mesmo entre classes diferentes (evita o
+    # mesmo ícone detectado como duas classes, ex.: "Developer portal" duplicado).
+    results = model.predict(source=img, conf=conf, imgsz=imgsz, agnostic_nms=True, verbose=False)
     r = results[0]
     names = r.names  # {idx: yolo_name}
 
@@ -130,7 +132,7 @@ def detect(image_bytes: bytes, *, conf: float | None = None, imgsz: int | None =
             Component(
                 id=f"C{i + 1}",
                 canonical=name,
-                label=name.replace("_", " "),
+                label=None,  # rótulo é lido pelo OCR no E2 (fusão); E1 só detecta o ícone
                 element_type=CANONICAL_ELEMENT_TYPE.get(name, "Process"),  # type: ignore[arg-type]
                 bbox=bbox,
                 confidence=round(float(confs[i]), 4),

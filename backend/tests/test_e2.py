@@ -11,7 +11,7 @@ import io
 
 from fastapi.testclient import TestClient
 
-from app.argus import fusion, topology
+from app.argus import crosscheck, fusion, topology
 from app.argus.labelmap import match_label
 from app.schemas import Component, TextRegion
 
@@ -62,6 +62,12 @@ def test_topology_mock_chains_components() -> None:
     ]
     edges = topology.extract(b"fake", comps)  # ARGUS_LLM_MOCK=1 no conftest
     assert [(e.source, e.target) for e in edges] == [("C1", "C2"), ("C2", "C3")]
+
+
+def test_crosscheck_noop_in_mock() -> None:
+    comps = [Component(id="C1", canonical="actor_user", element_type="ExternalEntity", confidence=0.4)]
+    out = crosscheck.verify(b"fake", comps)  # ARGUS_LLM_MOCK=1 → no-op
+    assert out[0].canonical == "actor_user"
 
 
 def test_ocr_status_unavailable(client: TestClient) -> None:

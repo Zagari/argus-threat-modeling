@@ -97,7 +97,7 @@ classes:
     azure: ["app service", "app services", "web app", "static web apps"]
     gcp: ["app engine"]
     labels: ["app service", "web app", "aplicação web", "beanstalk", "paas",
-             "app runner", "heroku", "amplify", "static web app", "web service"]
+             "app runner", "heroku", "amplify", "static web app"]
     cpe_hints: []
 
   database_sql:
