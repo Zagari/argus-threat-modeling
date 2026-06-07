@@ -106,3 +106,21 @@ class DetectionResult(BaseModel):
         default=None, description="Imagem com as caixas desenhadas (data URL base64)."
     )
     model: dict = Field(default_factory=dict, description="pesos, nº de detecções, conf, imgsz.")
+
+
+class TextRegion(BaseModel):
+    """Trecho de texto lido pelo OCR (E2), com caixa normalizada."""
+
+    text: str
+    bbox: list[float] = Field(default_factory=list, description="[x, y, w, h] normalizado.")
+    confidence: float | None = None
+
+
+class TopologyResult(BaseModel):
+    """Saída do estágio E2: componentes (fundidos com OCR) + arestas (topologia)."""
+
+    components: list[Component] = Field(default_factory=list)
+    edges: list[Edge] = Field(default_factory=list)
+    text_regions: list[TextRegion] = Field(default_factory=list)
+    annotated_image: str | None = None
+    meta: dict = Field(default_factory=dict)

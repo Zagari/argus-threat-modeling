@@ -14,6 +14,9 @@ pillow
 jinja2
 weasyprint
 
+# Taxonomia (lê o mapeamento.yaml no caminho por rótulo do E2)
+PyYAML
+
 # HTTP
 httpx
 

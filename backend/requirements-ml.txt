@@ -7,3 +7,10 @@
 # ou ARGUS_DETECTOR_HF=Zagari/argus-detector
 ultralytics>=8.3.0
 huggingface_hub>=0.24
+
+# OCR do E2 (caminho por rótulo). EasyOCR usa torch (já vem com o ultralytics) e instala
+# limpo em macOS/Linux. PaddleOCR é mais preciso (use no servidor Linux), mas o
+# PaddlePaddle dá trabalho no Apple Silicon — por isso fica opcional/comentado.
+easyocr>=1.7
+# paddleocr>=2.7   # primário no servidor Linux (requer paddlepaddle)
+# paddlepaddle>=2.6
