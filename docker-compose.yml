@@ -1,12 +1,17 @@
 # ARGUS & Cíclope — orquestração local.
-# `docker compose up --build`            → backend (8000) + frontend (8080)
-# `docker compose --profile full up`     → inclui Neo4j (usado a partir da Fase 3)
+# LITE (padrão, só Cíclope):   docker compose up --build
+# FULL (ARGUS, detector+OCR):  ARGUS_ML=true GEMINI_API_KEY=... \
+#                              ARGUS_DETECTOR_HF=zagari/argus-detector docker compose up --build
+# Neo4j (Graph-RAG, Fase 3):   docker compose --profile full up
+# Ver README → "Modos de implantação".
 
 services:
   backend:
     build:
       context: .
       dockerfile: deploy/Dockerfile.backend
+      args:
+        INSTALL_ML: "${ARGUS_ML:-false}"   # true = imagem com detector/OCR (ARGUS)
     ports:
       - "8000:8000"
     environment:
@@ -17,6 +22,10 @@ services:
       GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      # Pipeline ARGUS (só têm efeito se ARGUS_ML=true):
+      ARGUS_DETECTOR_HF: "${ARGUS_DETECTOR_HF:-}"
+      ARGUS_OCR_GPU: "${ARGUS_OCR_GPU:-0}"
+      ARGUS_CROSSCHECK: "${ARGUS_CROSSCHECK:-1}"
 
   frontend:
     build:

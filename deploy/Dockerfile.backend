@@ -1,14 +1,32 @@
-# Backend FastAPI — usa Python 3.12 no container (amplo suporte de wheels),
-# independente da versão local. Inclui libs nativas do WeasyPrint.
+# Backend FastAPI — Python 3.12 (amplo suporte de wheels), independente da versão local.
+#
+# Dois modos, escolhidos no build pela ARG INSTALL_ML:
+#   INSTALL_ML=false (padrão)  -> imagem LEVE: só o Cíclope (LLM-only). Sem GPU/torch.
+#   INSTALL_ML=true            -> imagem FULL: + detector YOLO11, OCR e o pipeline ARGUS.
+#                                 Usa torch CPU (roda em qualquer máquina; a latência do
+#                                 ARGUS é dominada pelas chamadas ao VLM, não pelo detector).
+# Ver docker-compose.yml (ARGUS_ML) e README (Modos de implantação).
 FROM python:3.12-slim
 
+ARG INSTALL_ML=false
+
+# libs nativas do WeasyPrint (PDF) — sempre necessárias
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf-2.0-0 libcairo2 libffi8 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY backend/requirements.txt .
+COPY backend/requirements.txt backend/requirements-ml.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Modo FULL: torch CPU + ultralytics + OCR (+ libs nativas do OpenCV)
+RUN if [ "$INSTALL_ML" = "true" ]; then \
+        apt-get update && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+        && rm -rf /var/lib/apt/lists/* \
+        && pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu \
+        && pip install --no-cache-dir -r requirements-ml.txt ; \
+    fi
+
 COPY backend/ .
 
 EXPOSE 8000

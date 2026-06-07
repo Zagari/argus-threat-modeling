@@ -117,6 +117,9 @@ jobs:
         with:
           context: .
           file: deploy/Dockerfile.backend
+          # produção roda o ARGUS completo (detector + OCR + pipeline)
+          build-args: |
+            INSTALL_ML=true
           push: true
           tags: |
             ghcr.io/zagari/argus-backend:latest
