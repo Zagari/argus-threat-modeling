@@ -10,7 +10,7 @@ import os
 
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 
-from app.argus import crosscheck, fusion, ocr, topology
+from app.argus import crosscheck, dfd, fusion, ocr, topology
 from app.argus import detect as detector
 from app.schemas import DetectionResult, TextRegion, TopologyResult
 
@@ -61,14 +61,9 @@ async def stage_ocr(file: UploadFile = File(...)) -> list[TextRegion]:
         raise HTTPException(status_code=500, detail=f"Falha no OCR: {e}") from e
 
 
-# ── E2: detecção + OCR/fusão + topologia ────────────────────────────────────
-@router.post("/topology", response_model=TopologyResult)
-async def stage_topology(
-    file: UploadFile = File(...),
-    conf: float | None = Query(None, ge=0.0, le=1.0),
-) -> TopologyResult:
-    """E1→E2: detecta, funde rótulos do OCR (se disponível) e extrai a topologia (VLM)."""
-    data = await file.read()
+# ── E1→E2: pipeline compartilhada (detecção + OCR/fusão + cross-check + topologia) ──
+def _run_e1_e2(data: bytes, conf: float | None) -> dict:
+    """Roda E1→E2 e devolve componentes (fundidos/checados), arestas e metadados."""
     if not data:
         raise HTTPException(status_code=400, detail="Arquivo de imagem vazio.")
 
@@ -92,7 +87,7 @@ async def stage_topology(
         except Exception:  # noqa: BLE001 — OCR é um reforço; não derruba o estágio
             text_regions = []
 
-    # E2 — cross-check de classificação via VLM (corrige componentes incertos)
+    # E2 — cross-check de classificação via VLM (corrige incertos + propõe faltantes)
     crosscheck_used = False
     if os.getenv("ARGUS_CROSSCHECK", "1") == "1":
         try:
@@ -107,13 +102,34 @@ async def stage_topology(
     except Exception as e:  # noqa: BLE001
         raise HTTPException(status_code=500, detail=f"Falha na topologia: {e}") from e
 
-    return TopologyResult(
-        components=components,
-        edges=edges,
-        text_regions=text_regions,
-        annotated_image=det.get("annotated_image"),
-        meta={
-            "detections": len(components), "edges": len(edges),
-            "ocr_used": ocr_used, "crosscheck_used": crosscheck_used,
-        },
-    )
+    return {
+        "components": components, "edges": edges, "text_regions": text_regions,
+        "annotated_image": det.get("annotated_image"),
+        "meta": {"detections": len(components), "edges": len(edges),
+                 "ocr_used": ocr_used, "crosscheck_used": crosscheck_used},
+    }
+
+
+@router.post("/topology", response_model=TopologyResult)
+async def stage_topology(
+    file: UploadFile = File(...),
+    conf: float | None = Query(None, ge=0.0, le=1.0),
+) -> TopologyResult:
+    """E1→E2: detecta, funde rótulos do OCR, cross-check (VLM) e extrai a topologia (VLM)."""
+    r = _run_e1_e2(await file.read(), conf)
+    return TopologyResult(**r)
+
+
+# ── E3: DFD (tipagem do grafo + fronteiras de confiança) ─────────────────────
+@router.post("/dfd", response_model=TopologyResult)
+async def stage_dfd(
+    file: UploadFile = File(...),
+    conf: float | None = Query(None, ge=0.0, le=1.0),
+) -> TopologyResult:
+    """E1→E3: além do E2, marca os fluxos que cruzam fronteiras de confiança (DFD)."""
+    r = _run_e1_e2(await file.read(), conf)
+    edges = dfd.mark_crossings(r["components"], r["edges"])
+    r["meta"] |= dfd.summarize(r["components"], edges)
+    return TopologyResult(components=r["components"], edges=edges,
+                          text_regions=r["text_regions"],
+                          annotated_image=r["annotated_image"], meta=r["meta"])

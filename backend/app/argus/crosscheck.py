@@ -40,6 +40,9 @@ Faça DUAS coisas:
 2) `missing`: componentes CLARAMENTE presentes no diagrama que NÃO estão na lista acima.
    Para cada um: a classe (da lista), o bbox aproximado [x,y,w,h] normalizado em 0..1, e o
    rótulo lido. Seja conservador — só inclua o que tem certeza que existe e ficou de fora.
+   INCLUA também as FRONTEIRAS DE CONFIANÇA visíveis (VPC, subnet, availability zone,
+   resource group, região, rede) como `trust_boundary`, com bbox cobrindo TODA a área que
+   elas delimitam (não apenas o rótulo).
 
 Use os mesmos ids existentes; não invente ids para os já detectados."""
 
@@ -128,12 +131,21 @@ def verify(image_bytes: bytes, components: list[Component], *, mime: str = "imag
         idx = _next_index(out)
         for m in res.missing:
             bbox = _valid_bbox(m.bbox)
-            if not bbox or _too_close(bbox, out, dedup_dist):
+            if not bbox:
                 continue
             # o rótulo, quando mapeia para uma classe, vence o palpite de classe do VLM
             # (ex.: "Logic Apps" -> serverless_fn, não compute)
             cls = match_label(m.label or "") or m.canonical
             if cls not in valid:
+                continue
+            # fronteiras ENVOLVEM componentes — só deduplica contra outras fronteiras;
+            # os demais deduplicam por proximidade contra qualquer componente.
+            dedup_against = (
+                [c for c in out if c.element_type == "TrustBoundary"]
+                if cls == "trust_boundary"
+                else out
+            )
+            if _too_close(bbox, dedup_against, dedup_dist):
                 continue
             out.append(
                 Component(

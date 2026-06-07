@@ -49,15 +49,17 @@ def _mock_edges(components: list[Component]) -> list[Edge]:
 def extract(image_bytes: bytes, components: list[Component], *, mime: str = "image/jpeg") -> list[Edge]:
     """Retorna as arestas dirigidas entre os componentes, lidas do diagrama pelo VLM."""
     cfg = get_config()
-    valid = {c.id for c in components}
     if cfg.mock:
         return _mock_edges(components)
-    if len(components) < 2:
+    # fronteiras de confiança NÃO são origem/destino de fluxo — fora da extração de arestas
+    flow = [c for c in components if c.element_type != "TrustBoundary"]
+    valid = {c.id for c in flow}
+    if len(flow) < 2:
         return []
 
     comp_lines = "\n".join(
         f"- {c.id}: {c.canonical}" + (f' (rótulo: "{c.label}")' if c.label else "")
-        for c in components
+        for c in flow
     )
     prompt = _PROMPT.format(components=comp_lines)
     result: _EdgeList = provider.vision(  # type: ignore[assignment]
