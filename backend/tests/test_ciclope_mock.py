@@ -22,14 +22,15 @@ def test_analyze_ciclope_retorna_threatmodel(client):
     assert tm["components"]
 
 
-def test_argus_ainda_nao_implementado(client):
+def test_argus_requer_detector(client):
+    # ARGUS (E1→E4) precisa do detector; sem pesos/ML, responde 503 gracioso.
     with FIGURA.open("rb") as f:
         r = client.post(
             "/analyze",
             params={"system": "argus"},
             files={"file": ("fig1.jpg", f.read(), "image/jpeg")},
         )
-    assert r.status_code == 501
+    assert r.status_code == 503
 
 
 def test_report_pdf_gerado(client):

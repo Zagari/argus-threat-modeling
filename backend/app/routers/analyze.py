@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 
+from app.argus import detect as detector
+from app.argus import orchestrator
 from app.ciclope import pipeline as ciclope
 from app.schemas import ThreatModel
 
@@ -25,5 +27,10 @@ async def analyze(
         except Exception as e:  # noqa: BLE001
             raise HTTPException(status_code=502, detail=str(e)) from e
     if system == "argus":
-        raise HTTPException(status_code=501, detail="ARGUS será implementado a partir da Fase 2.")
+        try:
+            return orchestrator.run(data, system_name=system_name)
+        except detector.DetectorUnavailable as e:
+            raise HTTPException(status_code=503, detail=str(e)) from e
+        except Exception as e:  # noqa: BLE001
+            raise HTTPException(status_code=502, detail=str(e)) from e
     raise HTTPException(status_code=400, detail=f"system inválido: {system}")
