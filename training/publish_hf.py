@@ -22,43 +22,63 @@ from taxonomy.loader import load_taxonomy  # noqa: E402
 MODEL_CARD = """---
 license: apache-2.0
 library_name: ultralytics
+pipeline_tag: object-detection
 tags:
   - object-detection
   - yolo11
+  - ultralytics
   - threat-modeling
   - architecture-diagrams
   - stride
+  - security
 ---
 
-# ARGUS — Detector de componentes de arquitetura (YOLO11)
+# ARGUS — Architecture Component Detector (YOLO11)
 
-Detector supervisionado do projeto **ARGUS** (Hackathon FIAP IADT Fase 5): localiza
-componentes de nuvem em **imagens de diagramas de arquitetura** e os classifica em
-**{nc} classes canônicas agnósticas de nuvem** (AWS/Azure mapeados à mesma classe).
-É o estágio **E1** do pipeline; E2–E6 (topologia, DFD, STRIDE, Graph-RAG, relatório)
-operam só sobre as classes canônicas.
+Supervised object detector from the **ARGUS** project (FIAP IADT, Phase 5 Hackathon).
+It locates cloud/software components in **architecture diagram images** and classifies
+them into **{nc} cloud-agnostic canonical classes** (AWS, Azure and GCP icons map to the
+same class). This is **stage E1** of the ARGUS pipeline; the later stages (topology, DFD,
+STRIDE-per-element, Graph-RAG, scoring/report) operate only on the canonical classes, so
+only this visual stage is coupled to each cloud's iconography.
 
 ## Classes ({nc})
 {classes}
 
-## Métricas (test set)
+## Metrics (synthetic test set)
 {metrics}
 
-## Dados de treino
-Dataset **sintético auto-rotulado** (ícones oficiais AWS/Azure/GCP compostos em diagramas
-com setas/rótulos/fronteiras) + diagramas reais anotados. Os 2 diagramas-exemplo do
-enunciado ficam **apenas no split de teste**.
+> These figures are computed on a held-out split of the **synthetic** dataset
+> (in-distribution). On real reference diagrams the detector recognizes most components
+> correctly but exhibits a **synthetic-to-real gap** (e.g., it may confuse load balancers
+> or external web services with the user class, or a key-vault with a database). Closing
+> this gap with a real annotated set is planned future work.
 
-## Uso
+## Training data
+**Self-labeled synthetic dataset**: official AWS/Azure/GCP architecture icons composited
+onto varied backgrounds with arrows, text labels and trust boundaries. Because the icon
+positions are known, YOLO labels are emitted automatically (no manual annotation), which
+makes the set scalable. Base model: `yolo11s`, `imgsz=1280`.
+
+## Usage
 ```python
 from ultralytics import YOLO
+
 model = YOLO("best.pt")
-results = model("diagrama.png")
+results = model("diagram.png", conf=0.25, imgsz=1280)
+for b in results[0].boxes:
+    print(results[0].names[int(b.cls[0])], float(b.conf[0]))
 ```
 
-## Limitações
-Acoplado à aparência dos ícones AWS/Azure; diagramas de outras nuvens/whiteboard são
-cobertos pelo caminho por OCR (rótulo-texto) do ARGUS, não por este detector.
+## Intended use & limitations
+- **Intended use:** automatic, draft component extraction from cloud architecture diagrams,
+  as the first stage of an automated STRIDE threat-modeling pipeline.
+- **Limitations:** coupled to the appearance of AWS/Azure/GCP icons; generic/whiteboard
+  diagrams or other clouds are meant to be covered by ARGUS's OCR (text-label) path, not by
+  this detector. Outputs are drafts and should be reviewed by a human.
+
+## Links
+- Project & training code: https://github.com/Zagari/argus-threat-modeling
 """
 
 
