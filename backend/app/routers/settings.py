@@ -22,6 +22,7 @@ class SettingsUpdate(BaseModel):
     api_key: str | None = None
     mock: bool | None = None
     usd_brl_rate: float | None = None
+    cost_factor: float | None = None
 
 
 @router.get("")
@@ -39,6 +40,7 @@ def update_settings(body: SettingsUpdate) -> dict:
         api_key=body.api_key,
         mock=body.mock,
         usd_brl_rate=body.usd_brl_rate,
+        cost_factor=body.cost_factor,
     )
     return cfg.public_snapshot()
 

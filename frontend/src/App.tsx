@@ -57,7 +57,7 @@ export default function App() {
         <Home caps={caps} onNavigate={setTab} />
       </div>
       <div style={{ display: tab === 'ciclope' ? 'block' : 'none' }}>
-        <Ciclope rate={caps?.usd_brl_rate ?? 6} />
+        <Ciclope rate={caps?.usd_brl_rate ?? 6} factor={caps?.cost_factor ?? 1} />
       </div>
       <div style={{ display: tab === 'argus' ? 'block' : 'none' }}>
         <Argus caps={caps} />

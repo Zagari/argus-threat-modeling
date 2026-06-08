@@ -157,6 +157,13 @@ ul.stages li.st-todo .st-name { color: var(--muted); }
 .summary-card .usage { font-size: 12px; }
 .summary-card .usage-cost { font-size: 13px; }
 
+/* Legenda visual por card (o que foi desenhado na imagem) */
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; margin-top: 10px; font-size: 11px; color: var(--muted); }
+.lg-cap { margin-right: 8px; }
+.lg-item { display: inline-flex; align-items: center; gap: 5px; margin-right: 12px; white-space: nowrap; }
+.lg-box { width: 11px; height: 11px; border: 1.5px solid; border-radius: 2px; display: inline-block; }
+.lg-line { width: 16px; height: 0; border-top: 2px solid; display: inline-block; }
+
 .usage {
   display: inline-flex; align-items: center; gap: 5px; font-size: 11px;
   padding: 1px 8px; border-radius: 999px; background: var(--panel);

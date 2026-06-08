@@ -24,6 +24,7 @@ export function updateSettings(
     api_key: string
     mock: boolean
     usd_brl_rate: number
+    cost_factor: number
   }>,
 ): Promise<Settings> {
   return fetch('/settings', {

@@ -4,7 +4,7 @@ import ThreatTable from '../components/ThreatTable'
 import UsageBadge from '../components/UsageBadge'
 import type { ThreatModel, Usage } from '../types'
 
-export default function Ciclope({ rate = 6 }: { rate?: number }) {
+export default function Ciclope({ rate = 6, factor = 1 }: { rate?: number; factor?: number }) {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [tm, setTm] = useState<ThreatModel | null>(null)
@@ -65,7 +65,7 @@ export default function Ciclope({ rate = 6 }: { rate?: number }) {
           <span className="summary-item">{tm.threats.length} ameaças</span>
           {tm.meta.latency_s != null && <span className="summary-item">{String(tm.meta.latency_s)}s</span>}
           <span style={{ marginLeft: 'auto' }}>
-            <UsageBadge u={tm.meta.usage as Usage | undefined} label="custo total" rate={rate} />
+            <UsageBadge u={tm.meta.usage as Usage | undefined} label="custo total" rate={rate} factor={factor} />
           </span>
         </div>
       )}

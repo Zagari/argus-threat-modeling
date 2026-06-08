@@ -43,6 +43,7 @@ class EnvSettings(BaseSettings):
     llm_mock: bool = False
     cors_origins: str = "http://localhost:5173"
     usd_brl_rate: float = 6.0   # cotação USD→BRL p/ exibir custo em R$ na UI
+    cost_factor: float = 1.0    # calibração: absorve spread de câmbio + IOF + imprecisão do litellm
 
 
 class RuntimeConfig:
@@ -55,6 +56,7 @@ class RuntimeConfig:
         self.timeout: float = env.llm_timeout
         self.mock: bool = env.llm_mock
         self.usd_brl_rate: float = env.usd_brl_rate
+        self.cost_factor: float = env.cost_factor
         self.cors_origins: list[str] = [o.strip() for o in env.cors_origins.split(",") if o.strip()]
         # chaves carregadas do ambiente (uma por provider, se presente)
         self.api_keys: dict[str, str] = {}
@@ -75,6 +77,7 @@ class RuntimeConfig:
         api_key: str | None = None,
         mock: bool | None = None,
         usd_brl_rate: float | None = None,
+        cost_factor: float | None = None,
     ) -> None:
         if provider:
             if provider not in DEFAULT_MODELS:
@@ -90,6 +93,8 @@ class RuntimeConfig:
             self.mock = mock
         if usd_brl_rate is not None and usd_brl_rate > 0:
             self.usd_brl_rate = usd_brl_rate
+        if cost_factor is not None and cost_factor > 0:
+            self.cost_factor = cost_factor
         if api_key:
             self.api_keys[self.provider] = api_key
 
@@ -101,6 +106,7 @@ class RuntimeConfig:
             "temperature": self.temperature,
             "mock": self.mock,
             "usd_brl_rate": self.usd_brl_rate,
+            "cost_factor": self.cost_factor,
             "has_key": bool(self.active_key()),
             "providers_with_key": sorted(self.api_keys.keys()),
             "available_providers": sorted(DEFAULT_MODELS.keys()),

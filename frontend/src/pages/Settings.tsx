@@ -8,6 +8,7 @@ export default function SettingsPage() {
   const [model, setModel] = useState('')
   const [temperature, setTemperature] = useState(0.2)
   const [usdBrlRate, setUsdBrlRate] = useState(6)
+  const [costFactor, setCostFactor] = useState(1)
   const [apiKey, setApiKey] = useState('')
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
@@ -19,6 +20,7 @@ export default function SettingsPage() {
     setModel(cur.model)
     setTemperature(cur.temperature)
     setUsdBrlRate(cur.usd_brl_rate)
+    setCostFactor(cur.cost_factor)
   }
 
   useEffect(() => {
@@ -29,7 +31,13 @@ export default function SettingsPage() {
     setBusy(true)
     setMsg(null)
     try {
-      const body: Record<string, unknown> = { provider, model, temperature, usd_brl_rate: usdBrlRate }
+      const body: Record<string, unknown> = {
+        provider,
+        model,
+        temperature,
+        usd_brl_rate: usdBrlRate,
+        cost_factor: costFactor,
+      }
       if (apiKey) body.api_key = apiKey
       const cur = await updateSettings(body)
       setS(cur)
@@ -95,6 +103,18 @@ export default function SettingsPage() {
         min="0"
         value={usdBrlRate}
         onChange={(e) => setUsdBrlRate(Number(e.target.value))}
+      />
+
+      <label>
+        Fator de ajuste de custo (calibração) — multiplica o custo estimado para aproximar do valor
+        efetivamente cobrado (spread de câmbio + IOF + imprecisão da tabela de preços). 1,0 = sem ajuste.
+      </label>
+      <input
+        type="number"
+        step="0.01"
+        min="0"
+        value={costFactor}
+        onChange={(e) => setCostFactor(Number(e.target.value))}
       />
 
       <label>Chave de API {s?.has_key ? '(já configurada — deixe em branco para manter)' : ''}</label>

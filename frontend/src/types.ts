@@ -74,6 +74,7 @@ export interface Capabilities {
   argus_ml: boolean
   llm: { provider: string; model: string; mock: boolean }
   usd_brl_rate: number
+  cost_factor: number
 }
 
 export interface TextRegion {
@@ -114,6 +115,12 @@ export interface StageEvent {
   n_labeled?: number
   n_edges?: number
   n_threats?: number
+  // E5 (enriquecimento/groundedness)
+  groundedness?: number
+  id_validity?: number
+  grounded?: number
+  ids_valid?: number
+  ids_invalid?: number
   status?: number
   message?: string
 }
@@ -124,6 +131,7 @@ export interface Settings {
   temperature: number
   mock: boolean
   usd_brl_rate: number
+  cost_factor: number
   has_key: boolean
   providers_with_key: string[]
   available_providers: string[]

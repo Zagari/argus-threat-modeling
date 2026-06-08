@@ -8,7 +8,7 @@ import UsageBadge from '../components/UsageBadge'
 import type { Capabilities, Component, Edge, StageEvent, ThreatModel, Usage } from '../types'
 
 // ── Máquina de estados dos eventos SSE ───────────────────────────────────────
-type SKey = 'e1' | 'ocr' | 'fusion' | 'crosscheck' | 'topology' | 'e3' | 'e4'
+type SKey = 'e1' | 'ocr' | 'fusion' | 'crosscheck' | 'topology' | 'e3' | 'e4' | 'e5'
 
 interface PipeState {
   name: string
@@ -24,7 +24,7 @@ interface PipeState {
 function initState(): PipeState {
   return {
     name: '',
-    status: { e1: 'idle', ocr: 'idle', fusion: 'idle', crosscheck: 'idle', topology: 'idle', e3: 'idle', e4: 'idle' },
+    status: { e1: 'idle', ocr: 'idle', fusion: 'idle', crosscheck: 'idle', topology: 'idle', e3: 'idle', e4: 'idle', e5: 'idle' },
     current: null,
     data: {},
     components: [],
@@ -85,6 +85,11 @@ function reduce(prev: PipeState, stage: string, d: StageEvent): PipeState {
     case 'e4_stride':
       s.status.e4 = 'done'
       s.data.e4 = d
+      start('e5')
+      break
+    case 'e5_enrich':
+      s.status.e5 = 'done'
+      s.data.e5 = d
       s.current = null
       break
     case 'done':
@@ -129,9 +134,35 @@ function SubStep({ status, title, children }: { status: StageStatus; title: stri
   )
 }
 
+// Cores por tipo DFD (iguais às dos overlays) — usadas nas legendas dos cards.
+const DFD_COLORS: Record<string, string> = {
+  Process: '#3b82f6',
+  DataStore: '#f59e0b',
+  ExternalEntity: '#10b981',
+  TrustBoundary: '#a855f7',
+}
+
+function BoxSwatch({ color, children }: { color: string; children: ReactNode }) {
+  return (
+    <span className="lg-item">
+      <span className="lg-box" style={{ borderColor: color }} /> {children}
+    </span>
+  )
+}
+
+function LineSwatch({ color, dashed, children }: { color: string; dashed?: boolean; children: ReactNode }) {
+  return (
+    <span className="lg-item">
+      <span className="lg-line" style={{ borderTopColor: color, borderTopStyle: dashed ? 'dashed' : 'solid' }} />{' '}
+      {children}
+    </span>
+  )
+}
+
 export default function Argus({ caps }: { caps: Capabilities | null }) {
   const argusMl = caps?.argus_ml ?? false
   const rate = caps?.usd_brl_rate ?? 6
+  const factor = caps?.cost_factor ?? 1
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [st, setSt] = useState<PipeState>(initState)
@@ -246,7 +277,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
           )}
           {st.tm.meta.latency_s != null && <span className="summary-item">{String(st.tm.meta.latency_s)}s</span>}
           <span style={{ marginLeft: 'auto' }}>
-            <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="custo total" rate={rate} />
+            <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="custo total" rate={rate} factor={factor} />
           </span>
         </div>
       )}
@@ -286,6 +317,13 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                     ))}
                   </tbody>
                 </table>
+                <div className="legend">
+                  <span className="lg-cap">No diagrama, caixas coloridas por tipo:</span>
+                  <BoxSwatch color={DFD_COLORS.Process}>Process</BoxSwatch>
+                  <BoxSwatch color={DFD_COLORS.DataStore}>DataStore</BoxSwatch>
+                  <BoxSwatch color={DFD_COLORS.ExternalEntity}>ExternalEntity</BoxSwatch>
+                  <BoxSwatch color={DFD_COLORS.TrustBoundary}>fronteira</BoxSwatch>
+                </div>
               </>
             ) : (
               <p className="muted">Detectando componentes…</p>
@@ -356,7 +394,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                       )}
                     </div>
                     <div>Corrige classes incertas e propõe componentes/fronteiras faltantes.</div>
-                    <UsageBadge u={st.data.crosscheck.usage_delta} label="VLM" rate={rate} />
+                    <UsageBadge u={st.data.crosscheck.usage_delta} label="VLM" rate={rate} factor={factor} />
                   </>
                 ) : (
                   'aguardando…'
@@ -377,7 +415,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                         {st.edges.length > 8 && <span className="tag more">+{st.edges.length - 8}</span>}
                       </div>
                     )}
-                    <UsageBadge u={st.data.topology.usage_delta} label="VLM" rate={rate} />
+                    <UsageBadge u={st.data.topology.usage_delta} label="VLM" rate={rate} factor={factor} />
                   </>
                 ) : (
                   'aguardando…'
@@ -394,10 +432,20 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
             subtitle={st.status.e3 === 'done' ? `${sv('boundaries')} fronteiras · ${sv('crossing_flows')} cruzam` : undefined}
           >
             {st.data.e3 ? (
-              <p className="kv">
-                {st.components.length} componentes · {sv('boundaries')} fronteiras · {sv('crossing_flows')}/
-                {st.edges.length} fluxos cruzam fronteira. A visualização do DFD está no diagrama acima.
-              </p>
+              <>
+                <p className="kv">
+                  {st.components.length} componentes · {sv('boundaries')} fronteiras · {sv('crossing_flows')}/
+                  {st.edges.length} fluxos cruzam fronteira. A visualização do DFD está no diagrama acima.
+                </p>
+                <div className="legend">
+                  <span className="lg-cap">No diagrama:</span>
+                  <LineSwatch color={DFD_COLORS.TrustBoundary} dashed>
+                    fronteira de confiança (tracejado roxo)
+                  </LineSwatch>
+                  <LineSwatch color="#dc2626">fluxo que cruza fronteira (vermelho)</LineSwatch>
+                  <LineSwatch color="#94a3b8">fluxo interno (cinza)</LineSwatch>
+                </div>
+              </>
             ) : (
               <p className="muted">Montando o DFD…</p>
             )}
@@ -418,8 +466,8 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                       {st.tm.threats.length} ameaças · {String(st.tm.meta.model ?? '—')}
                       {st.tm.meta.latency_s != null ? ` · ${String(st.tm.meta.latency_s)}s total` : ''}
                     </span>
-                    <UsageBadge u={st.data.e4?.usage_delta} label="STRIDE" rate={rate} />
-                    <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="total ARGUS" rate={rate} />
+                    <UsageBadge u={st.data.e4?.usage_delta} label="STRIDE" rate={rate} factor={factor} />
+                    <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="total ARGUS" rate={rate} factor={factor} />
                   </span>
                   <button className="primary" onClick={() => downloadPdf(st.tm!).catch((e) => setError(String(e)))}>
                     Baixar PDF
@@ -431,6 +479,38 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
               <p className="muted">{st.data.e4.n_threats ?? 0} ameaças geradas — montando o relatório…</p>
             ) : (
               <p className="muted">Gerando ameaças STRIDE-per-element…</p>
+            )}
+          </StageCard>
+
+          {/* ── E5 ── */}
+          <StageCard
+            title="E5 · Conhecimento ancorado"
+            status={st.status.e5}
+            elapsed={st.data.e5?.elapsed_s}
+            subtitle={
+              st.status.e5 === 'done' ? `${Math.round((st.data.e5?.groundedness ?? 0) * 100)}% ancoradas` : undefined
+            }
+          >
+            {st.data.e5 ? (
+              <>
+                <p className="kv" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                  <span>
+                    {st.data.e5.grounded ?? 0}/{st.tm?.threats.length ?? st.data.e4?.n_threats ?? '—'} ameaças
+                    ancoradas em CWE/CAPEC reais · {st.data.e5.ids_valid ?? 0} citações válidas
+                    {(st.data.e5.ids_invalid ?? 0) > 0
+                      ? `, ${st.data.e5.ids_invalid} removida(s) por não existirem (alucinação)`
+                      : ''}
+                    .
+                  </span>
+                  <UsageBadge u={st.data.e5.usage_delta} label="VLM" rate={rate} factor={factor} />
+                </p>
+                <p className="muted">
+                  As citações (CWE/CAPEC) e a marca <strong>"ancorada"</strong> aparecem na tabela de ameaças (E4); o
+                  validador remove qualquer ID inexistente nos catálogos.
+                </p>
+              </>
+            ) : (
+              <p className="muted">Ancorando as ameaças em catálogos reais (CWE/CAPEC/ASVS)…</p>
             )}
           </StageCard>
         </>

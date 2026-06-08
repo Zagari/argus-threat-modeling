@@ -28,4 +28,5 @@ def capabilities() -> dict:
         "argus_ml": detector.configured(),
         "llm": {"provider": cfg.provider, "model": cfg.model, "mock": cfg.mock},
         "usd_brl_rate": cfg.usd_brl_rate,
+        "cost_factor": cfg.cost_factor,
     }
