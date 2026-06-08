@@ -176,7 +176,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
       <div className="card">
         <div className="system-head">
           <h2 style={{ margin: 0, fontSize: 18 }}>ARGUS</h2>
-          <span className="badge cat">especialista · pipeline E1–E4</span>
+          <span className="badge cat">especialista · pipeline auditável</span>
         </div>
         <p className="muted" style={{ marginTop: 4 }}>
           Pipeline auditável: cada estágio expõe seu resultado parcial ao vivo (streaming).
@@ -199,7 +199,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
         />
         <div style={{ marginTop: 14, display: 'flex', gap: 10 }}>
           <button className="primary" disabled={!argusMl || !file || running} onClick={run}>
-            {running ? 'Executando pipeline…' : 'Analisar com ARGUS (E1→E4)'}
+            {running ? 'Executando pipeline…' : 'Analisar com ARGUS'}
           </button>
           {running && (
             <button className="ghost" onClick={() => abortRef.current?.abort()}>
@@ -438,7 +438,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
 
       {!started && argusMl && (
         <div className="card muted">
-          Envie um diagrama e rode o <strong>ARGUS</strong> para acompanhar os estágios (E1→E4) ao vivo.
+          Envie um diagrama e rode o <strong>ARGUS</strong> para acompanhar os estágios do pipeline ao vivo.
         </div>
       )}
     </div>

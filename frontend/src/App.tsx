@@ -51,10 +51,20 @@ export default function App() {
           análise real do diagrama. Configure uma chave de LLM e desligue o mock para análise real.
         </div>
       )}
-      {tab === 'home' && <Home caps={caps} onNavigate={setTab} />}
-      {tab === 'ciclope' && <Ciclope rate={caps?.usd_brl_rate ?? 6} />}
-      {tab === 'argus' && <Argus caps={caps} />}
-      {tab === 'settings' && <SettingsPage />}
+      {/* Páginas ficam SEMPRE montadas (só alternam visibilidade) para preservar a análise
+          ao trocar de aba — permite ir e voltar comparando Cíclope × ARGUS sem perder o resultado. */}
+      <div style={{ display: tab === 'home' ? 'block' : 'none' }}>
+        <Home caps={caps} onNavigate={setTab} />
+      </div>
+      <div style={{ display: tab === 'ciclope' ? 'block' : 'none' }}>
+        <Ciclope rate={caps?.usd_brl_rate ?? 6} />
+      </div>
+      <div style={{ display: tab === 'argus' ? 'block' : 'none' }}>
+        <Argus caps={caps} />
+      </div>
+      <div style={{ display: tab === 'settings' ? 'block' : 'none' }}>
+        <SettingsPage />
+      </div>
     </div>
   )
 }

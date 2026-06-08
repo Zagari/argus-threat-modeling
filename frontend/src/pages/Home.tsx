@@ -60,7 +60,7 @@ export default function Home({ caps, onNavigate }: { caps: Capabilities | null; 
         <div className="card system-card">
           <div className="system-head">
             <h3 style={{ margin: 0 }}>ARGUS</h3>
-            <span className="badge cat">especialista · pipeline E1–E6</span>
+            <span className="badge cat">especialista · pipeline auditável</span>
           </div>
           <p className="muted">
             Sistema especialista, <strong>auditável estágio a estágio</strong>. Em vez de uma caixa-preta, cada etapa
