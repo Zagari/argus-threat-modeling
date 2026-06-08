@@ -28,7 +28,9 @@ from app.argus.knowledge.model import (
     SubgraphNode,
 )
 
-_DEFAULT_DIR = Path(__file__).resolve().parents[4] / "data" / "knowledge" / "normalized"
+# Catálogos versionados DENTRO do pacote → seguem a imagem Docker (COPY backend/) e o
+# pip install (HF Spaces), sem depender do CWD nem da árvore do repo.
+_DEFAULT_DIR = Path(__file__).resolve().parent / "catalog"
 
 
 def _normalized_dir() -> Path:

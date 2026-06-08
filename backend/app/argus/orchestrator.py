@@ -19,6 +19,8 @@ from collections.abc import Iterator
 
 from app.argus import crosscheck, dfd, fusion, ocr, stride, topology
 from app.argus import detect as detector
+from app.argus.knowledge import enrich
+from app.argus.knowledge.store import get_store
 from app.config import get_config
 from app.llm import provider
 from app.schemas import ThreatModel
@@ -138,6 +140,25 @@ def iter_stages(
         "elapsed_s": round(time.perf_counter() - s, 3),
     }  # a lista completa vai no 'done' (ThreatModel); aqui só a contagem
 
+    # ── E5 — enriquecimento ancorado (CWE/CAPEC/contramedidas) + validação (groundedness) ──
+    s = time.perf_counter()
+    u0 = provider.current_usage()
+    ground: dict = {}
+    try:
+        ground = enrich.enrich(threats, components, get_store()).as_meta()
+    except Exception:  # noqa: BLE001 — E5 é reforço; nunca derruba o pipeline
+        ground = {}
+    yield {
+        "stage": "e5_enrich",
+        "groundedness": ground.get("groundedness"),
+        "id_validity": ground.get("id_validity"),
+        "grounded": ground.get("threats_grounded"),
+        "ids_valid": ground.get("ids_valid", 0),
+        "ids_invalid": ground.get("ids_invalid", 0),
+        "usage_delta": _usage_delta(u0, provider.current_usage()),
+        "elapsed_s": round(time.perf_counter() - s, 3),
+    }
+
     # ── done — ThreatModel final ──
     cfg = get_config()
     latency = round(time.perf_counter() - t0, 3)
@@ -147,7 +168,7 @@ def iter_stages(
         meta={
             "system": "argus", "provider": cfg.provider, "model": cfg.model,
             "latency_s": latency, "ocr_used": ocr_used, "threats": len(threats),
-            **({"usage": usage} if usage is not None else {}), **summary,
+            **({"usage": usage} if usage is not None else {}), **ground, **summary,
         },
     )
     yield {"stage": "done", "threat_model": tm, "latency_s": latency}

@@ -7,9 +7,8 @@ from pathlib import Path
 
 import httpx
 
-_KNOWLEDGE = Path(__file__).resolve().parents[5] / "data" / "knowledge"
-RAW_DIR = _KNOWLEDGE / "raw"
-NORMALIZED_DIR = _KNOWLEDGE / "normalized"
+RAW_DIR = Path(__file__).resolve().parents[5] / "data" / "knowledge" / "raw"   # cache de download (gitignored)
+NORMALIZED_DIR = Path(__file__).resolve().parents[1] / "catalog"               # versionado, dentro do pacote
 
 
 def fetch(url: str, *, cache_name: str, timeout: float = 120.0) -> bytes:
