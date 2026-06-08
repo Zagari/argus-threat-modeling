@@ -31,6 +31,7 @@ export default function KnowledgeSubgraph({ sg }: { sg: Subgraph }) {
     ;(byTier[kind] ?? []).forEach((n, i) => pos.set(n.id, { x: ti * COLW + PAD, y: i * ROWH + PAD + HEADER }))
   })
 
+  const kindOf = new Map(sg.nodes.map((n) => [n.id, n.kind]))
   const maxRows = Math.max(1, ...TIERS.map((k) => (byTier[k] ?? []).length))
   const W = TIERS.length * COLW
   const H = maxRows * ROWH + PAD * 2 + HEADER
@@ -60,6 +61,7 @@ export default function KnowledgeSubgraph({ sg }: { sg: Subgraph }) {
           const a = pos.get(e.source)
           const b = pos.get(e.target)
           if (!a || !b) return null
+          if (kindOf.get(e.source) === kindOf.get(e.target)) return null // mesma camada (ex.: ASVS cap.→req.)
           return (
             <line
               key={i}

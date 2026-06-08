@@ -53,7 +53,8 @@ def _apply_deterministic(threat: Threat, sg: Subgraph) -> None:
     """Fallback: anexa os candidatos do subgrafo (todos reais → grounded)."""
     threat.cwe_ids = sg.ids("CWE")[:_MAX_CWE]
     threat.capec_ids = sg.ids("CAPEC")[:_MAX_CAPEC]
-    controls = [(n.id, n.name) for n in sg.nodes if n.kind == "Control"]
+    # No fallback citamos os capítulos ASVS (ids sem '.'); o LLM real cita o requisito específico.
+    controls = [(n.id, n.name) for n in sg.nodes if n.kind == "Control" and "." not in n.id]
     if controls and not any(m.refs for m in threat.mitigations):
         names = ", ".join(name for _, name in controls)
         threat.mitigations.append(

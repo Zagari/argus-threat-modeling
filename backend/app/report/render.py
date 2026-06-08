@@ -43,7 +43,9 @@ def cite_url(cid: str) -> str | None:
         sub = m.group(2)
         return f"https://attack.mitre.org/techniques/{m.group(1)}/{sub}/" if sub else f"https://attack.mitre.org/techniques/{m.group(1)}/"
     if s.startswith("ASVS"):
-        return "https://owasp.org/www-project-application-security-verification-standard/"
+        from app.argus.knowledge.seeds import asvs_url
+
+        return asvs_url(s)
     return None
 
 

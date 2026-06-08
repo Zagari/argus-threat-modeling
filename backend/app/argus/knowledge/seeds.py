@@ -89,5 +89,25 @@ def capec_url(capec_id: str) -> str:
     return f"https://capec.mitre.org/data/definitions/{capec_id.removeprefix('CAPEC-')}.html"
 
 
-def asvs_url(_chapter_id: str) -> str:
-    return "https://owasp.org/www-project-application-security-verification-standard/"
+# Arquivo do capítulo ASVS 4.0.3 no GitHub (deep-link por capítulo; V3 e V4 partilham prefixo).
+ASVS_CHAPTER_FILE: dict[str, str] = {
+    "V1": "0x10-V1-Architecture.md", "V2": "0x11-V2-Authentication.md", "V3": "0x12-V3-Session-management.md",
+    "V4": "0x12-V4-Access-Control.md", "V5": "0x13-V5-Validation-Sanitization-Encoding.md",
+    "V6": "0x14-V6-Cryptography.md", "V7": "0x15-V7-Error-Logging.md", "V8": "0x16-V8-Data-Protection.md",
+    "V9": "0x17-V9-Communications.md", "V10": "0x18-V10-Malicious.md", "V11": "0x19-V11-BusLogic.md",
+    "V12": "0x20-V12-Files-Resources.md", "V13": "0x21-V13-API.md", "V14": "0x22-V14-Config.md",
+}
+_ASVS_PROJECT = "https://owasp.org/www-project-application-security-verification-standard/"
+
+
+def asvs_chapter_url(chapter_id: str) -> str:
+    """Deep-link para o capítulo ASVS (ex.: 'V2' → arquivo de Authentication no GitHub)."""
+    f = ASVS_CHAPTER_FILE.get(chapter_id.upper())
+    return f"https://github.com/OWASP/ASVS/blob/v4.0.3/4.0/en/{f}" if f else _ASVS_PROJECT
+
+
+def asvs_url(chapter_id: str) -> str:
+    """URL de um id ASVS — capítulo ('ASVS-V2') ou requisito ('ASVS-V2.1.1') → capítulo no GitHub."""
+    s = chapter_id.upper().removeprefix("ASVS-")
+    ch = s.split(".")[0] if s.startswith("V") else ""
+    return asvs_chapter_url(ch) if ch in ASVS_CHAPTER_FILE else _ASVS_PROJECT

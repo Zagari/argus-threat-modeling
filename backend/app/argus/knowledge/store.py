@@ -36,8 +36,9 @@ _DEFAULT_DIR = Path(__file__).resolve().parent / "catalog"
 def _normalized_dir() -> Path:
     return Path(os.getenv("ARGUS_KNOWLEDGE_DIR", str(_DEFAULT_DIR)))
 
-# Quantos CAPECs por CWE entram no subgrafo (evita estourar o contexto do LLM).
+# Quantos CAPECs por CWE / requisitos ASVS por capítulo entram no subgrafo (limita o contexto).
 _MAX_CAPEC_PER_CWE = int(os.getenv("ARGUS_KG_CAPEC_PER_CWE", "3"))
+_MAX_ASVS_REQ = int(os.getenv("ARGUS_KG_ASVS_REQS", "3"))
 
 
 @runtime_checkable
@@ -55,6 +56,7 @@ class LocalKG:
         self._dir = normalized_dir or _normalized_dir()
         self._by: dict[tuple[str, str], Entity] = {}
         self._capec_by_cwe: dict[str, list[str]] = {}
+        self._reqs_by_chapter: dict[str, list[str]] = {}  # ASVS: capítulo → requisitos finos
         self._loaded = False
 
     # ── carga ────────────────────────────────────────────────────────────────
@@ -67,6 +69,7 @@ class LocalKG:
         self._load_seeds()
         self._load_normalized()
         self._index_capec_links()
+        self._index_asvs_reqs()
         self._loaded = True
 
     def _load_seeds(self) -> None:
@@ -116,6 +119,15 @@ class LocalKG:
                 if r.type == "TARGETS" and r.target_kind == KIND_CWE:
                     self._capec_by_cwe.setdefault(r.target_id, []).append(e.id)
 
+    def _index_asvs_reqs(self) -> None:
+        """Agrupa os requisitos ASVS finos (ASVS-V2.1.1) sob o capítulo (ASVS-V2)."""
+        for kind, cid in self._by:
+            if kind != KIND_CONTROL or not cid.startswith("ASVS-V"):
+                continue
+            rest = cid[len("ASVS-V") :]  # '2.1.1' (requisito) ou '2' (capítulo)
+            if "." in rest:
+                self._reqs_by_chapter.setdefault(f"ASVS-V{rest.split('.')[0]}", []).append(cid)
+
     # ── contrato ───────────────────────────────────────────────────────────────
     def exists(self, kind: str, id: str) -> bool:
         self._ensure()
@@ -153,6 +165,9 @@ class LocalKG:
         for ctrl in seeds.STRIDE_TO_ASVS.get(stride, []):
             add(KIND_CONTROL, ctrl)
             sg.edges.append(SubgraphEdge(source=stride_id, target=ctrl, type="MITIGATED_BY"))
+            for req in self._reqs_by_chapter.get(ctrl, [])[:_MAX_ASVS_REQ]:  # requisitos ASVS finos
+                add(KIND_CONTROL, req)
+                sg.edges.append(SubgraphEdge(source=ctrl, target=req, type="REQUIRES"))
 
         return sg
 
