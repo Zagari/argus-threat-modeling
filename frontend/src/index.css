@@ -181,6 +181,8 @@ ul.stages li.st-todo .st-name { color: var(--muted); }
 }
 .tag.more { color: var(--muted); }
 .hl-add { color: #51cf66; font-weight: 600; }
+a.tag.cve { color: var(--accent-2); text-decoration: none; margin: 2px 5px 2px 0; }
+a.tag.cve:hover { border-color: var(--accent-2); }
 
 table.threats { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.threats th, table.threats td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); }

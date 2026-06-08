@@ -19,6 +19,7 @@ from collections.abc import Iterator
 
 from app.argus import crosscheck, dfd, fusion, ocr, stride, topology
 from app.argus import detect as detector
+from app.argus.knowledge import cve as kg_cve
 from app.argus.knowledge import enrich
 from app.argus.knowledge.store import get_store
 from app.config import get_config
@@ -148,6 +149,19 @@ def iter_stages(
         ground = enrich.enrich(threats, components, get_store()).as_meta()
     except Exception:  # noqa: BLE001 — E5 é reforço; nunca derruba o pipeline
         ground = {}
+
+    # CVEs reais por componente (cache NVD; sem rede). O ARGUS recupera, não inventa.
+    cve_detail: list[dict] = []
+    try:
+        for c in components:
+            cves = kg_cve.cves_for_component(c)
+            if cves:
+                c.cve_ids = [x["id"] for x in cves]
+                cve_detail.append({"component": c.id, "canonical": c.canonical, "label": c.label, "cves": cves})
+    except Exception:  # noqa: BLE001
+        cve_detail = []
+    n_cves = sum(len(d["cves"]) for d in cve_detail)
+
     yield {
         "stage": "e5_enrich",
         "groundedness": ground.get("groundedness"),
@@ -155,6 +169,8 @@ def iter_stages(
         "grounded": ground.get("threats_grounded"),
         "ids_valid": ground.get("ids_valid", 0),
         "ids_invalid": ground.get("ids_invalid", 0),
+        "n_cves": n_cves,
+        "cves": cve_detail,
         "usage_delta": _usage_delta(u0, provider.current_usage()),
         "elapsed_s": round(time.perf_counter() - s, 3),
     }
@@ -167,7 +183,7 @@ def iter_stages(
         system_name=name, components=components, edges=edges, threats=threats,
         meta={
             "system": "argus", "provider": cfg.provider, "model": cfg.model,
-            "latency_s": latency, "ocr_used": ocr_used, "threats": len(threats),
+            "latency_s": latency, "ocr_used": ocr_used, "threats": len(threats), "n_cves": n_cves,
             **({"usage": usage} if usage is not None else {}), **ground, **summary,
         },
     )

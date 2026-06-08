@@ -78,6 +78,9 @@ class Component(BaseModel):
         default=None, description="[x, y, w, h] normalizado (quando vem do detector)."
     )
     confidence: float | None = None
+    cve_ids: list[str] = Field(
+        default_factory=list, description="CVEs reais (NVD) conhecidos para o produto típico da classe (E5)."
+    )
 
 
 class Edge(BaseModel):

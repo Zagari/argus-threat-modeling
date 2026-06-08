@@ -488,7 +488,11 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
             status={st.status.e5}
             elapsed={st.data.e5?.elapsed_s}
             subtitle={
-              st.status.e5 === 'done' ? `${Math.round((st.data.e5?.groundedness ?? 0) * 100)}% ancoradas` : undefined
+              st.status.e5 === 'done'
+                ? `${Math.round((st.data.e5?.groundedness ?? 0) * 100)}% ancoradas${
+                    (st.data.e5?.n_cves ?? 0) > 0 ? ` · ${st.data.e5?.n_cves} CVEs` : ''
+                  }`
+                : undefined
             }
           >
             {st.data.e5 ? (
@@ -504,9 +508,39 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                   </span>
                   <UsageBadge u={st.data.e5.usage_delta} label="VLM" rate={rate} factor={factor} />
                 </p>
+                {(st.data.e5.n_cves ?? 0) > 0 && (
+                  <div style={{ margin: '8px 0' }}>
+                    <div className="kv">
+                      {st.data.e5.n_cves} <strong>CVEs reais</strong> (NVD) em {st.data.e5.cves?.length} componente(s) —
+                      exemplos do produto típico da classe (severidade pode depender da versão/produto exato):
+                    </div>
+                    {st.data.e5.cves?.map((d) => (
+                      <div key={d.component} style={{ marginTop: 4 }}>
+                        <span className="muted" style={{ fontSize: 12, marginRight: 6 }}>
+                          {d.canonical}
+                          {d.label ? ` (${d.label})` : ''}:
+                        </span>
+                        {d.cves.slice(0, 5).map((c) => (
+                          <a
+                            key={c.id}
+                            className="tag cve"
+                            href={c.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            title={`CVSS ${c.cvss ?? '—'} ${c.severity} · ${c.cpe}${c.text ? ` · ${c.text}` : ''}`}
+                          >
+                            {c.id}
+                            {c.cvss != null ? ` · ${c.cvss}` : ''}
+                          </a>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <p className="muted">
                   As citações (CWE/CAPEC) e a marca <strong>"ancorada"</strong> aparecem na tabela de ameaças (E4); o
-                  validador remove qualquer ID inexistente nos catálogos.
+                  validador remove qualquer ID inexistente. Os <strong>CVEs vêm da NVD</strong> (o ARGUS os recupera,
+                  não inventa).
                 </p>
               </>
             ) : (

@@ -1,0 +1,836 @@
+{
+ "edge_security": [
+  {
+   "id": "CVE-2017-20005",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-20005",
+   "text": "NGINX before 1.13.6 has a buffer overflow for years that exceed four digits, as demonstrated by a file with a modification date in 1969 that causes an integer…"
+  },
+  {
+   "id": "CVE-2016-0746",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-0746",
+   "text": "Use-after-free vulnerability in the resolver in nginx 0.6.18 through 1.8.0 and 1.9.x before 1.9.10 allows remote attackers to cause a denial of service (worker…"
+  },
+  {
+   "id": "CVE-2009-3555",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-3555",
+   "text": "The TLS protocol, and the SSL protocol 3.0 and possibly earlier, as used in Microsoft Internet Information Services (IIS) 7.0, mod_ssl in the Apache HTTP Serve…"
+  },
+  {
+   "id": "CVE-2024-0212",
+   "cvss": 8.1,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:cloudflare:cloudflare",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0212",
+   "text": "The Cloudflare Wordpress plugin was found to be vulnerable to improper authentication. The vulnerability enables attackers with a lower privileged account to a…"
+  },
+  {
+   "id": "CVE-2016-1247",
+   "cvss": 7.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-1247",
+   "text": "The nginx package before 1.6.2-5+deb8u3 on Debian jessie, the nginx packages before 1.4.6-1ubuntu3.6 on Ubuntu 14.04 LTS, before 1.10.0-0ubuntu0.16.04.3 on Ubu…"
+  },
+  {
+   "id": "CVE-2021-23017",
+   "cvss": 7.7,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-23017",
+   "text": "A security issue in nginx resolver was identified, which might allow an attacker who is able to forge UDP packets from the DNS server to cause 1-byte memory ov…"
+  },
+  {
+   "id": "CVE-2023-44487",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44487",
+   "text": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the w…"
+  },
+  {
+   "id": "CVE-2019-9511",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-9511",
+   "text": "Some HTTP/2 implementations are vulnerable to window size manipulation and stream prioritization manipulation, potentially leading to a denial of service. The…"
+  }
+ ],
+ "api_gateway": [
+  {
+   "id": "CVE-2022-24112",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24112",
+   "text": "An attacker can abuse the batch-requests plugin to send requests to bypass the IP restriction of Admin API. A default configuration of Apache APISIX (with defa…"
+  },
+  {
+   "id": "CVE-2022-25757",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-25757",
+   "text": "In Apache APISIX before 2.13.0, when decoding JSON with duplicate keys, lua-cjson will choose the last occurred value as the result. By passing a JSON with a d…"
+  },
+  {
+   "id": "CVE-2026-31908",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31908",
+   "text": "Header injection vulnerability in Apache APISIX. The attacker can take advantage of certain configuration in forward-auth plugin to inject malicious headers. T…"
+  },
+  {
+   "id": "CVE-2025-27446",
+   "cvss": 7.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27446",
+   "text": "Incorrect Permission Assignment for Critical Resource vulnerability in Apache APISIX(java-plugin-runner). Local listening file permissions in APISIX plugin run…"
+  },
+  {
+   "id": "CVE-2026-31923",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-31923",
+   "text": "Cleartext Transmission of Sensitive Information vulnerability in Apache APISIX. This can occur due to `ssl_verify` in openid-connect plugin configuration being…"
+  },
+  {
+   "id": "CVE-2025-62232",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-62232",
+   "text": "Sensitive data exposure via logging in basic-auth leads to plaintext usernames and passwords written to error logs and forwarded to log sinks when log level is…"
+  },
+  {
+   "id": "CVE-2023-44487",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-44487",
+   "text": "The HTTP/2 protocol allows a denial of service (server resource consumption) because request cancellation can reset many streams quickly, as exploited in the w…"
+  },
+  {
+   "id": "CVE-2022-29266",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:apisix",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-29266",
+   "text": "In APache APISIX before 3.13.1, the jwt-auth plugin has a security issue that leaks the user's secret key because the error message returned from the dependenc…"
+  }
+ ],
+ "load_balancer": [
+  {
+   "id": "CVE-2019-19330",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:haproxy:haproxy",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-19330",
+   "text": "The HTTP/2 implementation in HAProxy before 2.0.10 mishandles headers, as demonstrated by carriage return (CR, ASCII 0xd), line feed (LF, ASCII 0xa), and the z…"
+  },
+  {
+   "id": "CVE-2017-20005",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-20005",
+   "text": "NGINX before 1.13.6 has a buffer overflow for years that exceed four digits, as demonstrated by a file with a modification date in 1969 that causes an integer…"
+  },
+  {
+   "id": "CVE-2016-0746",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-0746",
+   "text": "Use-after-free vulnerability in the resolver in nginx 0.6.18 through 1.8.0 and 1.9.x before 1.9.10 allows remote attackers to cause a denial of service (worker…"
+  },
+  {
+   "id": "CVE-2009-3555",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2009-3555",
+   "text": "The TLS protocol, and the SSL protocol 3.0 and possibly earlier, as used in Microsoft Internet Information Services (IIS) 7.0, mod_ssl in the Apache HTTP Serve…"
+  },
+  {
+   "id": "CVE-2023-25725",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:haproxy:haproxy",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25725",
+   "text": "HAProxy before 2.7.3 may allow a bypass of access control because HTTP/1 headers are inadvertently lost in some situations, aka \"request smuggling.\" The HTTP h…"
+  },
+  {
+   "id": "CVE-2020-11100",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:haproxy:haproxy",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-11100",
+   "text": "In hpack_dht_insert in hpack-tbl.c in the HPACK decoder in HAProxy 1.8 through 2.x before 2.1.4, a remote attacker can write arbitrary bytes around a certain l…"
+  },
+  {
+   "id": "CVE-2023-45539",
+   "cvss": 8.2,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:haproxy:haproxy",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-45539",
+   "text": "HAProxy before 2.8.2 accepts # as part of the URI component, which might allow remote attackers to obtain sensitive information or have unspecified other impac…"
+  },
+  {
+   "id": "CVE-2016-1247",
+   "cvss": 7.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:f5:nginx",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-1247",
+   "text": "The nginx package before 1.6.2-5+deb8u3 on Debian jessie, the nginx packages before 1.4.6-1ubuntu3.6 on Ubuntu 14.04 LTS, before 1.10.0-0ubuntu0.16.04.3 on Ubu…"
+  }
+ ],
+ "compute": [
+  {
+   "id": "CVE-2014-9357",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:docker:docker",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-9357",
+   "text": "Docker 1.3.2 allows remote attackers to execute arbitrary code with root privileges via a crafted (1) image or (2) build in a Dockerfile in an LZMA (.xz) archi…"
+  },
+  {
+   "id": "CVE-1999-0165",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:o:linux:linux_kernel",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-1999-0165",
+   "text": "NFS cache poisoning."
+  },
+  {
+   "id": "CVE-1999-0461",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:o:linux:linux_kernel",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-1999-0461",
+   "text": "Versions of rpcbind including Linux, IRIX, and Wietse Venema's rpcbind allow a remote attacker to insert and delete entries by spoofing a source address."
+  },
+  {
+   "id": "CVE-2019-14271",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:docker:docker",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-14271",
+   "text": "In Docker 19.03.x before 19.03.1 linked against the GNU C Library (aka glibc), code injection can occur when the nsswitch facility dynamically loads a library…"
+  },
+  {
+   "id": "CVE-2018-1002105",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:kubernetes:kubernetes",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1002105",
+   "text": "In all Kubernetes versions prior to v1.10.11, v1.11.5, and v1.12.3, incorrect handling of error responses to proxied upgrade requests in the kube-apiserver all…"
+  },
+  {
+   "id": "CVE-2017-1000056",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:kubernetes:kubernetes",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-1000056",
+   "text": "Kubernetes version 1.5.0-1.5.4 is vulnerable to a privilege escalation in the PodSecurityPolicy admission plugin resulting in the ability to make use of any ex…"
+  },
+  {
+   "id": "CVE-2016-1906",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:kubernetes:kubernetes",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-1906",
+   "text": "Openshift allows remote attackers to gain privileges by updating a build configuration that was created with an allowed type to a type that is not allowed."
+  },
+  {
+   "id": "CVE-2014-0048",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:docker:docker",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-0048",
+   "text": "An issue was found in Docker before 1.6.0. Some programs and scripts in Docker are downloaded via HTTP and then executed or used in unsafe ways."
+  }
+ ],
+ "database_sql": [
+  {
+   "id": "CVE-2012-2750",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:mariadb:mariadb",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2012-2750",
+   "text": "Unspecified vulnerability in MySQL 5.5.x before 5.5.23 has unknown impact and attack vectors related to a \"Security Fix\", aka Bug #59533. NOTE: this might be a…"
+  },
+  {
+   "id": "CVE-2007-3279",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:postgresql:postgresql",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2007-3279",
+   "text": "PostgreSQL 8.1 and probably later versions, when the PL/pgSQL (plpgsql) language has been created, grants certain plpgsql privileges to the PUBLIC domain, whic…"
+  },
+  {
+   "id": "CVE-2005-3437",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:oracle:database_server",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3437",
+   "text": "Unspecified vulnerability in the PL/SQL component in Oracle Database Server 9i up to 10.1.0.4 has unknown impact and attack vectors, aka Oracle Vuln# DB01."
+  },
+  {
+   "id": "CVE-2005-3438",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:oracle:database_server",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3438",
+   "text": "Multiple unspecified vulnerabilities in Oracle Database Server 9i up to 10.1.0.4.2 have unknown impact and attack vectors, aka Oracle Vuln# (1) DB04 in Change…"
+  },
+  {
+   "id": "CVE-2005-3439",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:oracle:database_server",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3439",
+   "text": "Multiple unspecified vulnerabilities in Oracle Database Server 10g up to 10.1.0.4.2 have unknown impact and attack vectors, aka Oracle Vuln# (1) DB02, (2) DB03…"
+  },
+  {
+   "id": "CVE-2005-3440",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:oracle:database_server",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3440",
+   "text": "Unspecified vulnerability in Database Scheduler in Oracle Database Server 10g up to 10.1.0.3 has unknown impact and attack vectors, aka Oracle Vuln# DB08."
+  },
+  {
+   "id": "CVE-2005-3441",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:oracle:database_server",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3441",
+   "text": "Unspecified vulnerability in Intelligent Agent in Oracle Database Server 9i up to 9.0.1.5 has unknown impact and attack vectors, aka Oracle Vuln# DB14."
+  },
+  {
+   "id": "CVE-2005-3442",
+   "cvss": 10.0,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:oracle:database_server",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2005-3442",
+   "text": "Multiple unspecified vulnerabilities in Oracle Database Server 8i up to 10.1.0.4.2 have unknown impact and attack vectors, aka Oracle Vuln# (1) DB09 in Export,…"
+  }
+ ],
+ "database_nosql": [
+  {
+   "id": "CVE-2018-8016",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:cassandra",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-8016",
+   "text": "The default configuration in Apache Cassandra 3.8 through 3.11.1 binds an unauthenticated JMX/RMI interface to all network interfaces, which allows remote atta…"
+  },
+  {
+   "id": "CVE-2016-3427",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:cassandra",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-3427",
+   "text": "Unspecified vulnerability in Oracle Java SE 6u113, 7u99, and 8u77; Java SE Embedded 8u77; and JRockit R28.3.9 allows remote attackers to affect confidentiality…"
+  },
+  {
+   "id": "CVE-2021-44521",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:cassandra",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44521",
+   "text": "When running Apache Cassandra with the following configuration: enable_user_defined_functions: true enable_scripted_user_defined_functions: true enable_user_de…"
+  },
+  {
+   "id": "CVE-2017-15535",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:mongodb:mongodb",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-15535",
+   "text": "MongoDB 3.4.x before 3.4.10, and 3.5.x-development, has a disabled-by-default configuration setting, networkMessageCompressors (aka wire protocol compression),…"
+  },
+  {
+   "id": "CVE-2026-27314",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:cassandra",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-27314",
+   "text": "Privilege escalation in Apache Cassandra 5.0 on an mTLS environment using MutualTlsAuthenticator allows a user with only CREATE permission to associate their o…"
+  },
+  {
+   "id": "CVE-2025-23015",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:cassandra",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-23015",
+   "text": "Privilege Defined With Unsafe Actions vulnerability in Apache Cassandra. An user with MODIFY permission ON ALL KEYSPACES can escalate privileges to superuser w…"
+  },
+  {
+   "id": "CVE-2025-26467",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:cassandra",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-26467",
+   "text": "Privilege Defined With Unsafe Actions vulnerability in Apache Cassandra. An user with MODIFY permission ON ALL KEYSPACES can escalate privileges to superuser w…"
+  },
+  {
+   "id": "CVE-2019-2390",
+   "cvss": 8.2,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:mongodb:mongodb",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-2390",
+   "text": "An unprivileged user or program on Microsoft Windows which can create OpenSSL configuration files in a fixed location may cause utility programs shipped with M…"
+  }
+ ],
+ "cache": [
+  {
+   "id": "CVE-2022-0543",
+   "cvss": 10.0,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:redis:redis",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-0543",
+   "text": "It was discovered, that redis, a persistent key-value database, due to a packaging issue, is prone to a (Debian-specific) Lua sandbox escape, which could resul…"
+  },
+  {
+   "id": "CVE-2023-46853",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:memcached:memcached",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-46853",
+   "text": "In Memcached before 1.6.22, an off-by-one error exists when processing proxy requests in proxy mode, if \\n is used instead of \\r\\n."
+  },
+  {
+   "id": "CVE-2016-8704",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:memcached:memcached",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-8704",
+   "text": "An integer overflow in the process_bin_append_prepend function in Memcached, which is responsible for processing multiple commands of Memcached binary protocol…"
+  },
+  {
+   "id": "CVE-2016-8705",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:memcached:memcached",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-8705",
+   "text": "Multiple integer overflows in process_bin_update function in Memcached, which is responsible for processing multiple commands of Memcached binary protocol, can…"
+  },
+  {
+   "id": "CVE-2026-47783",
+   "cvss": 8.1,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:memcached:memcached",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47783",
+   "text": "In memcached before 1.6.42, username data for SASL password database authentication has a timing side channel because a loop exits as soon as a valid username…"
+  },
+  {
+   "id": "CVE-2026-47784",
+   "cvss": 8.1,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:memcached:memcached",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-47784",
+   "text": "In memcached before 1.6.42, password data for SASL password database authentication has a timing side channel because memcmp is used by sasl_server_userdb_chec…"
+  },
+  {
+   "id": "CVE-2023-41056",
+   "cvss": 8.1,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:redis:redis",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-41056",
+   "text": "Redis is an in-memory database that persists on disk. Redis incorrectly handles resizing of memory buffers which can result in integer overflow that leads to h…"
+  },
+  {
+   "id": "CVE-2016-8706",
+   "cvss": 8.1,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:memcached:memcached",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-8706",
+   "text": "An integer overflow in process_bin_sasl_auth function in Memcached, which is responsible for authentication commands of Memcached binary protocol, can be abuse…"
+  }
+ ],
+ "object_storage": [
+  {
+   "id": "CVE-2026-33322",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-33322",
+   "text": "MinIO is a high-performance object storage system. From RELEASE.2022-11-08T05-27-07Z to before RELEASE.2026-03-17T21-25-16Z, a JWT algorithm confusion vulnerab…"
+  },
+  {
+   "id": "CVE-2020-11012",
+   "cvss": 9.3,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-11012",
+   "text": "MinIO versions before RELEASE.2020-04-23T00-58-49Z have an authentication bypass issue in the MinIO admin API. Given an admin access key, it is possible to per…"
+  },
+  {
+   "id": "CVE-2024-24747",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-24747",
+   "text": "MinIO is a High Performance Object Storage. When someone creates an access key, it inherits the permissions of the parent key. Not only for `s3:*` actions, but…"
+  },
+  {
+   "id": "CVE-2023-28433",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28433",
+   "text": "Minio is a Multi-Cloud Object Storage framework. All users on Windows prior to version RELEASE.2023-03-20T20-16-18Z are impacted. MinIO fails to filter the `\\`…"
+  },
+  {
+   "id": "CVE-2023-28434",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-28434",
+   "text": "Minio is a Multi-Cloud Object Storage framework. Prior to RELEASE.2023-03-20T20-16-18Z, an attacker can use crafted requests to bypass metadata bucket name che…"
+  },
+  {
+   "id": "CVE-2022-24842",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-24842",
+   "text": "MinIO is a High Performance Object Storage released under GNU Affero General Public License v3.0. A security issue was found where an non-admin user is able to…"
+  },
+  {
+   "id": "CVE-2021-41137",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-41137",
+   "text": "Minio is a Kubernetes native application for cloud storage. All users on release `RELEASE.2021-10-10T16-53-30Z` are affected by a vulnerability that involves b…"
+  },
+  {
+   "id": "CVE-2021-43858",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:minio:minio",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-43858",
+   "text": "MinIO is a Kubernetes native application for cloud storage. Prior to version `RELEASE.2021-12-27T07-23-18Z`, a malicious client can hand-craft an HTTP API call…"
+  }
+ ],
+ "message_queue": [
+  {
+   "id": "CVE-2016-9877",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:pivotal_software:rabbitmq",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2016-9877",
+   "text": "An issue was discovered in Pivotal RabbitMQ 3.x before 3.5.8 and 3.6.x before 3.6.6 and RabbitMQ for PCF 1.5.x before 1.5.20, 1.6.x before 1.6.12, and 1.7.x be…"
+  },
+  {
+   "id": "CVE-2026-33557",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:kafka",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-33557",
+   "text": "A possible security vulnerability has been identified in Apache Kafka. By default, the broker property `sasl.oauthbearer.jwt.validator.class` is set to `org.ap…"
+  },
+  {
+   "id": "CVE-2025-27818",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:kafka",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27818",
+   "text": "A possible security vulnerability has been identified in Apache Kafka. This requires access to a alterConfig to the cluster resource, or Kafka Connect worker,…"
+  },
+  {
+   "id": "CVE-2018-17196",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:kafka",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-17196",
+   "text": "In Apache Kafka versions between 0.11.0.0 and 2.1.0, it is possible to manually craft a Produce request which bypasses transaction/idempotent ACL validation. O…"
+  },
+  {
+   "id": "CVE-2018-1279",
+   "cvss": 8.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:pivotal_software:rabbitmq",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-1279",
+   "text": "Pivotal RabbitMQ for PCF, all versions, uses a deterministically generated cookie that is shared between all machines when configured in a multi-tenant cluster…"
+  },
+  {
+   "id": "CVE-2017-4966",
+   "cvss": 7.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:pivotal_software:rabbitmq",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-4966",
+   "text": "An issue was discovered in these Pivotal RabbitMQ versions: all 3.4.x versions, all 3.5.x versions, and 3.6.x versions prior to 3.6.9; and these RabbitMQ for P…"
+  },
+  {
+   "id": "CVE-2025-27817",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:kafka",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27817",
+   "text": "A possible arbitrary file read and SSRF vulnerability has been identified in Apache Kafka Client. Apache Kafka Clients accept configuration data for setting th…"
+  },
+  {
+   "id": "CVE-2025-27819",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:apache:kafka",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-27819",
+   "text": "In CVE-2023-25194, we announced the RCE/Denial of service attack via SASL JAAS JndiLoginModule configuration in Kafka Connect API. But not only Kafka Connect A…"
+  }
+ ],
+ "identity": [
+  {
+   "id": "CVE-2017-12161",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:keycloak:keycloak",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12161",
+   "text": "It was found that keycloak before 3.4.2 final would permit misuse of a client-side /etc/hosts entry to spoof a URL in a password reset request. An attacker cou…"
+  },
+  {
+   "id": "CVE-2014-3709",
+   "cvss": 8.8,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:keycloak:keycloak",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-3709",
+   "text": "The org.keycloak.services.resources.SocialResource.callback method in JBoss KeyCloak before 1.0.3.Final allows remote attackers to conduct cross-site request f…"
+  },
+  {
+   "id": "CVE-2017-12159",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:keycloak:keycloak",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12159",
+   "text": "It was found that the cookie used for CSRF prevention in Keycloak was not unique to each session. An attacker could use this flaw to gain access to an authenti…"
+  },
+  {
+   "id": "CVE-2014-3651",
+   "cvss": 7.5,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:keycloak:keycloak",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2014-3651",
+   "text": "JBoss KeyCloak before 1.0.3.Final allows remote attackers to cause a denial of service (resource consumption) via a large value in the size parameter to auth/q…"
+  },
+  {
+   "id": "CVE-2017-12158",
+   "cvss": 5.4,
+   "severity": "MEDIUM",
+   "cpe": "cpe:2.3:a:keycloak:keycloak",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12158",
+   "text": "It was found that Keycloak would accept a HOST header URL in the admin console and use it to determine web resource locations. An attacker could use this flaw…"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "CVE-2020-12757",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-12757",
+   "text": "HashiCorp Vault and Vault Enterprise 1.4.0 and 1.4.1, when configured with the GCP Secrets Engine, may incorrectly generate GCP Credentials with the default ti…"
+  },
+  {
+   "id": "CVE-2020-35192",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-35192",
+   "text": "The official vault docker images before 0.11.6 contain a blank password for a root user. System using the vault docker container deployed by affected versions…"
+  },
+  {
+   "id": "CVE-2022-36129",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-36129",
+   "text": "HashiCorp Vault Enterprise 1.7.0 through 1.9.7, 1.10.4, and 1.11.0 clusters using Integrated Storage expose an unauthenticated API endpoint that could be abuse…"
+  },
+  {
+   "id": "CVE-2022-40186",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-40186",
+   "text": "An issue was discovered in HashiCorp Vault and Vault Enterprise before 1.11.3. A vulnerability in the Identity Engine was found where, in a deployment where an…"
+  },
+  {
+   "id": "CVE-2020-10661",
+   "cvss": 9.1,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-10661",
+   "text": "HashiCorp Vault and Vault Enterprise versions 0.11.0 through 1.3.3 may, under certain circumstances, have existing nested-path policies grant access to Namespa…"
+  },
+  {
+   "id": "CVE-2020-16250",
+   "cvss": 8.2,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-16250",
+   "text": "HashiCorp Vault and Vault Enterprise versions 0.7.1 and newer, when configured with the AWS IAM auth method, may be vulnerable to authentication bypass. Fixed…"
+  },
+  {
+   "id": "CVE-2020-16251",
+   "cvss": 8.2,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-16251",
+   "text": "HashiCorp Vault and Vault Enterprise versions 0.8.3 and newer, when configured with the GCP GCE auth method, may be vulnerable to authentication bypass. Fixed…"
+  },
+  {
+   "id": "CVE-2021-42135",
+   "cvss": 8.1,
+   "severity": "HIGH",
+   "cpe": "cpe:2.3:a:hashicorp:vault",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-42135",
+   "text": "HashiCorp Vault and Vault Enterprise 1.8.x through 1.8.4 may have an unexpected interaction between glob-related policies and the Google Cloud secrets engine.…"
+  }
+ ],
+ "search": [
+  {
+   "id": "CVE-2021-27905",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:solr",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-27905",
+   "text": "The ReplicationHandler (normally registered at \"/replication\" under a Solr core) in Apache Solr has a \"masterUrl\" (also \"leaderUrl\" alias) parameter that is us…"
+  },
+  {
+   "id": "CVE-2021-44548",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:solr",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-44548",
+   "text": "An Improper Input Validation vulnerability in DataImportHandler of Apache Solr allows an attacker to provide a Windows UNC path resulting in an SMB network cal…"
+  },
+  {
+   "id": "CVE-2020-13957",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:solr",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-13957",
+   "text": "Apache Solr versions 6.6.0 to 6.6.6, 7.0.0 to 7.7.3 and 8.0.0 to 8.6.2 prevents some features considered dangerous (which could be used for remote code executi…"
+  },
+  {
+   "id": "CVE-2019-0192",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:solr",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-0192",
+   "text": "In Apache Solr versions 5.0.0 to 5.5.5 and 6.0.0 to 6.6.5, the Config API allows to configure the JMX server via an HTTP POST request. By pointing it to a mali…"
+  },
+  {
+   "id": "CVE-2019-12409",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:solr",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-12409",
+   "text": "The 8.1.1 and 8.2.0 releases of Apache Solr contain an insecure setting for the ENABLE_REMOTE_JMX_OPTS configuration option in the default solr.in.sh configura…"
+  },
+  {
+   "id": "CVE-2017-12629",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:apache:solr",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2017-12629",
+   "text": "Remote code execution occurs in Apache Solr before 7.1 with Apache Lucene before 7.1 by exploiting XXE in conjunction with use of a Config API add-listener com…"
+  },
+  {
+   "id": "CVE-2015-1427",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:elastic:elasticsearch",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-1427",
+   "text": "The Groovy scripting engine in Elasticsearch before 1.3.8 and 1.4.x before 1.4.3 allows remote attackers to bypass the sandbox protection mechanism and execute…"
+  },
+  {
+   "id": "CVE-2015-5377",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:elastic:elasticsearch",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2015-5377",
+   "text": "Elasticsearch before 1.6.1 allows remote attackers to execute arbitrary code via unspecified vectors involving the transport protocol. NOTE: ZDI appears to cla…"
+  }
+ ],
+ "monitoring": [
+  {
+   "id": "CVE-2019-7609",
+   "cvss": 10.0,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:elastic:kibana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2019-7609",
+   "text": "Kibana versions before 5.6.15 and 6.6.1 contain an arbitrary code execution flaw in the Timelion visualizer. An attacker with access to the Timelion applicatio…"
+  },
+  {
+   "id": "CVE-2022-26148",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:grafana:grafana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-26148",
+   "text": "An issue was discovered in Grafana through 7.3.4, when integrated with Zabbix. The Zabbix password can be found in the api_jsonrpc.php HTML source code. When t…"
+  },
+  {
+   "id": "CVE-2022-28660",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:grafana:grafana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2022-28660",
+   "text": "The querier component in Grafana Enterprise Logs 1.1.x through 1.3.x before 1.4.0 does not require authentication when X-Scope-OrgID is used. Versions 1.2.1, 1…"
+  },
+  {
+   "id": "CVE-2021-39226",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:grafana:grafana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2021-39226",
+   "text": "Grafana is an open source data visualization platform. In affected versions unauthenticated and authenticated users are able to view the snapshot with the lowe…"
+  },
+  {
+   "id": "CVE-2020-27846",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:grafana:grafana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2020-27846",
+   "text": "A signature verification vulnerability exists in crewjam/saml. This flaw allows an attacker to bypass SAML Authentication. The highest threat from this vulnera…"
+  },
+  {
+   "id": "CVE-2018-15727",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:grafana:grafana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-15727",
+   "text": "Grafana 2.x, 3.x, and 4.x before 4.6.4 and 5.x before 5.2.3 allows authentication bypass because an attacker can generate a valid \"remember me\" cookie knowing…"
+  },
+  {
+   "id": "CVE-2018-17245",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:elastic:kibana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-17245",
+   "text": "Kibana versions 4.0 to 4.6, 5.0 to 5.6.12, and 6.0 to 6.4.2 contain an error in the way authorization credentials are used when generating PDF reports. If a re…"
+  },
+  {
+   "id": "CVE-2018-17246",
+   "cvss": 9.8,
+   "severity": "CRITICAL",
+   "cpe": "cpe:2.3:a:elastic:kibana",
+   "url": "https://nvd.nist.gov/vuln/detail/CVE-2018-17246",
+   "text": "Kibana versions before 6.4.3 and 5.6.13 contain an arbitrary file inclusion flaw in the Console plugin. An attacker with access to the Kibana Console API could…"
+  }
+ ]
+}

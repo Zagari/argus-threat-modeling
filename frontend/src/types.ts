@@ -40,6 +40,23 @@ export interface Component {
   element_type: ElementType
   bbox: number[] | null
   confidence: number | null
+  cve_ids?: string[]
+}
+
+export interface Cve {
+  id: string
+  cvss: number | null
+  severity: string
+  cpe: string
+  url: string
+  text?: string
+}
+
+export interface CveByComponent {
+  component: string
+  canonical: string
+  label: string | null
+  cves: Cve[]
 }
 
 export interface Edge {
@@ -115,12 +132,14 @@ export interface StageEvent {
   n_labeled?: number
   n_edges?: number
   n_threats?: number
-  // E5 (enriquecimento/groundedness)
+  // E5 (enriquecimento/groundedness + CVEs reais)
   groundedness?: number
   id_validity?: number
   grounded?: number
   ids_valid?: number
   ids_invalid?: number
+  n_cves?: number
+  cves?: CveByComponent[]
   status?: number
   message?: string
 }
