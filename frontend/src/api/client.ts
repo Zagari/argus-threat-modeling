@@ -1,4 +1,14 @@
-import type { Capabilities, DetectStatus, DetectionResult, Settings, StageEvent, ThreatModel } from '../types'
+import type {
+  Capabilities,
+  DetectStatus,
+  DetectionResult,
+  KnowledgeHit,
+  KnowledgeOptions,
+  Settings,
+  StageEvent,
+  Subgraph,
+  ThreatModel,
+} from '../types'
 
 async function j<T>(r: Response): Promise<T> {
   if (!r.ok) {
@@ -85,6 +95,20 @@ export async function analyzeStream(
       if (dataLines.length) onEvent(stage, JSON.parse(dataLines.join('\n')) as StageEvent)
     }
   }
+}
+
+export function getKnowledgeOptions(): Promise<KnowledgeOptions> {
+  return fetch('/knowledge/options').then(j<KnowledgeOptions>)
+}
+
+export function getSubgraph(canonical: string, stride: string): Promise<Subgraph> {
+  return fetch(`/knowledge/subgraph?canonical=${encodeURIComponent(canonical)}&stride=${encodeURIComponent(stride)}`).then(
+    j<Subgraph>,
+  )
+}
+
+export function searchKnowledge(q: string): Promise<KnowledgeHit[]> {
+  return fetch(`/knowledge/search?q=${encodeURIComponent(q)}`).then(j<KnowledgeHit[]>)
 }
 
 export function detectStatus(): Promise<DetectStatus> {

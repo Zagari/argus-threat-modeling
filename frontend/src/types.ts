@@ -149,6 +149,35 @@ export interface StageEvent {
   message?: string
 }
 
+// ── Base de conhecimento (E5 / Knowledge Explorer) ──
+export interface SubgraphNode {
+  id: string
+  kind: string
+  name: string
+  url: string | null
+}
+export interface SubgraphEdge {
+  source: string
+  target: string
+  type: string
+}
+export interface Subgraph {
+  canonical: string
+  stride: string
+  nodes: SubgraphNode[]
+  edges: SubgraphEdge[]
+}
+export interface KnowledgeOptions {
+  classes: string[]
+  stride: string[]
+}
+export interface KnowledgeHit {
+  id: string
+  kind: string
+  name: string
+  url: string | null
+}
+
 export interface Settings {
   provider: string
   model: string

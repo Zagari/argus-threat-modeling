@@ -1,4 +1,5 @@
 import type { Threat, ThreatModel } from '../types'
+import CitationLinks from './CitationLinks'
 
 const ORDER: string[] = [
   'Spoofing',
@@ -39,7 +40,18 @@ export default function ThreatTable({ tm }: { tm: ThreatModel }) {
                 <div className="meta">
                   Componente: {t.component_id} ({t.element_type}) · Prob.: {t.likelihood} · Risco: {t.risk_score}/25
                   {t.dread_score != null ? ` · DREAD ${t.dread_score} (${t.dread_band})` : ''}
-                  {t.cwe_ids.length ? ` · ${t.cwe_ids.join(', ')}` : ''}
+                  {t.cwe_ids.length > 0 && (
+                    <>
+                      {' · '}
+                      <CitationLinks ids={t.cwe_ids} />
+                    </>
+                  )}
+                  {t.capec_ids.length > 0 && (
+                    <>
+                      {' · '}
+                      <CitationLinks ids={t.capec_ids} />
+                    </>
+                  )}
                   {t.grounded ? ' · ancorada' : ''}
                 </div>
                 <div>{t.attack_scenario}</div>

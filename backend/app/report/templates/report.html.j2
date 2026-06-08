@@ -16,12 +16,21 @@
   .crit { background: #b00020; } .high { background: #d9534f; }
   .med { background: #e0a800; } .low { background: #6c757d; }
   .threat { border: 1px solid #ddd; border-left: 4px solid #b8860b; padding: 6px 8px; margin: 6px 0; page-break-inside: avoid; }
+  .threat.ungrounded { border-left-color: #bbb; }
   .threat .meta { color: #666; font-size: 9px; }
   .refs { color: #0645ad; font-size: 9px; }
+  a { color: #0645ad; text-decoration: none; }
   ul { margin: 3px 0 3px 16px; padding: 0; }
+  .summary { background: #f7f5ee; border: 1px solid #e0d8bf; border-radius: 4px; padding: 8px 10px; margin: 8px 0 4px; font-size: 10px; }
+  .summary strong { color: #1a1a1a; }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 9px; margin-right: 5px; border: 1px solid #ccc; }
+  .grounded { color: #1c7a3a; font-weight: bold; }
+  .ungr { color: #999; }
 </style>
 </head>
 <body>
+{% macro cites(ids) %}{% for id in ids %}{% if not loop.first %}, {% endif %}{% set u = cite_url(id) %}{% if u %}<a href="{{ u }}">{{ id }}</a>{% else %}{{ id }}{% endif %}{% endfor %}{% endmacro %}
+
   <h1>Relatório de Modelagem de Ameaças — STRIDE</h1>
   <div class="sub">
     Sistema: <strong>{{ tm.system_name }}</strong> ·
@@ -30,12 +39,35 @@
     {% if tm.meta.get("latency_s") is not none %} · {{ tm.meta.get("latency_s") }}s{% endif %}
   </div>
 
+  {% set g = tm.meta.get("groundedness") %}
+  {% set dist = tm.meta.get("dread_dist") %}
+  {% if g is not none or dist %}
+  <div class="summary">
+    {% if g is not none %}
+      <span class="pill"><strong>Groundedness:</strong> {{ (g * 100)|round(0)|int }}%
+      ({{ tm.meta.get("threats_grounded", 0) }}/{{ tm.meta.get("threats_total", tm.threats|length) }} ameaças ancoradas em CWE/CAPEC reais)</span>
+      {% if tm.meta.get("ids_invalid", 0) %}<span class="pill">IDs inválidos removidos: {{ tm.meta.get("ids_invalid") }}</span>{% endif %}
+    {% endif %}
+    {% if tm.meta.get("n_cves") %}<span class="pill"><strong>CVEs reais (NVD):</strong> {{ tm.meta.get("n_cves") }}</span>{% endif %}
+    {% if dist %}
+      <br><strong>Risco (DREAD):</strong>
+      <span class="badge crit">Crítico {{ dist.get("Crítico", 0) }}</span>
+      <span class="badge high">Alto {{ dist.get("Alto", 0) }}</span>
+      <span class="badge med">Médio {{ dist.get("Médio", 0) }}</span>
+      <span class="badge low">Baixo {{ dist.get("Baixo", 0) }}</span>
+    {% endif %}
+  </div>
+  {% endif %}
+
   <h2>1. Componentes ({{ tm.components|length }})</h2>
   <table>
-    <thead><tr><th>ID</th><th>Rótulo</th><th>Classe canônica</th><th>Elemento DFD</th></tr></thead>
+    <thead><tr><th>ID</th><th>Rótulo</th><th>Classe canônica</th><th>Elemento DFD</th><th>CVEs reais (exemplos do produto típico)</th></tr></thead>
     <tbody>
     {% for c in tm.components %}
-      <tr><td>{{ c.id }}</td><td>{{ c.label or "—" }}</td><td>{{ c.canonical }}</td><td>{{ c.element_type }}</td></tr>
+      <tr>
+        <td>{{ c.id }}</td><td>{{ c.label or "—" }}</td><td>{{ c.canonical }}</td><td>{{ c.element_type }}</td>
+        <td>{% if c.cve_ids %}{{ cites(c.cve_ids) }}{% else %}—{% endif %}</td>
+      </tr>
     {% endfor %}
     </tbody>
   </table>
@@ -57,21 +89,23 @@
     {% if threats %}
     <h3>{{ category }} ({{ threats|length }})</h3>
     {% for t in threats %}
-      <div class="threat">
+      <div class="threat {{ '' if t.grounded else 'ungrounded' }}">
         <strong>{{ t.id }} — {{ t.title }}</strong>
         <span class="badge {{ sev_class(t.impact) }}">{{ t.impact }}</span>
+        {% if t.dread_score is not none %}<span class="badge {{ dread_band_class(t.dread_band) }}">DREAD {{ t.dread_score }} ({{ t.dread_band }})</span>{% endif %}
         <div class="meta">
           Componente: {{ t.component_id }} ({{ t.element_type }}) ·
-          Probabilidade: {{ t.likelihood }} · Risco: {{ t.risk_score }}/25
-          {% if t.cwe_ids %} · {{ t.cwe_ids|join(", ") }}{% endif %}
-          {% if t.capec_ids %} · {{ t.capec_ids|join(", ") }}{% endif %}
-          {% if t.grounded %} · <em>ancorada</em>{% endif %}
+          Probabilidade: {{ t.likelihood }} · Risco 5×5: {{ t.risk_score }}/25
+          {% if t.cwe_ids %} · {{ cites(t.cwe_ids) }}{% endif %}
+          {% if t.capec_ids %} · {{ cites(t.capec_ids) }}{% endif %}
+          {% if t.attack_ids %} · {{ cites(t.attack_ids) }}{% endif %}
+          · {% if t.grounded %}<span class="grounded">ancorada</span>{% else %}<span class="ungr">não ancorada</span>{% endif %}
         </div>
         <div>{{ t.attack_scenario }}</div>
         {% if t.mitigations %}
         <ul>
           {% for m in t.mitigations %}
-            <li>{{ m.description }}{% if m.refs %} <span class="refs">[{{ m.refs|join(", ") }}]</span>{% endif %}</li>
+            <li>{{ m.description }}{% if m.refs %} <span class="refs">[{{ cites(m.refs) }}]</span>{% endif %}</li>
           {% endfor %}
         </ul>
         {% endif %}
@@ -79,5 +113,10 @@
     {% endfor %}
     {% endif %}
   {% endfor %}
+
+  <div class="sub" style="margin-top:14px; border-top:1px solid #ddd; padding-top:6px;">
+    Âncoras (CWE/CAPEC/ATT&amp;CK/CVE/ASVS) são clicáveis e levam à fonte oficial. A
+    <em>groundedness</em> é a fração de ameaças com pelo menos uma âncora real validada nos catálogos.
+  </div>
 </body>
 </html>

@@ -3,10 +3,11 @@ import { getCapabilities } from './api/client'
 import Argus from './pages/Argus'
 import Ciclope from './pages/Ciclope'
 import Home from './pages/Home'
+import KnowledgeExplorer from './pages/KnowledgeExplorer'
 import SettingsPage from './pages/Settings'
 import type { Capabilities } from './types'
 
-type Tab = 'home' | 'ciclope' | 'argus' | 'settings'
+type Tab = 'home' | 'ciclope' | 'argus' | 'knowledge' | 'settings'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('home')
@@ -40,6 +41,9 @@ export default function App() {
           <button className={tab === 'argus' ? 'active' : ''} onClick={() => setTab('argus')}>
             ARGUS
           </button>
+          <button className={tab === 'knowledge' ? 'active' : ''} onClick={() => setTab('knowledge')}>
+            Conhecimento
+          </button>
           <button className={tab === 'settings' ? 'active' : ''} onClick={() => setTab('settings')}>
             Configurações
           </button>
@@ -61,6 +65,9 @@ export default function App() {
       </div>
       <div style={{ display: tab === 'argus' ? 'block' : 'none' }}>
         <Argus caps={caps} />
+      </div>
+      <div style={{ display: tab === 'knowledge' ? 'block' : 'none' }}>
+        <KnowledgeExplorer />
       </div>
       <div style={{ display: tab === 'settings' ? 'block' : 'none' }}>
         <SettingsPage />
