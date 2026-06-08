@@ -2,6 +2,7 @@ import { useRef, useState, type ReactNode } from 'react'
 import { analyzeStream, downloadPdf } from '../api/client'
 import DetectionOverlay from '../components/DetectionOverlay'
 import DfdOverlay from '../components/DfdOverlay'
+import DreadTable from '../components/DreadTable'
 import StageCard, { type StageStatus } from '../components/StageCard'
 import ThreatTable from '../components/ThreatTable'
 import UsageBadge from '../components/UsageBadge'
@@ -573,11 +574,12 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                     </span>
                   ))}
                 </div>
-                <p className="muted">
-                  DREAD (Damage·Reproducibility·Exploitability·Affected·Discoverability), 1–10 por dimensão. Para evitar
-                  a subjetividade típica do DREAD, usamos <strong>defaults determinísticos por (tipo de elemento ×
-                  categoria STRIDE)</strong> — mesma entrada, mesma nota; a 5×5 (Prob.×Impacto) segue como visão
-                  executiva. Veja por ameaça na tabela (E4).
+                {st.tm && <DreadTable tm={st.tm} />}
+                <p className="muted" style={{ marginTop: 8 }}>
+                  DREAD (Damage·Reproducibility·Exploitability·Affected·Discoverability), 1–10 por dimensão; média →
+                  faixa. Para evitar a subjetividade típica do DREAD, usamos <strong>defaults determinísticos por (tipo
+                  de elemento × categoria STRIDE)</strong> — mesma entrada, mesma nota. A 5×5 (Prob.×Impacto) segue como
+                  visão executiva (coluna “Risco” na tabela do E4).
                 </p>
               </>
             ) : (

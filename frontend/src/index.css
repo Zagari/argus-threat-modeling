@@ -186,6 +186,13 @@ a.tag.cve:hover { border-color: var(--accent-2); }
 
 .dread-dist { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
 .dread-band { font-size: 12px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border); }
+
+.dread-table-wrap { max-height: 58vh; overflow: auto; border: 1px solid var(--border); border-radius: 8px; }
+table.dread-table { font-size: 12px; }
+table.dread-table thead th { position: sticky; top: 0; background: var(--panel-2); z-index: 1; }
+table.dread-table th.num, table.dread-table td.num { text-align: center; font-variant-numeric: tabular-nums; }
+table.dread-table td.dread-title { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table.dread-table .dread-band { font-size: 11px; padding: 1px 8px; }
 .dread-band.b-Crítico { color: #fff; background: var(--crit); border-color: var(--crit); }
 .dread-band.b-Alto { color: #fff; background: var(--high); border-color: var(--high); }
 .dread-band.b-Médio { color: #1a1a1a; background: var(--med); border-color: var(--med); }
