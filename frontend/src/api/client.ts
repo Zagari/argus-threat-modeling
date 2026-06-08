@@ -17,7 +17,14 @@ export function getCapabilities(): Promise<Capabilities> {
 }
 
 export function updateSettings(
-  body: Partial<{ provider: string; model: string; temperature: number; api_key: string; mock: boolean }>,
+  body: Partial<{
+    provider: string
+    model: string
+    temperature: number
+    api_key: string
+    mock: boolean
+    usd_brl_rate: number
+  }>,
 ): Promise<Settings> {
   return fetch('/settings', {
     method: 'PUT',

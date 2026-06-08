@@ -131,6 +131,7 @@ function SubStep({ status, title, children }: { status: StageStatus; title: stri
 
 export default function Argus({ caps }: { caps: Capabilities | null }) {
   const argusMl = caps?.argus_ml ?? false
+  const rate = caps?.usd_brl_rate ?? 6
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [st, setSt] = useState<PipeState>(initState)
@@ -231,6 +232,22 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
               <span style={{ color: '#a855f7', fontWeight: 700 }}>┄</span> fronteira de confiança
             </p>
           )}
+        </div>
+      )}
+
+      {st.tm && (
+        <div className="card summary-card">
+          <span className="summary-title">Resumo da análise</span>
+          <span className="summary-item">{st.tm.threats.length} ameaças</span>
+          {st.tm.meta.groundedness != null && (
+            <span className="summary-item">
+              {Math.round(Number(st.tm.meta.groundedness) * 100)}% ancoradas
+            </span>
+          )}
+          {st.tm.meta.latency_s != null && <span className="summary-item">{String(st.tm.meta.latency_s)}s</span>}
+          <span style={{ marginLeft: 'auto' }}>
+            <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="custo total" rate={rate} />
+          </span>
         </div>
       )}
 
@@ -339,7 +356,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                       )}
                     </div>
                     <div>Corrige classes incertas e propõe componentes/fronteiras faltantes.</div>
-                    <UsageBadge u={st.data.crosscheck.usage_delta} label="VLM" />
+                    <UsageBadge u={st.data.crosscheck.usage_delta} label="VLM" rate={rate} />
                   </>
                 ) : (
                   'aguardando…'
@@ -360,7 +377,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                         {st.edges.length > 8 && <span className="tag more">+{st.edges.length - 8}</span>}
                       </div>
                     )}
-                    <UsageBadge u={st.data.topology.usage_delta} label="VLM" />
+                    <UsageBadge u={st.data.topology.usage_delta} label="VLM" rate={rate} />
                   </>
                 ) : (
                   'aguardando…'
@@ -401,8 +418,8 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                       {st.tm.threats.length} ameaças · {String(st.tm.meta.model ?? '—')}
                       {st.tm.meta.latency_s != null ? ` · ${String(st.tm.meta.latency_s)}s total` : ''}
                     </span>
-                    <UsageBadge u={st.data.e4?.usage_delta} label="STRIDE" />
-                    <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="total ARGUS" />
+                    <UsageBadge u={st.data.e4?.usage_delta} label="STRIDE" rate={rate} />
+                    <UsageBadge u={st.tm.meta.usage as Usage | undefined} label="total ARGUS" rate={rate} />
                   </span>
                   <button className="primary" onClick={() => downloadPdf(st.tm!).catch((e) => setError(String(e)))}>
                     Baixar PDF

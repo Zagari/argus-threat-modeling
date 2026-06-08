@@ -21,6 +21,7 @@ class SettingsUpdate(BaseModel):
     temperature: float | None = None
     api_key: str | None = None
     mock: bool | None = None
+    usd_brl_rate: float | None = None
 
 
 @router.get("")
@@ -37,6 +38,7 @@ def update_settings(body: SettingsUpdate) -> dict:
         temperature=body.temperature,
         api_key=body.api_key,
         mock=body.mock,
+        usd_brl_rate=body.usd_brl_rate,
     )
     return cfg.public_snapshot()
 

@@ -52,7 +52,7 @@ export default function App() {
         </div>
       )}
       {tab === 'home' && <Home caps={caps} onNavigate={setTab} />}
-      {tab === 'ciclope' && <Ciclope />}
+      {tab === 'ciclope' && <Ciclope rate={caps?.usd_brl_rate ?? 6} />}
       {tab === 'argus' && <Argus caps={caps} />}
       {tab === 'settings' && <SettingsPage />}
     </div>

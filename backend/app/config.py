@@ -42,6 +42,7 @@ class EnvSettings(BaseSettings):
     llm_timeout: float = 90.0   # segundos; abaixo do limite ~100s do Cloudflare
     llm_mock: bool = False
     cors_origins: str = "http://localhost:5173"
+    usd_brl_rate: float = 6.0   # cotação USD→BRL p/ exibir custo em R$ na UI
 
 
 class RuntimeConfig:
@@ -53,6 +54,7 @@ class RuntimeConfig:
         self.temperature: float = env.llm_temperature
         self.timeout: float = env.llm_timeout
         self.mock: bool = env.llm_mock
+        self.usd_brl_rate: float = env.usd_brl_rate
         self.cors_origins: list[str] = [o.strip() for o in env.cors_origins.split(",") if o.strip()]
         # chaves carregadas do ambiente (uma por provider, se presente)
         self.api_keys: dict[str, str] = {}
@@ -72,6 +74,7 @@ class RuntimeConfig:
         temperature: float | None = None,
         api_key: str | None = None,
         mock: bool | None = None,
+        usd_brl_rate: float | None = None,
     ) -> None:
         if provider:
             if provider not in DEFAULT_MODELS:
@@ -85,6 +88,8 @@ class RuntimeConfig:
             self.temperature = temperature
         if mock is not None:
             self.mock = mock
+        if usd_brl_rate is not None and usd_brl_rate > 0:
+            self.usd_brl_rate = usd_brl_rate
         if api_key:
             self.api_keys[self.provider] = api_key
 
@@ -95,6 +100,7 @@ class RuntimeConfig:
             "model": self.model,
             "temperature": self.temperature,
             "mock": self.mock,
+            "usd_brl_rate": self.usd_brl_rate,
             "has_key": bool(self.active_key()),
             "providers_with_key": sorted(self.api_keys.keys()),
             "available_providers": sorted(DEFAULT_MODELS.keys()),

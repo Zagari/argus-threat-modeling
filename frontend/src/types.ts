@@ -73,6 +73,7 @@ export interface Capabilities {
   version: string
   argus_ml: boolean
   llm: { provider: string; model: string; mock: boolean }
+  usd_brl_rate: number
 }
 
 export interface TextRegion {
@@ -122,6 +123,7 @@ export interface Settings {
   model: string
   temperature: number
   mock: boolean
+  usd_brl_rate: number
   has_key: boolean
   providers_with_key: string[]
   available_providers: string[]

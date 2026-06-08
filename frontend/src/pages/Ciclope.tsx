@@ -4,7 +4,7 @@ import ThreatTable from '../components/ThreatTable'
 import UsageBadge from '../components/UsageBadge'
 import type { ThreatModel, Usage } from '../types'
 
-export default function Ciclope() {
+export default function Ciclope({ rate = 6 }: { rate?: number }) {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [tm, setTm] = useState<ThreatModel | null>(null)
@@ -60,6 +60,17 @@ export default function Ciclope() {
       )}
 
       {tm && (
+        <div className="card summary-card">
+          <span className="summary-title">Resumo da análise</span>
+          <span className="summary-item">{tm.threats.length} ameaças</span>
+          {tm.meta.latency_s != null && <span className="summary-item">{String(tm.meta.latency_s)}s</span>}
+          <span style={{ marginLeft: 'auto' }}>
+            <UsageBadge u={tm.meta.usage as Usage | undefined} label="custo total" rate={rate} />
+          </span>
+        </div>
+      )}
+
+      {tm && (
         <div className="card">
           {(tm.meta.mock === true || tm.meta.provider === 'mock') && (
             <div className="banner-mock" style={{ marginBottom: 10 }}>
@@ -72,13 +83,10 @@ export default function Ciclope() {
               Baixar PDF
             </button>
           </div>
-          <p className="kv" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            <span>
-              origem: {String(tm.meta.system ?? '—')} · modelo: {String(tm.meta.provider ?? '—')}/
-              {String(tm.meta.model ?? '—')}
-              {tm.meta.latency_s != null ? ` · ${String(tm.meta.latency_s)}s` : ''}
-            </span>
-            <UsageBadge u={tm.meta.usage as Usage | undefined} label="uso" />
+          <p className="kv">
+            origem: {String(tm.meta.system ?? '—')} · modelo: {String(tm.meta.provider ?? '—')}/
+            {String(tm.meta.model ?? '—')}
+            {tm.meta.latency_s != null ? ` · ${String(tm.meta.latency_s)}s` : ''}
           </p>
           <ThreatTable tm={tm} />
         </div>

@@ -151,6 +151,12 @@ ul.stages li.st-todo .st-name { color: var(--muted); }
 .substep-body { font-size: 12px; }
 .substep-body > div { margin: 3px 0; }
 
+.summary-card { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; border-color: var(--accent); }
+.summary-title { font-weight: 700; }
+.summary-item { color: var(--muted); font-size: 13px; }
+.summary-card .usage { font-size: 12px; }
+.summary-card .usage-cost { font-size: 13px; }
+
 .usage {
   display: inline-flex; align-items: center; gap: 5px; font-size: 11px;
   padding: 1px 8px; border-radius: 999px; background: var(--panel);

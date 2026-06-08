@@ -7,6 +7,7 @@ export default function SettingsPage() {
   const [provider, setProvider] = useState('gemini')
   const [model, setModel] = useState('')
   const [temperature, setTemperature] = useState(0.2)
+  const [usdBrlRate, setUsdBrlRate] = useState(6)
   const [apiKey, setApiKey] = useState('')
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null)
   const [busy, setBusy] = useState(false)
@@ -17,6 +18,7 @@ export default function SettingsPage() {
     setProvider(cur.provider)
     setModel(cur.model)
     setTemperature(cur.temperature)
+    setUsdBrlRate(cur.usd_brl_rate)
   }
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function SettingsPage() {
     setBusy(true)
     setMsg(null)
     try {
-      const body: Record<string, unknown> = { provider, model, temperature }
+      const body: Record<string, unknown> = { provider, model, temperature, usd_brl_rate: usdBrlRate }
       if (apiKey) body.api_key = apiKey
       const cur = await updateSettings(body)
       setS(cur)
@@ -84,6 +86,15 @@ export default function SettingsPage() {
         max="1"
         value={temperature}
         onChange={(e) => setTemperature(Number(e.target.value))}
+      />
+
+      <label>Cotação do dólar (R$ por US$) — usada para exibir o custo das chamadas em reais</label>
+      <input
+        type="number"
+        step="0.01"
+        min="0"
+        value={usdBrlRate}
+        onChange={(e) => setUsdBrlRate(Number(e.target.value))}
       />
 
       <label>Chave de API {s?.has_key ? '(já configurada — deixe em branco para manter)' : ''}</label>
