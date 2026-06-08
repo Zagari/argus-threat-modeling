@@ -184,6 +184,13 @@ ul.stages li.st-todo .st-name { color: var(--muted); }
 a.tag.cve { color: var(--accent-2); text-decoration: none; margin: 2px 5px 2px 0; }
 a.tag.cve:hover { border-color: var(--accent-2); }
 
+.dread-dist { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.dread-band { font-size: 12px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border); }
+.dread-band.b-Crítico { color: #fff; background: var(--crit); border-color: var(--crit); }
+.dread-band.b-Alto { color: #fff; background: var(--high); border-color: var(--high); }
+.dread-band.b-Médio { color: #1a1a1a; background: var(--med); border-color: var(--med); }
+.dread-band.b-Baixo { color: var(--text); background: var(--panel-2); }
+
 table.threats { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.threats th, table.threats td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--border); }
 table.threats th { color: var(--muted); font-weight: 600; }

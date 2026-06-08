@@ -17,7 +17,7 @@ import os
 import time
 from collections.abc import Iterator
 
-from app.argus import crosscheck, dfd, fusion, ocr, stride, topology
+from app.argus import crosscheck, dfd, fusion, ocr, scoring, stride, topology
 from app.argus import detect as detector
 from app.argus.knowledge import cve as kg_cve
 from app.argus.knowledge import enrich
@@ -175,6 +175,12 @@ def iter_stages(
         "elapsed_s": round(time.perf_counter() - s, 3),
     }
 
+    # ── E6 — scoring DREAD (determinístico, sem LLM) ──
+    s = time.perf_counter()
+    scoring.apply(threats)
+    dread_dist = scoring.distribution(threats)
+    yield {"stage": "e6_score", "dread_dist": dread_dist, "elapsed_s": round(time.perf_counter() - s, 3)}
+
     # ── done — ThreatModel final ──
     cfg = get_config()
     latency = round(time.perf_counter() - t0, 3)
@@ -184,6 +190,7 @@ def iter_stages(
         meta={
             "system": "argus", "provider": cfg.provider, "model": cfg.model,
             "latency_s": latency, "ocr_used": ocr_used, "threats": len(threats), "n_cves": n_cves,
+            "dread_dist": dread_dist,
             **({"usage": usage} if usage is not None else {}), **ground, **summary,
         },
     )

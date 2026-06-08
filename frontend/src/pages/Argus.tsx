@@ -8,7 +8,7 @@ import UsageBadge from '../components/UsageBadge'
 import type { Capabilities, Component, Edge, StageEvent, ThreatModel, Usage } from '../types'
 
 // ── Máquina de estados dos eventos SSE ───────────────────────────────────────
-type SKey = 'e1' | 'ocr' | 'fusion' | 'crosscheck' | 'topology' | 'e3' | 'e4' | 'e5'
+type SKey = 'e1' | 'ocr' | 'fusion' | 'crosscheck' | 'topology' | 'e3' | 'e4' | 'e5' | 'e6'
 
 interface PipeState {
   name: string
@@ -24,7 +24,7 @@ interface PipeState {
 function initState(): PipeState {
   return {
     name: '',
-    status: { e1: 'idle', ocr: 'idle', fusion: 'idle', crosscheck: 'idle', topology: 'idle', e3: 'idle', e4: 'idle', e5: 'idle' },
+    status: { e1: 'idle', ocr: 'idle', fusion: 'idle', crosscheck: 'idle', topology: 'idle', e3: 'idle', e4: 'idle', e5: 'idle', e6: 'idle' },
     current: null,
     data: {},
     components: [],
@@ -90,6 +90,11 @@ function reduce(prev: PipeState, stage: string, d: StageEvent): PipeState {
     case 'e5_enrich':
       s.status.e5 = 'done'
       s.data.e5 = d
+      start('e6')
+      break
+    case 'e6_score':
+      s.status.e6 = 'done'
+      s.data.e6 = d
       s.current = null
       break
     case 'done':
@@ -545,6 +550,38 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
               </>
             ) : (
               <p className="muted">Ancorando as ameaças em catálogos reais (CWE/CAPEC/ASVS)…</p>
+            )}
+          </StageCard>
+
+          {/* ── E6 ── */}
+          <StageCard
+            title="E6 · Risco (DREAD)"
+            status={st.status.e6}
+            elapsed={st.data.e6?.elapsed_s}
+            subtitle={
+              st.status.e6 === 'done' && st.data.e6?.dread_dist
+                ? `${(st.data.e6.dread_dist['Crítico'] ?? 0) + (st.data.e6.dread_dist['Alto'] ?? 0)} de risco alto/crítico`
+                : undefined
+            }
+          >
+            {st.data.e6?.dread_dist ? (
+              <>
+                <div className="dread-dist">
+                  {(['Crítico', 'Alto', 'Médio', 'Baixo'] as const).map((band) => (
+                    <span key={band} className={`dread-band b-${band}`}>
+                      {band}: <strong>{st.data.e6?.dread_dist?.[band] ?? 0}</strong>
+                    </span>
+                  ))}
+                </div>
+                <p className="muted">
+                  DREAD (Damage·Reproducibility·Exploitability·Affected·Discoverability), 1–10 por dimensão. Para evitar
+                  a subjetividade típica do DREAD, usamos <strong>defaults determinísticos por (tipo de elemento ×
+                  categoria STRIDE)</strong> — mesma entrada, mesma nota; a 5×5 (Prob.×Impacto) segue como visão
+                  executiva. Veja por ameaça na tabela (E4).
+                </p>
+              </>
+            ) : (
+              <p className="muted">Calculando o risco DREAD…</p>
             )}
           </StageCard>
         </>

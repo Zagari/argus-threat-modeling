@@ -31,6 +31,9 @@ export interface Threat {
   status: string
   provenance: string
   grounded: boolean
+  dread?: Record<string, number> | null
+  dread_score?: number | null
+  dread_band?: string | null
 }
 
 export interface Component {
@@ -140,6 +143,8 @@ export interface StageEvent {
   ids_invalid?: number
   n_cves?: number
   cves?: CveByComponent[]
+  // E6 (DREAD)
+  dread_dist?: Record<string, number>
   status?: number
   message?: string
 }

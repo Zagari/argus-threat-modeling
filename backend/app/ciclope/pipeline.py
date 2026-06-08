@@ -13,6 +13,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from app.argus import scoring
 from app.config import get_config
 from app.llm import provider
 from app.llm.mock import mock_threat_model
@@ -40,6 +41,8 @@ def analyze(image_bytes: bytes, *, system_name: str | None = None, mime: str = "
             "usage": {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0,
                       "total_tokens": 0, "cost_usd": 0.0, "cost_known": False, "mock": True},
         })
+        scoring.apply(mock_tm.threats)
+        mock_tm.meta["dread_dist"] = scoring.distribution(mock_tm.threats)
         return mock_tm
 
     prompt = _env.get_template("ciclope.j2").render(canonical_classes=CANONICAL_CLASSES)
@@ -69,4 +72,6 @@ def analyze(image_bytes: bytes, *, system_name: str | None = None, mime: str = "
             "usage": usage.snapshot(),
         }
     )
+    scoring.apply(tm.threats)
+    tm.meta["dread_dist"] = scoring.distribution(tm.threats)
     return tm

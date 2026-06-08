@@ -56,7 +56,12 @@ class Threat(BaseModel):
     attack_scenario: str = Field(description="Cenário de ataque específico ao componente.")
     likelihood: Likelihood = "Medium"
     impact: Impact = "Medium"
-    risk_score: int = Field(default=1, ge=1, le=25, description="Matriz 5x5 (DREAD entra na Fase 3).")
+    risk_score: int = Field(default=1, ge=1, le=25, description="Matriz 5x5 (visão executiva).")
+    dread: dict[str, int] | None = Field(
+        default=None, description="DREAD por dimensão (1-10): damage/reproducibility/exploitability/affected/discoverability."
+    )
+    dread_score: float | None = Field(default=None, description="Média DREAD (1-10), determinística.")
+    dread_band: str | None = Field(default=None, description="Faixa de risco DREAD: Crítico/Alto/Médio/Baixo.")
     cwe_ids: list[str] = Field(default_factory=list)
     capec_ids: list[str] = Field(default_factory=list)
     attack_ids: list[str] = Field(default_factory=list)

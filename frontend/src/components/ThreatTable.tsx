@@ -38,6 +38,7 @@ export default function ThreatTable({ tm }: { tm: ThreatModel }) {
                 <span className={`badge ${sevClass(t.impact)}`}>{t.impact}</span>
                 <div className="meta">
                   Componente: {t.component_id} ({t.element_type}) · Prob.: {t.likelihood} · Risco: {t.risk_score}/25
+                  {t.dread_score != null ? ` · DREAD ${t.dread_score} (${t.dread_band})` : ''}
                   {t.cwe_ids.length ? ` · ${t.cwe_ids.join(', ')}` : ''}
                   {t.grounded ? ' · ancorada' : ''}
                 </div>
