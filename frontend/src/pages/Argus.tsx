@@ -518,9 +518,14 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                   <p className="kv">
                     <strong>Recuperação híbrida:</strong> mapeamento determinístico +{' '}
                     <strong>{st.data.e5.sem_candidates}</strong> candidato(s) sugerido(s) pela <em>busca semântica</em>
-                    {(st.data.e5.threats_semantic ?? 0) > 0
-                      ? `; ${st.data.e5.threats_semantic} ameaça(s) ganharam uma âncora que o mapeamento curado não tinha (marcada com ≈sem).`
-                      : '.'}
+                    {(st.data.e5.threats_semantic ?? 0) > 0 ? (
+                      <>
+                        ; {st.data.e5.threats_semantic} ameaça(s) ganharam uma âncora que o mapeamento curado não
+                        tinha (marcada com <span className="sem-tag">≈sem</span>).
+                      </>
+                    ) : (
+                      '.'
+                    )}
                   </p>
                 )}
                 {(st.data.e5.n_cves ?? 0) > 0 && (
