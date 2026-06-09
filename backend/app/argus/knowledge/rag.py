@@ -20,7 +20,7 @@ from app.argus.knowledge.store import get_store
 _ENABLED = os.getenv("ARGUS_RAG", "0") == "1"
 _MODEL_NAME = os.getenv("ARGUS_EMBED_MODEL", "paraphrase-multilingual-MiniLM-L12-v2")
 _PERSIST = os.getenv("ARGUS_CHROMA_DIR", str(Path(__file__).resolve().parents[4] / "chroma"))
-_COLLECTION = "kg"
+_COLLECTION = "argus_kg"   # Chroma exige nome com 3–512 chars [a-zA-Z0-9._-]; "kg" (2) era inválido
 
 _lock = threading.Lock()
 _status = "off"          # off | indexando | pronto | erro
