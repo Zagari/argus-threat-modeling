@@ -153,6 +153,14 @@ jobs:
           set -e
           cd ~/argus
           git pull --ff-only
+
+          # Limpeza CIRÚRGICA antes do pull: remove só imagens ANTIGAS do argus (mantém :latest),
+          # liberando disco sem tocar nas imagens de treino. `rmi` falha de propósito se em uso → `|| true`.
+          for repo in ghcr.io/zagari/argus-backend ghcr.io/zagari/argus-frontend; do
+            docker images "$repo" --format '{{.ID}} {{.Tag}}' | awk '$2!="latest"{print $1}' | sort -u \
+              | xargs -r docker rmi -f || true
+          done
+
           docker compose -f docker-compose.prod.yml pull
           docker compose -f docker-compose.prod.yml up -d
-          docker image prune -f
+          docker image prune -f   # sobras dangling (layers da imagem :latest antiga substituída)
