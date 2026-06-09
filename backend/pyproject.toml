@@ -17,6 +17,7 @@ ignore = ["E501", "B008"]
 testpaths = ["tests"]
 addopts = "-q"
 filterwarnings = ["ignore::DeprecationWarning"]
+markers = ["neo4j: requer um Neo4j acessível (espelho + equivalência); pulado por padrão/CI"]
 
 [tool.mypy]
 python_version = "3.11"

@@ -19,3 +19,7 @@ easyocr>=1.7
 # Opcional/gracioso: sem estas libs (ou ARGUS_RAG!=1), tudo cai no determinístico/substring.
 chromadb>=0.5
 sentence-transformers>=3.0
+
+# Backend de grafo opcional (Graph-RAG, 3.8) — só com ARGUS_KG_BACKEND=neo4j; sem o driver
+# (ou sem instância) o get_store() cai no LocalKG. Driver puro-python, leve.
+neo4j>=5.0

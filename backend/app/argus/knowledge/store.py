@@ -53,6 +53,59 @@ class KnowledgeStore(Protocol):
     def iter_entities(self) -> Iterator[Entity]: ...
 
 
+class _Neighbors(Protocol):
+    """Fonte dos vizinhos do subgrafo — abstrai LocalKG (dicts) × Neo4jKG (Cypher)."""
+
+    def name_url(self, kind: str, eid: str) -> tuple[str, str | None]: ...
+    def capec_by_cwe(self, cwe: str) -> list[str]: ...
+    def attack_by_capec(self, capec: str) -> list[str]: ...
+    def d3fend_by_attack(self, atk: str) -> list[str]: ...
+    def reqs_by_chapter(self, chapter: str) -> list[str]: ...
+
+
+def build_subgraph(canonical: str, stride: str, nb: _Neighbors) -> Subgraph:
+    """Travessia citável — IDÊNTICA nos dois backends: sementes STRIDE→{CWE,Control} fixas +
+    cadeia CWE→CAPEC→ATT&CK→D3FEND e capítulo ASVS→requisitos via `nb`, com os MESMOS tetos.
+    A equivalência LocalKG×Neo4jKG é garantida por construção — só a fonte dos vizinhos muda."""
+    sg = Subgraph(canonical=canonical, stride=stride)
+    stride_id = f"STRIDE:{stride}"
+    sg.nodes.append(SubgraphNode(id=stride_id, kind="Stride", name=stride))
+    seen: set[tuple[str, str]] = {("Stride", stride_id)}
+
+    def add(kind: str, eid: str) -> None:
+        if (kind, eid) in seen:
+            return
+        seen.add((kind, eid))
+        name, url = nb.name_url(kind, eid)
+        sg.nodes.append(SubgraphNode(id=eid, kind=kind, name=name, url=url))
+
+    for cwe in seeds.STRIDE_TO_CWE.get(stride, []):
+        add(KIND_CWE, cwe)
+        sg.edges.append(SubgraphEdge(source=stride_id, target=cwe, type="REALIZED_BY"))
+        for capec in nb.capec_by_cwe(cwe)[:_MAX_CAPEC_PER_CWE]:
+            add(KIND_CAPEC, capec)
+            sg.edges.append(SubgraphEdge(source=cwe, target=capec, type="EXPLOITED_BY"))
+            for atk in nb.attack_by_capec(capec)[:_MAX_ATTACK_PER_CAPEC]:
+                add(KIND_ATTACK, atk)
+                sg.edges.append(SubgraphEdge(source=capec, target=atk, type="MAPS_TO"))
+                for dfd in nb.d3fend_by_attack(atk)[:_MAX_D3FEND_PER_ATTACK]:
+                    add(KIND_D3FEND, dfd)
+                    sg.edges.append(SubgraphEdge(source=atk, target=dfd, type="COUNTERED_BY"))
+
+    for ctrl in seeds.STRIDE_TO_ASVS.get(stride, []):
+        add(KIND_CONTROL, ctrl)
+        sg.edges.append(SubgraphEdge(source=stride_id, target=ctrl, type="MITIGATED_BY"))
+        for req in nb.reqs_by_chapter(ctrl)[:_MAX_ASVS_REQ]:
+            add(KIND_CONTROL, req)
+            sg.edges.append(SubgraphEdge(source=ctrl, target=req, type="REQUIRES"))
+
+    for nctrl in seeds.STRIDE_TO_NIST.get(stride, []):
+        add(KIND_CONTROL, nctrl)
+        sg.edges.append(SubgraphEdge(source=stride_id, target=nctrl, type="MITIGATED_BY"))
+
+    return sg
+
+
 class LocalKG:
     """Grafo de conhecimento em memória (dicts indexados por (kind, id))."""
 
@@ -167,53 +220,63 @@ class LocalKG:
         self._ensure()
         yield from self._by.values()
 
+    # ── vizinhos (implementa _Neighbors; reusado pelo espelho do Neo4j) ──────────
+    def name_url(self, kind: str, eid: str) -> tuple[str, str | None]:
+        e = self._by.get((kind, eid))
+        return (e.name, e.url) if e else ("", None)
+
+    def capec_by_cwe(self, cwe: str) -> list[str]:
+        self._ensure()
+        return self._capec_by_cwe.get(cwe, [])
+
+    def attack_by_capec(self, capec: str) -> list[str]:
+        self._ensure()
+        return self._attack_by_capec.get(capec, [])
+
+    def d3fend_by_attack(self, atk: str) -> list[str]:
+        self._ensure()
+        return self._d3fend_by_attack.get(atk, [])
+
+    def reqs_by_chapter(self, chapter: str) -> list[str]:
+        self._ensure()
+        return self._reqs_by_chapter.get(chapter, [])
+
+    def adjacency(self) -> dict[str, dict[str, list[str]]]:
+        """Mapas de vizinhança crus — o espelho Neo4j itera por aqui p/ preservar chaves órfãs
+        (ex.: ATT&CK referenciada mas não ingerida) e a ordem exata das listas."""
+        self._ensure()
+        return {
+            "capec_by_cwe": self._capec_by_cwe,
+            "attack_by_capec": self._attack_by_capec,
+            "d3fend_by_attack": self._d3fend_by_attack,
+            "reqs_by_chapter": self._reqs_by_chapter,
+        }
+
     def subgraph(self, canonical: str, stride: str) -> Subgraph:
         self._ensure()
-        sg = Subgraph(canonical=canonical, stride=stride)
-        stride_id = f"STRIDE:{stride}"
-        sg.nodes.append(SubgraphNode(id=stride_id, kind="Stride", name=stride))
-        seen: set[tuple[str, str]] = {("Stride", stride_id)}
-
-        def add(kind: str, eid: str) -> None:
-            if (kind, eid) in seen:
-                return
-            seen.add((kind, eid))
-            e = self._by.get((kind, eid))
-            sg.nodes.append(SubgraphNode(id=eid, kind=kind, name=e.name if e else "", url=e.url if e else None))
-
-        for cwe in seeds.STRIDE_TO_CWE.get(stride, []):
-            add(KIND_CWE, cwe)
-            sg.edges.append(SubgraphEdge(source=stride_id, target=cwe, type="REALIZED_BY"))
-            for capec in self._capec_by_cwe.get(cwe, [])[:_MAX_CAPEC_PER_CWE]:
-                add(KIND_CAPEC, capec)
-                sg.edges.append(SubgraphEdge(source=cwe, target=capec, type="EXPLOITED_BY"))
-                for atk in self._attack_by_capec.get(capec, [])[:_MAX_ATTACK_PER_CAPEC]:  # ATT&CK
-                    add(KIND_ATTACK, atk)
-                    sg.edges.append(SubgraphEdge(source=capec, target=atk, type="MAPS_TO"))
-                    for dfd in self._d3fend_by_attack.get(atk, [])[:_MAX_D3FEND_PER_ATTACK]:  # D3FEND
-                        add(KIND_D3FEND, dfd)
-                        sg.edges.append(SubgraphEdge(source=atk, target=dfd, type="COUNTERED_BY"))
-
-        for ctrl in seeds.STRIDE_TO_ASVS.get(stride, []):
-            add(KIND_CONTROL, ctrl)
-            sg.edges.append(SubgraphEdge(source=stride_id, target=ctrl, type="MITIGATED_BY"))
-            for req in self._reqs_by_chapter.get(ctrl, [])[:_MAX_ASVS_REQ]:  # requisitos ASVS finos
-                add(KIND_CONTROL, req)
-                sg.edges.append(SubgraphEdge(source=ctrl, target=req, type="REQUIRES"))
-
-        for nctrl in seeds.STRIDE_TO_NIST.get(stride, []):  # controles NIST 800-53
-            add(KIND_CONTROL, nctrl)
-            sg.edges.append(SubgraphEdge(source=stride_id, target=nctrl, type="MITIGATED_BY"))
-
-        return sg
+        return build_subgraph(canonical, stride, self)
 
 
-_store: LocalKG | None = None
+_store: KnowledgeStore | None = None
 
 
 def get_store() -> KnowledgeStore:
-    """Backend ativo. Por ora sempre `LocalKG` (Neo4jKG entra no 3.8 via ARGUS_KG_BACKEND)."""
+    """Backend ativo (cacheado). `ARGUS_KG_BACKEND=neo4j` usa o Neo4jKG (Cypher); qualquer
+    falha (driver/instância ausente) cai graciosamente no `LocalKG` — a fonte de verdade."""
     global _store
     if _store is None:
-        _store = LocalKG()
+        _store = _make_store()
     return _store
+
+
+def _make_store() -> KnowledgeStore:
+    if os.getenv("ARGUS_KG_BACKEND", "local").strip().lower() == "neo4j":
+        try:
+            from app.argus.knowledge.neo4j_store import Neo4jKG
+
+            kg = Neo4jKG()
+            kg.verify()  # conecta + carrega os nós; levanta se indisponível
+            return kg
+        except Exception:  # noqa: BLE001 — Neo4j é opcional; LocalKG é o fallback equivalente
+            pass
+    return LocalKG()

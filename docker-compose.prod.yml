@@ -33,5 +33,22 @@ services:
       # Apenas localhost:${APP_PORT} -> porta 80 do container. Seu NGINX faz o proxy público.
       - "127.0.0.1:${APP_PORT:-8090}:80"
 
+  # Backend de grafo opcional (Graph-RAG, 3.8). NÃO sobe no deploy padrão — só com
+  #   docker compose -f docker-compose.prod.yml --profile graph up -d neo4j
+  # Para usar: ARGUS_KG_BACKEND=neo4j e NEO4J_URI=bolt://neo4j:7687 no .env, e espelhar uma vez
+  #   (docker compose ... exec backend python -m app.argus.knowledge.ingest.mirror_neo4j).
+  # Sem isso, o backend segue no LocalKG (fonte de verdade).
+  neo4j:
+    image: neo4j:5
+    profiles: ["graph"]
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: "${NEO4J_AUTH:-neo4j/arguspass}"
+    volumes:
+      - neo4j_data:/data
+    expose:
+      - "7687"   # interno à rede do compose
+
 volumes:
   rag_data:   # índice Chroma + cache de modelos do RAG (3.7)
+  neo4j_data:   # grafo do Neo4j (Graph-RAG, 3.8) — só com o profile "graph"
