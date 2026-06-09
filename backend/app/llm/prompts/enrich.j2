@@ -3,6 +3,7 @@ Você é um especialista em segurança ANCORANDO ameaças STRIDE em catálogos r
 Para CADA ameaça da lista ITENS, escolha APENAS entre os CANDIDATOS daquela ameaça — NÃO invente IDs:
 - `cwe_ids`: 1–3 fraquezas CWE mais pertinentes (somente IDs presentes em `candidates.cwe`);
 - `capec_ids`: 0–2 padrões de ataque CAPEC pertinentes (somente de `candidates.capec`);
+- `attack_ids`: 0–2 técnicas MITRE ATT&CK pertinentes (somente de `candidates.attack`);
 - `mitigations`: 1–2 contramedidas CONCRETAS e específicas ao componente; no `refs`, cite os
   controles de `candidates.controls` (ex.: "ASVS-V2") e, quando útil, o CWE/CAPEC escolhido.
 
@@ -11,4 +12,4 @@ REGRAS:
 - Se nenhum candidato se aplicar, devolva listas vazias para aquela ameaça.
 - Descrições em português; mantenha os IDs exatamente como vieram.
 
-Responda SOMENTE com o JSON do schema: {"items": [{"threat_id", "cwe_ids", "capec_ids", "mitigations"}]}.
+Responda SOMENTE com o JSON do schema: {"items": [{"threat_id", "cwe_ids", "capec_ids", "attack_ids", "mitigations"}]}.

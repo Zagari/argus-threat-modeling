@@ -1,12 +1,21 @@
 import type { Subgraph, SubgraphNode } from '../types'
 import { urlForId } from './CitationLinks'
 
-const TIERS = ['Stride', 'CWE', 'CAPEC', 'Control'] as const
-const TIER_LABEL: Record<string, string> = { Stride: 'STRIDE', CWE: 'CWE', CAPEC: 'CAPEC', Control: 'Controles (ASVS)' }
+const TIERS = ['Stride', 'CWE', 'CAPEC', 'ATTACK', 'D3FEND', 'Control'] as const
+const TIER_LABEL: Record<string, string> = {
+  Stride: 'STRIDE',
+  CWE: 'CWE',
+  CAPEC: 'CAPEC',
+  ATTACK: 'ATT&CK',
+  D3FEND: 'D3FEND',
+  Control: 'Controles (ASVS/NIST)',
+}
 const KIND_COLOR: Record<string, string> = {
   Stride: '#64748b',
   CWE: '#3b82f6',
   CAPEC: '#f59e0b',
+  ATTACK: '#ef4444',
+  D3FEND: '#14b8a6',
   Control: '#10b981',
 }
 

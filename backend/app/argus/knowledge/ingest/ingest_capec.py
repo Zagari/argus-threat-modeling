@@ -29,6 +29,13 @@ def parse(xml: bytes) -> list[dict]:
             cwe = rw.get("CWE_ID")
             if cwe:
                 rels.append({"type": "TARGETS", "target_kind": "CWE", "target_id": f"CWE-{cwe}"})
+        # Mapeamento de taxonomia para o MITRE ATT&CK (Entry_ID = número da técnica).
+        for tm in ap.findall(".//{*}Taxonomy_Mapping"):
+            if (tm.get("Taxonomy_Name") or "").upper() == "ATTACK":
+                ent = tm.find("{*}Entry_ID")
+                tid = (ent.text or "").strip() if ent is not None else ""
+                if tid:
+                    rels.append({"type": "MAPS_TO", "target_kind": "ATTACK", "target_id": f"T{tid}"})
         entities.append({
             "id": f"CAPEC-{cid}",
             "kind": "CAPEC",

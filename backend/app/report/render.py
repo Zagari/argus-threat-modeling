@@ -42,6 +42,12 @@ def cite_url(cid: str) -> str | None:
     if m := re.match(r"^(T\d{4})(?:\.(\d+))?$", s):
         sub = m.group(2)
         return f"https://attack.mitre.org/techniques/{m.group(1)}/{sub}/" if sub else f"https://attack.mitre.org/techniques/{m.group(1)}/"
+    if s.startswith("NIST-"):
+        from app.argus.knowledge.seeds import nist_url
+
+        return nist_url(s)
+    if s.startswith("D3F-"):
+        return f"https://d3fend.mitre.org/technique/d3f:{cid.strip()[4:]}/"
     if s.startswith("ASVS"):
         from app.argus.knowledge.seeds import asvs_url
 

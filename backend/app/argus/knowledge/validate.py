@@ -68,6 +68,8 @@ def _cited(threat: Threat) -> list[tuple[str, str]]:
         out.append(("CWE", _norm(c, "CWE")))
     for c in threat.capec_ids:
         out.append(("CAPEC", _norm(c, "CAPEC")))
+    for c in threat.attack_ids:  # ATT&CK: id já vem como 'T1078' (sem normalização numérica)
+        out.append(("ATTACK", c.strip().upper()))
     for m in threat.mitigations:
         for ref in m.refs:
             for kind, rx in _ID_RE.items():
@@ -112,6 +114,7 @@ def validate_threats(
         if drop_invalid:
             t.cwe_ids = [c for c in t.cwe_ids if "CWE" not in present or store.exists("CWE", _norm(c, "CWE"))]
             t.capec_ids = [c for c in t.capec_ids if "CAPEC" not in present or store.exists("CAPEC", _norm(c, "CAPEC"))]
+            t.attack_ids = [c for c in t.attack_ids if "ATTACK" not in present or store.exists("ATTACK", c.strip().upper())]
             t.grounded = valid_here > 0
         else:
             t.grounded = valid_here > 0 and invalid_here == 0

@@ -19,9 +19,11 @@ from typing import Protocol, runtime_checkable
 
 from app.argus.knowledge import seeds
 from app.argus.knowledge.model import (
+    KIND_ATTACK,
     KIND_CAPEC,
     KIND_CONTROL,
     KIND_CWE,
+    KIND_D3FEND,
     Entity,
     Subgraph,
     SubgraphEdge,
@@ -39,6 +41,8 @@ def _normalized_dir() -> Path:
 # Quantos CAPECs por CWE / requisitos ASVS por capítulo entram no subgrafo (limita o contexto).
 _MAX_CAPEC_PER_CWE = int(os.getenv("ARGUS_KG_CAPEC_PER_CWE", "3"))
 _MAX_ASVS_REQ = int(os.getenv("ARGUS_KG_ASVS_REQS", "3"))
+_MAX_ATTACK_PER_CAPEC = int(os.getenv("ARGUS_KG_ATTACK_PER_CAPEC", "1"))
+_MAX_D3FEND_PER_ATTACK = int(os.getenv("ARGUS_KG_D3FEND_PER_ATTACK", "1"))
 
 
 @runtime_checkable
@@ -57,6 +61,8 @@ class LocalKG:
         self._by: dict[tuple[str, str], Entity] = {}
         self._capec_by_cwe: dict[str, list[str]] = {}
         self._reqs_by_chapter: dict[str, list[str]] = {}  # ASVS: capítulo → requisitos finos
+        self._attack_by_capec: dict[str, list[str]] = {}  # CAPEC → técnicas ATT&CK
+        self._d3fend_by_attack: dict[str, list[str]] = {}  # ATT&CK → defesas D3FEND
         self._loaded = False
 
     # ── carga ────────────────────────────────────────────────────────────────
@@ -70,6 +76,7 @@ class LocalKG:
         self._load_normalized()
         self._index_capec_links()
         self._index_asvs_reqs()
+        self._index_chains()
         self._loaded = True
 
     def _load_seeds(self) -> None:
@@ -88,6 +95,13 @@ class LocalKG:
         for aid, name in seeds.ASVS_CHAPTERS.items():
             self._put(Entity(id=aid, kind=KIND_CONTROL, name=name, url=seeds.asvs_url(aid),
                              stride=sorted(asvs_stride.get(aid, set()))))
+
+        nist_stride: dict[str, set[str]] = {}
+        for stride, ids in seeds.STRIDE_TO_NIST.items():
+            for nid in ids:
+                nist_stride.setdefault(nid, set()).add(stride)
+        for nid, strides in nist_stride.items():  # nome real vem do catálogo (overlay)
+            self._put(Entity(id=nid, kind=KIND_CONTROL, name="", url=seeds.nist_url(nid), stride=sorted(strides)))
 
     def _load_normalized(self) -> None:
         for fname in ("cwe.json", "capec.json", "asvs.json", "attack.json", "d3fend.json", "nist80053.json"):
@@ -128,6 +142,18 @@ class LocalKG:
             if "." in rest:
                 self._reqs_by_chapter.setdefault(f"ASVS-V{rest.split('.')[0]}", []).append(cid)
 
+    def _index_chains(self) -> None:
+        """CAPEC→ATT&CK (rels MAPS_TO) e ATT&CK→D3FEND (rels COUNTERS, invertido)."""
+        for (kind, _id), e in self._by.items():
+            if kind == KIND_CAPEC:
+                for r in e.rels:
+                    if r.type == "MAPS_TO" and r.target_kind == KIND_ATTACK:
+                        self._attack_by_capec.setdefault(e.id, []).append(r.target_id)
+            elif kind == KIND_D3FEND:
+                for r in e.rels:
+                    if r.type == "COUNTERS" and r.target_kind == KIND_ATTACK:
+                        self._d3fend_by_attack.setdefault(r.target_id, []).append(e.id)
+
     # ── contrato ───────────────────────────────────────────────────────────────
     def exists(self, kind: str, id: str) -> bool:
         self._ensure()
@@ -161,6 +187,12 @@ class LocalKG:
             for capec in self._capec_by_cwe.get(cwe, [])[:_MAX_CAPEC_PER_CWE]:
                 add(KIND_CAPEC, capec)
                 sg.edges.append(SubgraphEdge(source=cwe, target=capec, type="EXPLOITED_BY"))
+                for atk in self._attack_by_capec.get(capec, [])[:_MAX_ATTACK_PER_CAPEC]:  # ATT&CK
+                    add(KIND_ATTACK, atk)
+                    sg.edges.append(SubgraphEdge(source=capec, target=atk, type="MAPS_TO"))
+                    for dfd in self._d3fend_by_attack.get(atk, [])[:_MAX_D3FEND_PER_ATTACK]:  # D3FEND
+                        add(KIND_D3FEND, dfd)
+                        sg.edges.append(SubgraphEdge(source=atk, target=dfd, type="COUNTERED_BY"))
 
         for ctrl in seeds.STRIDE_TO_ASVS.get(stride, []):
             add(KIND_CONTROL, ctrl)
@@ -168,6 +200,10 @@ class LocalKG:
             for req in self._reqs_by_chapter.get(ctrl, [])[:_MAX_ASVS_REQ]:  # requisitos ASVS finos
                 add(KIND_CONTROL, req)
                 sg.edges.append(SubgraphEdge(source=ctrl, target=req, type="REQUIRES"))
+
+        for nctrl in seeds.STRIDE_TO_NIST.get(stride, []):  # controles NIST 800-53
+            add(KIND_CONTROL, nctrl)
+            sg.edges.append(SubgraphEdge(source=stride_id, target=nctrl, type="MITIGATED_BY"))
 
         return sg
 

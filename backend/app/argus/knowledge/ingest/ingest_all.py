@@ -10,11 +10,18 @@ from __future__ import annotations
 
 import sys
 
-from app.argus.knowledge.ingest import ingest_capec, ingest_cwe
+from app.argus.knowledge.ingest import (
+    ingest_asvs,
+    ingest_attack,
+    ingest_capec,
+    ingest_cwe,
+    ingest_d3fend,
+    ingest_nist,
+)
 from app.argus.knowledge.store import LocalKG
 
-# Contagens mínimas esperadas (sanity-check do catálogo).
-MIN_COUNTS = {"CWE": 800, "CAPEC": 500}
+# Contagens mínimas esperadas (sanity-check dos catálogos).
+MIN_COUNTS = {"CWE": 800, "CAPEC": 500, "ATTACK": 500, "D3FEND": 100, "Control": 300}
 
 
 def run_check() -> int:
@@ -26,13 +33,16 @@ def run_check() -> int:
         n = counts.get(kind, 0)
         ok = ok and n >= mn
         print(f"{kind}: {n} (mín {mn}) {'OK' if n >= mn else 'FALTA'}")
-    print(f"Control (ASVS): {counts.get('Control', 0)}")
     return 0 if ok else 1
 
 
 def run_ingest() -> int:
     ingest_cwe.run()
+    ingest_attack.run()   # antes do CAPEC (o CAPEC referencia técnicas ATT&CK)
     ingest_capec.run()
+    ingest_asvs.run()
+    ingest_nist.run()
+    ingest_d3fend.run()
     return run_check()
 
 

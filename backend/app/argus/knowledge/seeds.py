@@ -80,6 +80,23 @@ STRIDE_TO_ASVS: dict[str, list[str]] = {
     "Elevation of Privilege": ["ASVS-V4"],
 }
 
+# STRIDE → controles NIST SP 800-53 Rev.5 (contramedidas de compliance) — controles reais.
+STRIDE_TO_NIST: dict[str, list[str]] = {
+    "Spoofing": ["NIST-IA-2", "NIST-IA-5", "NIST-IA-8"],
+    "Tampering": ["NIST-SI-7", "NIST-SI-10", "NIST-SC-8"],
+    "Repudiation": ["NIST-AU-2", "NIST-AU-3", "NIST-AU-12"],
+    "Information Disclosure": ["NIST-SC-8", "NIST-SC-28", "NIST-AC-3"],
+    "Denial of Service": ["NIST-SC-5", "NIST-SC-7"],
+    "Elevation of Privilege": ["NIST-AC-6", "NIST-AC-3", "NIST-AC-2"],
+}
+
+
+def nist_url(nist_id: str) -> str:
+    """Deep-link (csf.tools) para um controle NIST 800-53 (ex.: 'NIST-AC-6' → família ac)."""
+    s = nist_id.upper().removeprefix("NIST-")  # 'AC-6'
+    fam = s.split("-")[0].lower()
+    return f"https://csf.tools/reference/nist-sp-800-53/r5/{fam}/{s.lower()}/"
+
 
 def cwe_url(cwe_id: str) -> str:
     return f"https://cwe.mitre.org/data/definitions/{cwe_id.removeprefix('CWE-')}.html"

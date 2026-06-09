@@ -1,0 +1,2918 @@
+[
+ {
+  "id": "NIST-AC-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-10",
+  "kind": "Control",
+  "name": "Concurrent Session Control",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-11",
+  "kind": "Control",
+  "name": "Device Lock",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-12",
+  "kind": "Control",
+  "name": "Session Termination",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-13",
+  "kind": "Control",
+  "name": "Supervision and Review — Access Control",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-14",
+  "kind": "Control",
+  "name": "Permitted Actions Without Identification or Authentication",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-15",
+  "kind": "Control",
+  "name": "Automated Marking",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-16",
+  "kind": "Control",
+  "name": "Security and Privacy Attributes",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-17",
+  "kind": "Control",
+  "name": "Remote Access",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-17/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-18",
+  "kind": "Control",
+  "name": "Wireless Access",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-18/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-19",
+  "kind": "Control",
+  "name": "Access Control for Mobile Devices",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-19/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-2",
+  "kind": "Control",
+  "name": "Account Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-20",
+  "kind": "Control",
+  "name": "Use of External Systems",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-20/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-21",
+  "kind": "Control",
+  "name": "Information Sharing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-21/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-22",
+  "kind": "Control",
+  "name": "Publicly Accessible Content",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-22/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-23",
+  "kind": "Control",
+  "name": "Data Mining Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-23/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-24",
+  "kind": "Control",
+  "name": "Access Control Decisions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-24/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-25",
+  "kind": "Control",
+  "name": "Reference Monitor",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-25/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-3",
+  "kind": "Control",
+  "name": "Access Enforcement",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-4",
+  "kind": "Control",
+  "name": "Information Flow Enforcement",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-5",
+  "kind": "Control",
+  "name": "Separation of Duties",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-6",
+  "kind": "Control",
+  "name": "Least Privilege",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-7",
+  "kind": "Control",
+  "name": "Unsuccessful Logon Attempts",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-8",
+  "kind": "Control",
+  "name": "System Use Notification",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AC-9",
+  "kind": "Control",
+  "name": "Previous Logon Notification",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ac/ac-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AT-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/at/at-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AT-2",
+  "kind": "Control",
+  "name": "Literacy Training and Awareness",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/at/at-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AT-3",
+  "kind": "Control",
+  "name": "Role-based Training",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/at/at-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AT-4",
+  "kind": "Control",
+  "name": "Training Records",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/at/at-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AT-5",
+  "kind": "Control",
+  "name": "Contacts with Security Groups and Associations",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/at/at-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AT-6",
+  "kind": "Control",
+  "name": "Training Feedback",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/at/at-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-10",
+  "kind": "Control",
+  "name": "Non-repudiation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-11",
+  "kind": "Control",
+  "name": "Audit Record Retention",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-12",
+  "kind": "Control",
+  "name": "Audit Record Generation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-13",
+  "kind": "Control",
+  "name": "Monitoring for Information Disclosure",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-14",
+  "kind": "Control",
+  "name": "Session Audit",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-15",
+  "kind": "Control",
+  "name": "Alternate Audit Logging Capability",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-16",
+  "kind": "Control",
+  "name": "Cross-organizational Audit Logging",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-2",
+  "kind": "Control",
+  "name": "Event Logging",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-3",
+  "kind": "Control",
+  "name": "Content of Audit Records",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-4",
+  "kind": "Control",
+  "name": "Audit Log Storage Capacity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-5",
+  "kind": "Control",
+  "name": "Response to Audit Logging Process Failures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-6",
+  "kind": "Control",
+  "name": "Audit Record Review, Analysis, and Reporting",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-7",
+  "kind": "Control",
+  "name": "Audit Record Reduction and Report Generation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-8",
+  "kind": "Control",
+  "name": "Time Stamps",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-AU-9",
+  "kind": "Control",
+  "name": "Protection of Audit Information",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/au/au-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-2",
+  "kind": "Control",
+  "name": "Control Assessments",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-3",
+  "kind": "Control",
+  "name": "Information Exchange",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-4",
+  "kind": "Control",
+  "name": "Security Certification",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-5",
+  "kind": "Control",
+  "name": "Plan of Action and Milestones",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-6",
+  "kind": "Control",
+  "name": "Authorization",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-7",
+  "kind": "Control",
+  "name": "Continuous Monitoring",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-8",
+  "kind": "Control",
+  "name": "Penetration Testing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CA-9",
+  "kind": "Control",
+  "name": "Internal System Connections",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ca/ca-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-10",
+  "kind": "Control",
+  "name": "Software Usage Restrictions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-11",
+  "kind": "Control",
+  "name": "User-installed Software",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-12",
+  "kind": "Control",
+  "name": "Information Location",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-13",
+  "kind": "Control",
+  "name": "Data Action Mapping",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-14",
+  "kind": "Control",
+  "name": "Signed Components",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-2",
+  "kind": "Control",
+  "name": "Baseline Configuration",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-3",
+  "kind": "Control",
+  "name": "Configuration Change Control",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-4",
+  "kind": "Control",
+  "name": "Impact Analyses",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-5",
+  "kind": "Control",
+  "name": "Access Restrictions for Change",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-6",
+  "kind": "Control",
+  "name": "Configuration Settings",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-7",
+  "kind": "Control",
+  "name": "Least Functionality",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-8",
+  "kind": "Control",
+  "name": "System Component Inventory",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CM-9",
+  "kind": "Control",
+  "name": "Configuration Management Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cm/cm-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-10",
+  "kind": "Control",
+  "name": "System Recovery and Reconstitution",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-11",
+  "kind": "Control",
+  "name": "Alternate Communications Protocols",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-12",
+  "kind": "Control",
+  "name": "Safe Mode",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-13",
+  "kind": "Control",
+  "name": "Alternative Security Mechanisms",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-2",
+  "kind": "Control",
+  "name": "Contingency Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-3",
+  "kind": "Control",
+  "name": "Contingency Training",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-4",
+  "kind": "Control",
+  "name": "Contingency Plan Testing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-5",
+  "kind": "Control",
+  "name": "Contingency Plan Update",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-6",
+  "kind": "Control",
+  "name": "Alternate Storage Site",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-7",
+  "kind": "Control",
+  "name": "Alternate Processing Site",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-8",
+  "kind": "Control",
+  "name": "Telecommunications Services",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-CP-9",
+  "kind": "Control",
+  "name": "System Backup",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/cp/cp-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-10",
+  "kind": "Control",
+  "name": "Adaptive Authentication",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-11",
+  "kind": "Control",
+  "name": "Re-authentication",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-12",
+  "kind": "Control",
+  "name": "Identity Proofing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-13",
+  "kind": "Control",
+  "name": "Identity Providers and Authorization Servers",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-2",
+  "kind": "Control",
+  "name": "Identification and Authentication (Organizational Users)",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-3",
+  "kind": "Control",
+  "name": "Device Identification and Authentication",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-4",
+  "kind": "Control",
+  "name": "Identifier Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-5",
+  "kind": "Control",
+  "name": "Authenticator Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-6",
+  "kind": "Control",
+  "name": "Authentication Feedback",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-7",
+  "kind": "Control",
+  "name": "Cryptographic Module Authentication",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-8",
+  "kind": "Control",
+  "name": "Identification and Authentication (Non-organizational Users)",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IA-9",
+  "kind": "Control",
+  "name": "Service Identification and Authentication",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ia/ia-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-10",
+  "kind": "Control",
+  "name": "Integrated Information Security Analysis Team",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-2",
+  "kind": "Control",
+  "name": "Incident Response Training",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-3",
+  "kind": "Control",
+  "name": "Incident Response Testing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-4",
+  "kind": "Control",
+  "name": "Incident Handling",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-5",
+  "kind": "Control",
+  "name": "Incident Monitoring",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-6",
+  "kind": "Control",
+  "name": "Incident Reporting",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-7",
+  "kind": "Control",
+  "name": "Incident Response Assistance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-8",
+  "kind": "Control",
+  "name": "Incident Response Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-IR-9",
+  "kind": "Control",
+  "name": "Information Spillage Response",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ir/ir-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-2",
+  "kind": "Control",
+  "name": "Controlled Maintenance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-3",
+  "kind": "Control",
+  "name": "Maintenance Tools",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-4",
+  "kind": "Control",
+  "name": "Nonlocal Maintenance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-5",
+  "kind": "Control",
+  "name": "Maintenance Personnel",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-6",
+  "kind": "Control",
+  "name": "Timely Maintenance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MA-7",
+  "kind": "Control",
+  "name": "Field Maintenance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ma/ma-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-2",
+  "kind": "Control",
+  "name": "Media Access",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-3",
+  "kind": "Control",
+  "name": "Media Marking",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-4",
+  "kind": "Control",
+  "name": "Media Storage",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-5",
+  "kind": "Control",
+  "name": "Media Transport",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-6",
+  "kind": "Control",
+  "name": "Media Sanitization",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-7",
+  "kind": "Control",
+  "name": "Media Use",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-MP-8",
+  "kind": "Control",
+  "name": "Media Downgrading",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/mp/mp-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-10",
+  "kind": "Control",
+  "name": "Emergency Shutoff",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-11",
+  "kind": "Control",
+  "name": "Emergency Power",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-12",
+  "kind": "Control",
+  "name": "Emergency Lighting",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-13",
+  "kind": "Control",
+  "name": "Fire Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-14",
+  "kind": "Control",
+  "name": "Environmental Controls",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-15",
+  "kind": "Control",
+  "name": "Water Damage Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-16",
+  "kind": "Control",
+  "name": "Delivery and Removal",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-17",
+  "kind": "Control",
+  "name": "Alternate Work Site",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-17/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-18",
+  "kind": "Control",
+  "name": "Location of System Components",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-18/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-19",
+  "kind": "Control",
+  "name": "Information Leakage",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-19/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-2",
+  "kind": "Control",
+  "name": "Physical Access Authorizations",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-20",
+  "kind": "Control",
+  "name": "Asset Monitoring and Tracking",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-20/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-21",
+  "kind": "Control",
+  "name": "Electromagnetic Pulse Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-21/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-22",
+  "kind": "Control",
+  "name": "Component Marking",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-22/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-23",
+  "kind": "Control",
+  "name": "Facility Location",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-23/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-3",
+  "kind": "Control",
+  "name": "Physical Access Control",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-4",
+  "kind": "Control",
+  "name": "Access Control for Transmission",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-5",
+  "kind": "Control",
+  "name": "Access Control for Output Devices",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-6",
+  "kind": "Control",
+  "name": "Monitoring Physical Access",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-7",
+  "kind": "Control",
+  "name": "Visitor Control",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-8",
+  "kind": "Control",
+  "name": "Visitor Access Records",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PE-9",
+  "kind": "Control",
+  "name": "Power Equipment and Cabling",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pe/pe-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-10",
+  "kind": "Control",
+  "name": "Baseline Selection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-11",
+  "kind": "Control",
+  "name": "Baseline Tailoring",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-2",
+  "kind": "Control",
+  "name": "System Security and Privacy Plans",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-3",
+  "kind": "Control",
+  "name": "System Security Plan Update",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-4",
+  "kind": "Control",
+  "name": "Rules of Behavior",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-5",
+  "kind": "Control",
+  "name": "Privacy Impact Assessment",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-6",
+  "kind": "Control",
+  "name": "Security-related Activity Planning",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-7",
+  "kind": "Control",
+  "name": "Concept of Operations",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-8",
+  "kind": "Control",
+  "name": "Security and Privacy Architectures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PL-9",
+  "kind": "Control",
+  "name": "Central Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pl/pl-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-1",
+  "kind": "Control",
+  "name": "Information Security Program Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-10",
+  "kind": "Control",
+  "name": "Authorization Process",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-11",
+  "kind": "Control",
+  "name": "Mission and Business Process Definition",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-12",
+  "kind": "Control",
+  "name": "Insider Threat Program",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-13",
+  "kind": "Control",
+  "name": "Security and Privacy Workforce",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-14",
+  "kind": "Control",
+  "name": "Testing, Training, and Monitoring",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-15",
+  "kind": "Control",
+  "name": "Security and Privacy Groups and Associations",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-16",
+  "kind": "Control",
+  "name": "Threat Awareness Program",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-17",
+  "kind": "Control",
+  "name": "Protecting Controlled Unclassified Information on External Systems",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-17/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-18",
+  "kind": "Control",
+  "name": "Privacy Program Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-18/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-19",
+  "kind": "Control",
+  "name": "Privacy Program Leadership Role",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-19/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-2",
+  "kind": "Control",
+  "name": "Information Security Program Leadership Role",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-20",
+  "kind": "Control",
+  "name": "Dissemination of Privacy Program Information",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-20/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-21",
+  "kind": "Control",
+  "name": "Accounting of Disclosures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-21/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-22",
+  "kind": "Control",
+  "name": "Personally Identifiable Information Quality Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-22/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-23",
+  "kind": "Control",
+  "name": "Data Governance Body",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-23/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-24",
+  "kind": "Control",
+  "name": "Data Integrity Board",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-24/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-25",
+  "kind": "Control",
+  "name": "Minimization of Personally Identifiable Information Used in Testing, Training, and Research",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-25/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-26",
+  "kind": "Control",
+  "name": "Complaint Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-26/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-27",
+  "kind": "Control",
+  "name": "Privacy Reporting",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-27/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-28",
+  "kind": "Control",
+  "name": "Risk Framing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-28/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-29",
+  "kind": "Control",
+  "name": "Risk Management Program Leadership Roles",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-29/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-3",
+  "kind": "Control",
+  "name": "Information Security and Privacy Resources",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-30",
+  "kind": "Control",
+  "name": "Supply Chain Risk Management Strategy",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-30/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-31",
+  "kind": "Control",
+  "name": "Continuous Monitoring Strategy",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-31/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-32",
+  "kind": "Control",
+  "name": "Purposing",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-32/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-4",
+  "kind": "Control",
+  "name": "Plan of Action and Milestones Process",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-5",
+  "kind": "Control",
+  "name": "System Inventory",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-6",
+  "kind": "Control",
+  "name": "Measures of Performance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-7",
+  "kind": "Control",
+  "name": "Enterprise Architecture",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-8",
+  "kind": "Control",
+  "name": "Critical Infrastructure Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PM-9",
+  "kind": "Control",
+  "name": "Risk Management Strategy",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pm/pm-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-2",
+  "kind": "Control",
+  "name": "Position Risk Designation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-3",
+  "kind": "Control",
+  "name": "Personnel Screening",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-4",
+  "kind": "Control",
+  "name": "Personnel Termination",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-5",
+  "kind": "Control",
+  "name": "Personnel Transfer",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-6",
+  "kind": "Control",
+  "name": "Access Agreements",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-7",
+  "kind": "Control",
+  "name": "External Personnel Security",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-8",
+  "kind": "Control",
+  "name": "Personnel Sanctions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PS-9",
+  "kind": "Control",
+  "name": "Position Descriptions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ps/ps-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-2",
+  "kind": "Control",
+  "name": "Authority to Process Personally Identifiable Information",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-3",
+  "kind": "Control",
+  "name": "Personally Identifiable Information Processing Purposes",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-4",
+  "kind": "Control",
+  "name": "Consent",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-5",
+  "kind": "Control",
+  "name": "Privacy Notice",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-6",
+  "kind": "Control",
+  "name": "System of Records Notice",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-7",
+  "kind": "Control",
+  "name": "Specific Categories of Personally Identifiable Information",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-PT-8",
+  "kind": "Control",
+  "name": "Computer Matching Requirements",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/pt/pt-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-10",
+  "kind": "Control",
+  "name": "Threat Hunting",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-2",
+  "kind": "Control",
+  "name": "Security Categorization",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-3",
+  "kind": "Control",
+  "name": "Risk Assessment",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-4",
+  "kind": "Control",
+  "name": "Risk Assessment Update",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-5",
+  "kind": "Control",
+  "name": "Vulnerability Monitoring and Scanning",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-6",
+  "kind": "Control",
+  "name": "Technical Surveillance Countermeasures Survey",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-7",
+  "kind": "Control",
+  "name": "Risk Response",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-8",
+  "kind": "Control",
+  "name": "Privacy Impact Assessments",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-RA-9",
+  "kind": "Control",
+  "name": "Criticality Analysis",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/ra/ra-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-10",
+  "kind": "Control",
+  "name": "Developer Configuration Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-11",
+  "kind": "Control",
+  "name": "Developer Testing and Evaluation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-12",
+  "kind": "Control",
+  "name": "Supply Chain Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-13",
+  "kind": "Control",
+  "name": "Trustworthiness",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-14",
+  "kind": "Control",
+  "name": "Criticality Analysis",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-15",
+  "kind": "Control",
+  "name": "Development Process, Standards, and Tools",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-16",
+  "kind": "Control",
+  "name": "Developer-provided Training",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-17",
+  "kind": "Control",
+  "name": "Developer Security and Privacy Architecture and Design",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-17/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-18",
+  "kind": "Control",
+  "name": "Tamper Resistance and Detection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-18/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-19",
+  "kind": "Control",
+  "name": "Component Authenticity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-19/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-2",
+  "kind": "Control",
+  "name": "Allocation of Resources",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-20",
+  "kind": "Control",
+  "name": "Customized Development of Critical Components",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-20/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-21",
+  "kind": "Control",
+  "name": "Developer Screening",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-21/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-22",
+  "kind": "Control",
+  "name": "Unsupported System Components",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-22/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-23",
+  "kind": "Control",
+  "name": "Specialization",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-23/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-24",
+  "kind": "Control",
+  "name": "Design For Cyber Resiliency",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-24/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-3",
+  "kind": "Control",
+  "name": "System Development Life Cycle",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-4",
+  "kind": "Control",
+  "name": "Acquisition Process",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-5",
+  "kind": "Control",
+  "name": "System Documentation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-6",
+  "kind": "Control",
+  "name": "Software Usage Restrictions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-7",
+  "kind": "Control",
+  "name": "User-installed Software",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-8",
+  "kind": "Control",
+  "name": "Security and Privacy Engineering Principles",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SA-9",
+  "kind": "Control",
+  "name": "External System Services",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sa/sa-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-10",
+  "kind": "Control",
+  "name": "Network Disconnect",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-11",
+  "kind": "Control",
+  "name": "Trusted Path",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-12",
+  "kind": "Control",
+  "name": "Cryptographic Key Establishment and Management",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-13",
+  "kind": "Control",
+  "name": "Cryptographic Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-14",
+  "kind": "Control",
+  "name": "Public Access Protections",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-15",
+  "kind": "Control",
+  "name": "Collaborative Computing Devices and Applications",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-16",
+  "kind": "Control",
+  "name": "Transmission of Security and Privacy Attributes",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-17",
+  "kind": "Control",
+  "name": "Public Key Infrastructure Certificates",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-17/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-18",
+  "kind": "Control",
+  "name": "Mobile Code",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-18/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-19",
+  "kind": "Control",
+  "name": "Voice Over Internet Protocol",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-19/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-2",
+  "kind": "Control",
+  "name": "Separation of System and User Functionality",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-20",
+  "kind": "Control",
+  "name": "Secure Name/Address Resolution Service (Authoritative Source)",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-20/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-21",
+  "kind": "Control",
+  "name": "Secure Name/Address Resolution Service (Recursive or Caching Resolver)",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-21/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-22",
+  "kind": "Control",
+  "name": "Architecture and Provisioning for Name/Address Resolution Service",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-22/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-23",
+  "kind": "Control",
+  "name": "Session Authenticity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-23/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-24",
+  "kind": "Control",
+  "name": "Fail in Known State",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-24/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-25",
+  "kind": "Control",
+  "name": "Thin Nodes",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-25/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-26",
+  "kind": "Control",
+  "name": "Decoys",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-26/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-27",
+  "kind": "Control",
+  "name": "Platform-independent Applications",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-27/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-28",
+  "kind": "Control",
+  "name": "Protection of Information at Rest",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-28/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-29",
+  "kind": "Control",
+  "name": "Heterogeneity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-29/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-3",
+  "kind": "Control",
+  "name": "Security Function Isolation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-30",
+  "kind": "Control",
+  "name": "Concealment and Misdirection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-30/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-31",
+  "kind": "Control",
+  "name": "Covert Channel Analysis",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-31/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-32",
+  "kind": "Control",
+  "name": "System Partitioning",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-32/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-33",
+  "kind": "Control",
+  "name": "Transmission Preparation Integrity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-33/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-34",
+  "kind": "Control",
+  "name": "Non-modifiable Executable Programs",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-34/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-35",
+  "kind": "Control",
+  "name": "External Malicious Code Identification",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-35/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-36",
+  "kind": "Control",
+  "name": "Distributed Processing and Storage",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-36/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-37",
+  "kind": "Control",
+  "name": "Out-of-band Channels",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-37/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-38",
+  "kind": "Control",
+  "name": "Operations Security",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-38/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-39",
+  "kind": "Control",
+  "name": "Process Isolation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-39/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-4",
+  "kind": "Control",
+  "name": "Information in Shared System Resources",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-40",
+  "kind": "Control",
+  "name": "Wireless Link Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-40/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-41",
+  "kind": "Control",
+  "name": "Port and I/O Device Access",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-41/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-42",
+  "kind": "Control",
+  "name": "Sensor Capability and Data",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-42/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-43",
+  "kind": "Control",
+  "name": "Usage Restrictions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-43/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-44",
+  "kind": "Control",
+  "name": "Detonation Chambers",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-44/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-45",
+  "kind": "Control",
+  "name": "System Time Synchronization",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-45/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-46",
+  "kind": "Control",
+  "name": "Cross Domain Policy Enforcement",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-46/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-47",
+  "kind": "Control",
+  "name": "Alternate Communications Paths",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-47/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-48",
+  "kind": "Control",
+  "name": "Sensor Relocation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-48/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-49",
+  "kind": "Control",
+  "name": "Hardware-enforced Separation and Policy Enforcement",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-49/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-5",
+  "kind": "Control",
+  "name": "Denial-of-service Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-50",
+  "kind": "Control",
+  "name": "Software-enforced Separation and Policy Enforcement",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-50/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-51",
+  "kind": "Control",
+  "name": "Hardware-based Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-51/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-6",
+  "kind": "Control",
+  "name": "Resource Availability",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-7",
+  "kind": "Control",
+  "name": "Boundary Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-8",
+  "kind": "Control",
+  "name": "Transmission Confidentiality and Integrity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SC-9",
+  "kind": "Control",
+  "name": "Transmission Confidentiality",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sc/sc-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-10",
+  "kind": "Control",
+  "name": "Information Input Validation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-11",
+  "kind": "Control",
+  "name": "Error Handling",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-12",
+  "kind": "Control",
+  "name": "Information Management and Retention",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-13",
+  "kind": "Control",
+  "name": "Predictable Failure Prevention",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-13/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-14",
+  "kind": "Control",
+  "name": "Non-persistence",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-14/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-15",
+  "kind": "Control",
+  "name": "Information Output Filtering",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-15/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-16",
+  "kind": "Control",
+  "name": "Memory Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-16/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-17",
+  "kind": "Control",
+  "name": "Fail-safe Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-17/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-18",
+  "kind": "Control",
+  "name": "Personally Identifiable Information Quality Operations",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-18/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-19",
+  "kind": "Control",
+  "name": "De-identification",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-19/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-2",
+  "kind": "Control",
+  "name": "Flaw Remediation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-20",
+  "kind": "Control",
+  "name": "Tainting",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-20/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-21",
+  "kind": "Control",
+  "name": "Information Refresh",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-21/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-22",
+  "kind": "Control",
+  "name": "Information Diversity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-22/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-23",
+  "kind": "Control",
+  "name": "Information Fragmentation",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-23/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-3",
+  "kind": "Control",
+  "name": "Malicious Code Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-4",
+  "kind": "Control",
+  "name": "System Monitoring",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-5",
+  "kind": "Control",
+  "name": "Security Alerts, Advisories, and Directives",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-6",
+  "kind": "Control",
+  "name": "Security and Privacy Function Verification",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-7",
+  "kind": "Control",
+  "name": "Software, Firmware, and Information Integrity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-8",
+  "kind": "Control",
+  "name": "Spam Protection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SI-9",
+  "kind": "Control",
+  "name": "Information Input Restrictions",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/si/si-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-1",
+  "kind": "Control",
+  "name": "Policy and Procedures",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-1/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-10",
+  "kind": "Control",
+  "name": "Inspection of Systems or Components",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-10/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-11",
+  "kind": "Control",
+  "name": "Component Authenticity",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-11/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-12",
+  "kind": "Control",
+  "name": "Component Disposal",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-12/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-2",
+  "kind": "Control",
+  "name": "Supply Chain Risk Management Plan",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-2/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-3",
+  "kind": "Control",
+  "name": "Supply Chain Controls and Processes",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-3/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-4",
+  "kind": "Control",
+  "name": "Provenance",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-4/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-5",
+  "kind": "Control",
+  "name": "Acquisition Strategies, Tools, and Methods",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-5/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-6",
+  "kind": "Control",
+  "name": "Supplier Assessments and Reviews",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-6/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-7",
+  "kind": "Control",
+  "name": "Supply Chain Operations Security",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-7/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-8",
+  "kind": "Control",
+  "name": "Notification Agreements",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-8/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ },
+ {
+  "id": "NIST-SR-9",
+  "kind": "Control",
+  "name": "Tamper Resistance and Detection",
+  "url": "https://csf.tools/reference/nist-sp-800-53/r5/sr/sr-9/",
+  "text": "NIST SP 800-53 Rev.5",
+  "stride": [],
+  "rels": []
+ }
+]

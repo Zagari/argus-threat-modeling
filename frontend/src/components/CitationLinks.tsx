@@ -33,6 +33,9 @@ export function urlForId(id: string): string | null {
     return file ? `https://github.com/OWASP/ASVS/blob/v4.0.3/4.0/en/${file}` : ASVS_PROJECT
   }
   if (s.startsWith('ASVS')) return ASVS_PROJECT
+  if ((m = s.match(/^NIST-([A-Z]+)-/)))
+    return `https://csf.tools/reference/nist-sp-800-53/r5/${m[1].toLowerCase()}/${s.slice(5).toLowerCase()}/`
+  if (s.startsWith('D3F-')) return `https://d3fend.mitre.org/technique/d3f:${id.trim().slice(4)}/`
   return null
 }
 

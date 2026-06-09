@@ -86,6 +86,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1327"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.010"
    }
   ]
  },
@@ -101,6 +106,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-645"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1531"
    }
   ]
  },
@@ -461,6 +471,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-430"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.006"
    }
   ]
  },
@@ -531,6 +546,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.006"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.007"
    }
   ]
  },
@@ -736,6 +766,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-693"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.010"
    }
   ]
  },
@@ -766,6 +806,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.009"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1546.004"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1546.016"
    }
   ]
  },
@@ -851,6 +906,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-642"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1134"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1528"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1539"
    }
   ]
  },
@@ -991,6 +1061,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1322"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.004"
    }
   ]
  },
@@ -1186,6 +1261,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-270"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1055.003"
    }
   ]
  },
@@ -1251,6 +1331,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-642"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1539"
    }
   ]
  },
@@ -1361,6 +1446,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-270"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.006"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.009"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1564.009"
    }
   ]
  },
@@ -1471,6 +1571,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1330"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.004"
    }
   ]
  },
@@ -1491,6 +1601,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-427"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.007"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.009"
    }
   ]
  },
@@ -1931,6 +2051,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-309"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1110.001"
    }
   ]
  },
@@ -2131,6 +2256,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-309"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1110.002"
    }
   ]
  },
@@ -2165,6 +2295,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-693"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1040"
    }
   ]
  },
@@ -2310,6 +2445,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-732"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1134.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1550.004"
    }
   ]
  },
@@ -2475,6 +2620,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-693"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1040"
    }
   ]
  },
@@ -2560,6 +2710,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1326"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1553.002"
    }
   ]
  },
@@ -2625,6 +2780,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-309"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1078.001"
    }
   ]
  },
@@ -3558,6 +3718,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-294"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1557"
    }
   ]
  },
@@ -3638,6 +3803,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-451"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1566"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1598"
    }
   ]
  },
@@ -3986,6 +4161,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-521"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1110"
    }
   ]
  },
@@ -4021,6 +4201,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1244"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1548"
    }
   ]
  },
@@ -4036,6 +4221,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-287"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1548"
    }
   ]
  },
@@ -4216,6 +4406,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1317"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1548"
    }
   ]
  },
@@ -4271,6 +4466,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-770"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1498.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499"
    }
   ]
  },
@@ -4331,6 +4536,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-693"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1083"
    }
   ]
  },
@@ -4396,6 +4606,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1325"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.003"
    }
   ]
  },
@@ -4411,6 +4626,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-404"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499"
    }
   ]
  },
@@ -4426,6 +4646,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-59"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1547.009"
    }
   ]
  },
@@ -4596,6 +4821,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-346"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1557.002"
    }
   ]
  },
@@ -4631,6 +4861,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-350"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1584.002"
    }
   ]
  },
@@ -4731,6 +4966,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-345"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1491"
    }
   ]
  },
@@ -4791,6 +5031,36 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1330"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1119"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1213"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1530"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1555"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1602"
    }
   ]
  },
@@ -4881,6 +5151,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-311"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1040"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1111"
    }
   ]
  },
@@ -4896,6 +5176,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-706"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.008"
    }
   ]
  },
@@ -4956,6 +5241,41 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-451"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1534"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1566.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1566.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1566.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1598.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1598.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1598.003"
    }
   ]
  },
@@ -4981,7 +5301,13 @@
   "url": "https://capec.mitre.org/data/definitions/165.html",
   "text": "An attacker modifies file contents or attributes (such as extensions or names) of files in a manner to cause incorrect processing by an application. Attackers use this class of attacks to cause applications to enter unstable states, overwrite or expose sensitive information, and even execute arbitrary code with the application's privileges. This class of attacks differs from attacks on configurat…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-166",
@@ -5055,6 +5381,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1217"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1592"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1595"
    }
   ]
  },
@@ -5174,6 +5515,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-706"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036"
    }
   ]
  },
@@ -5273,6 +5619,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1321"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.010"
    }
   ]
  },
@@ -5373,6 +5724,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-494"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
    }
   ]
  },
@@ -5388,6 +5744,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-494"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1072"
    }
   ]
  },
@@ -5458,6 +5819,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-798"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.001"
    }
   ]
  },
@@ -5537,6 +5903,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-664"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1134.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1134.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1606"
    }
   ]
  },
@@ -5641,6 +6022,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-15"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1112"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1647"
    }
   ]
  },
@@ -5671,6 +6062,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1258"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1005"
    }
   ]
  },
@@ -5695,6 +6091,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-732"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1553.002"
    }
   ]
  },
@@ -5982,6 +6383,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-400"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499"
    }
   ]
  },
@@ -6097,6 +6503,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1311"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1548"
    }
   ]
  },
@@ -6345,6 +6756,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-829"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1055"
    }
   ]
  },
@@ -6547,6 +6963,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-692"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027"
    }
   ]
  },
@@ -6562,6 +6983,26 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-117"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1070"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.008"
    }
   ]
  },
@@ -6586,6 +7027,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-15"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1547.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1547.014"
    }
   ]
  },
@@ -6832,6 +7283,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1018"
    }
   ]
  },
@@ -6877,6 +7333,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1124"
    }
   ]
  },
@@ -6952,6 +7413,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1046"
    }
   ]
  },
@@ -7087,6 +7553,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1016"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1049"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1590"
    }
   ]
  },
@@ -7126,6 +7607,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1082"
    }
   ]
  },
@@ -7141,6 +7627,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1082"
    }
   ]
  },
@@ -7438,6 +7929,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-602"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1056.004"
    }
   ]
  },
@@ -7794,7 +8290,13 @@
   "url": "https://capec.mitre.org/data/definitions/407.html",
   "text": "An adversary engages in pretexting behavior to solicit information from target persons, or manipulate the target into performing some action that serves the adversary's interests. During a pretexting attack, the adversary creates an invented scenario, assuming an identity or role to persuade a targeted victim to release information or perform some action. It is more than just creating a lie; in s…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1589"
+   }
+  ]
  },
  {
   "id": "CAPEC-408",
@@ -8055,7 +8557,13 @@
   "url": "https://capec.mitre.org/data/definitions/438.html",
   "text": "An attacker modifies a technology, product, or component during a stage in its manufacture for the purpose of carrying out an attack against some entity involved in the supply chain lifecycle. There are an almost limitless number of ways an attacker can modify a technology when they are involved in its manufacture, as the attacker has potential inroads to the software composition, hardware design…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195"
+   }
+  ]
  },
  {
   "id": "CAPEC-439",
@@ -8069,6 +8577,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1269"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195"
    }
   ]
  },
@@ -8079,7 +8592,18 @@
   "url": "https://capec.mitre.org/data/definitions/440.html",
   "text": "An adversary exploits a weakness in the system maintenance process and causes a change to be made to a technology, product, component, or sub-component or a new one installed during its deployed use at the victim location for the purpose of carrying out an attack.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1200"
+   }
+  ]
  },
  {
   "id": "CAPEC-441",
@@ -8108,6 +8632,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-506"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
    }
   ]
  },
@@ -8118,7 +8652,18 @@
   "url": "https://capec.mitre.org/data/definitions/443.html",
   "text": "An adversary uses their privileged position within an authorized development organization to inject malicious logic into a codebase or product.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-444",
@@ -8136,7 +8681,13 @@
   "url": "https://capec.mitre.org/data/definitions/445.html",
   "text": "An adversary exploits a configuration management system so that malicious logic is inserted into a software products build, update or deployed environment. If an adversary can control the elements included in a product's configuration management for build they can potentially replace, modify or insert code files containing malicious logic. If an adversary can control elements of a product's ongoi…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-446",
@@ -8145,7 +8696,13 @@
   "url": "https://capec.mitre.org/data/definitions/446.html",
   "text": "An adversary conducts supply chain attacks by the inclusion of insecure third-party components into a technology, product, or code-base, possibly packaging a malicious driver or component along with the product before shipping it to the consumer or acquirer.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195"
+   }
+  ]
  },
  {
   "id": "CAPEC-447",
@@ -8168,6 +8725,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-506"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.009"
    }
   ]
  },
@@ -8281,6 +8843,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1299"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1091"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1092"
    }
   ]
  },
@@ -8446,6 +9018,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-359"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1606.001"
    }
   ]
  },
@@ -8461,6 +9038,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-441"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1090.001"
    }
   ]
  },
@@ -8546,6 +9128,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-772"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.002"
    }
   ]
  },
@@ -8581,6 +9168,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-427"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.004"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.008"
    }
   ]
  },
@@ -8621,6 +9223,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-290"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1553.002"
    }
   ]
  },
@@ -8636,6 +9248,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-522"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.004"
    }
   ]
  },
@@ -8716,6 +9333,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.011"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1543.003"
    }
   ]
  },
@@ -8731,6 +9358,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1553.004"
    }
   ]
  },
@@ -8746,6 +9378,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-693"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1611"
    }
   ]
  },
@@ -8761,6 +9398,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-923"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1090.004"
    }
   ]
  },
@@ -8776,6 +9418,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-770"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1498.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.002"
    }
   ]
  },
@@ -8800,6 +9457,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-330"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.004"
    }
   ]
  },
@@ -8845,6 +9507,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-770"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.002"
    }
   ]
  },
@@ -8860,6 +9527,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-770"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.002"
    }
   ]
  },
@@ -8875,6 +9547,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-770"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1498.002"
    }
   ]
  },
@@ -9000,6 +9677,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1083"
    }
   ]
  },
@@ -9110,6 +9792,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1021"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.004"
    }
   ]
  },
@@ -9208,6 +9895,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-521"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1558.003"
    }
   ]
  },
@@ -9233,7 +9925,13 @@
   "url": "https://capec.mitre.org/data/definitions/511.html",
   "text": "An attacker uses common delivery mechanisms such as email attachments or removable media to infiltrate the IDE (Integrated Development Environment) of a victim manufacturer with the intent of implanting malware allowing for attack control of the victim IDE environment. The attack then uses this access to exfiltrate sensitive data or information, manipulate said data or information, and conceal th…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-516",
@@ -9242,7 +9940,13 @@
   "url": "https://capec.mitre.org/data/definitions/516.html",
   "text": "An adversary with access to system components during allocated baseline development can substitute a maliciously altered hardware component for a baseline component during the product development and research phases. This can lead to adjustments and calibrations being made in the product so that when the final product, now containing the modified component, is deployed it will not perform as desi…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-517",
@@ -9278,7 +9982,13 @@
   "url": "https://capec.mitre.org/data/definitions/520.html",
   "text": "An adversary with either direct access to the product assembly process or to the supply of subcomponents used in the product assembly process introduces counterfeit hardware components into product assembly. The assembly containing the counterfeit components results in a system specifically designed for malicious purposes.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-521",
@@ -9296,7 +10006,13 @@
   "url": "https://capec.mitre.org/data/definitions/522.html",
   "text": "An adversary replaces legitimate hardware in the system with faulty counterfeit or tampered hardware in the supply chain distribution channel, with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-523",
@@ -9305,7 +10021,13 @@
   "url": "https://capec.mitre.org/data/definitions/523.html",
   "text": "An attacker implants malicious software into the system in the supply chain distribution channel, with purpose of causing malicious disruption or allowing for additional compromise when the system is deployed.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
+   }
+  ]
  },
  {
   "id": "CAPEC-524",
@@ -9328,6 +10050,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-770"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1498.001"
    }
   ]
  },
@@ -9356,7 +10088,13 @@
   "url": "https://capec.mitre.org/data/definitions/531.html",
   "text": "An attacker substitutes out a tested and approved hardware component for a maliciously-altered hardware component. This type of attack is carried out directly on the system, enabling the attacker to then cause disruption or additional compromise.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-532",
@@ -9365,7 +10103,18 @@
   "url": "https://capec.mitre.org/data/definitions/532.html",
   "text": "An attacker with access to download and update system software sends a maliciously altered BIOS to the victim or victim supplier/integrator, which when installed allows for future exploitation.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1495"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1542.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-533",
@@ -9422,7 +10171,13 @@
   "url": "https://capec.mitre.org/data/definitions/537.html",
   "text": "An adversary, leveraging the ability to manipulate components of primary support systems and tools within the development and production environments, inserts malicious software within the hardware and/or firmware development environment. The infiltration purpose is to alter developed hardware components in a system destined for deployment at the victim's organization, for the purpose of disrupti…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-538",
@@ -9441,6 +10196,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-829"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
    }
   ]
  },
@@ -9451,7 +10211,13 @@
   "url": "https://capec.mitre.org/data/definitions/539.html",
   "text": "An attacker with access to the development environment process of an application-specific integrated circuit (ASIC) for a victim system being developed or maintained after initial deployment can insert malicious functionality into the system for the purpose of disruption or further compromise.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-540",
@@ -9490,6 +10256,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-208"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1592.002"
    }
   ]
  },
@@ -9500,7 +10271,18 @@
   "url": "https://capec.mitre.org/data/definitions/542.html",
   "text": "An adversary develops targeted malware that takes advantage of a known vulnerability in an organizational information technology environment. The malware crafted for these attacks is based specifically on information gathered about the technology environment. Successfully executing the malware enables an adversary to achieve a wide variety of negative technical impacts.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1587.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027"
+   }
+  ]
  },
  {
   "id": "CAPEC-543",
@@ -9509,7 +10291,13 @@
   "url": "https://capec.mitre.org/data/definitions/543.html",
   "text": "Adversary creates duplicates of legitimate websites. When users visit a counterfeit site, the site can gather information or upload malware.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.005"
+   }
+  ]
  },
  {
   "id": "CAPEC-544",
@@ -9572,6 +10360,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1330"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1555.001"
    }
   ]
  },
@@ -9645,6 +10443,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1543"
    }
   ]
  },
@@ -9665,6 +10468,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-522"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1543"
    }
   ]
  },
@@ -9680,6 +10488,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1014"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1542.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1547.006"
    }
   ]
  },
@@ -9745,6 +10568,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-521"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1021"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1114.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1133"
    }
   ]
  },
@@ -9760,6 +10598,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1546.001"
    }
   ]
  },
@@ -9784,6 +10627,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1505.005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1546.008"
    }
   ]
  },
@@ -9843,6 +10696,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1273"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1078"
    }
   ]
  },
@@ -9888,6 +10746,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-521"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1021.002"
    }
   ]
  },
@@ -9903,6 +10766,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1080"
    }
   ]
  },
@@ -9933,6 +10801,26 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1037"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1543.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1543.004"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1547"
    }
   ]
  },
@@ -9978,6 +10866,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-309"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1110.003"
    }
   ]
  },
@@ -10006,7 +10899,13 @@
   "url": "https://capec.mitre.org/data/definitions/568.html",
   "text": "An adversary deploys a keylogger in an effort to obtain credentials directly from a system's user. After capturing all the keystrokes made by a user, the adversary can analyze the data and determine which string are likely to be passwords or other credential related information.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1056.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-569",
@@ -10015,7 +10914,13 @@
   "url": "https://capec.mitre.org/data/definitions/569.html",
   "text": "An attacker leverages a tool, device, or program to obtain specific information as provided by a user of the target system. This information is often needed by the attacker to launch a follow-on attack. This attack is different than Social Engineering as the adversary is not tricking or deceiving the user. Instead the adversary is putting a mechanism in place that captures the information that a…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1056"
+   }
+  ]
  },
  {
   "id": "CAPEC-570",
@@ -10033,7 +10938,28 @@
   "url": "https://capec.mitre.org/data/definitions/571.html",
   "text": "An adversary prevents host-generated logs being delivered to a central location in an attempt to hide indicators of compromise.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.006"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.008"
+   }
+  ]
  },
  {
   "id": "CAPEC-572",
@@ -10042,7 +10968,13 @@
   "url": "https://capec.mitre.org/data/definitions/572.html",
   "text": "An adversary modifies file contents by adding data to files for several reasons. Many different attacks could “follow” this pattern resulting in numerous outcomes. Adding data to a file could also result in a Denial of Service condition for devices with limited storage capacity.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-573",
@@ -10056,6 +10988,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1057"
    }
   ]
  },
@@ -10071,6 +11008,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1007"
    }
   ]
  },
@@ -10086,6 +11028,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1087"
    }
   ]
  },
@@ -10101,6 +11048,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1069"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1615"
    }
   ]
  },
@@ -10116,6 +11073,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1033"
    }
   ]
  },
@@ -10131,6 +11093,41 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-284"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1556.006"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.004"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.007"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.008"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1562.009"
    }
   ]
  },
@@ -10146,6 +11143,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-15"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1547.004"
    }
   ]
  },
@@ -10171,6 +11173,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-208"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1082"
    }
   ]
  },
@@ -10181,7 +11188,13 @@
   "url": "https://capec.mitre.org/data/definitions/581.html",
   "text": "Adversaries may attempt to get a listing of security tools that are installed on the system and their configurations. This may include security related system features (such as a built-in firewall or anti-spyware) as well as third-party security software.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1518.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-582",
@@ -10346,6 +11359,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-287"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1185"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1550.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1563"
    }
   ]
  },
@@ -10469,6 +11497,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-654"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1110.004"
    }
   ]
  },
@@ -10568,6 +11601,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-311"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1111"
    }
   ]
  },
@@ -10671,6 +11709,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.005"
    }
   ]
  },
@@ -10725,6 +11768,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-757"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1600"
    }
   ]
  },
@@ -10959,6 +12007,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1270"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1134"
    }
   ]
  },
@@ -10974,6 +12027,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-267"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1123"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1125"
    }
   ]
  },
@@ -10989,6 +12052,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-162"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.007"
    }
   ]
  },
@@ -11004,6 +12072,31 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-506"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1001.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.004"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1218.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1221"
    }
   ]
  },
@@ -11019,6 +12112,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-267"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1115"
    }
   ]
  },
@@ -11029,7 +12127,13 @@
   "url": "https://capec.mitre.org/data/definitions/638.html",
   "text": "An adversary exploits systems features and/or improperly protected firmware of hardware components, such as Hard Disk Drives (HDD), with the goal of executing malicious code from within the component's Master Boot Record (MBR). Conducting this type of attack entails the adversary infecting the target with firmware altering malware, using known tools, and a payload. Once this malware is executed,…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1542.002"
+   }
+  ]
  },
  {
   "id": "CAPEC-639",
@@ -11043,6 +12147,31 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-552"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1039"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.003"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.004"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.006"
    }
   ]
  },
@@ -11063,6 +12192,26 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-829"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1505.005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.006"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.013"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1620"
    }
   ]
  },
@@ -11078,6 +12227,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-706"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.002"
    }
   ]
  },
@@ -11093,6 +12247,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-732"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1505.005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1554"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1574.005"
    }
   ]
  },
@@ -11113,6 +12282,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1135"
    }
   ]
  },
@@ -11148,6 +12322,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-308"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1550.002"
    }
   ]
  },
@@ -11173,6 +12352,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-308"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1550.003"
    }
   ]
  },
@@ -11188,6 +12372,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1120"
    }
   ]
  },
@@ -11203,6 +12392,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-285"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1005"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1012"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1552.002"
    }
   ]
  },
@@ -11218,6 +12422,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-267"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1113"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1513"
    }
   ]
  },
@@ -11233,6 +12447,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-46"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1036.006"
    }
   ]
  },
@@ -11253,6 +12472,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-553"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1505.003"
    }
   ]
  },
@@ -11268,6 +12492,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-200"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1111"
    }
   ]
  },
@@ -11323,6 +12552,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-836"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1558"
    }
   ]
  },
@@ -11383,6 +12617,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1021"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1056"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1548.004"
    }
   ]
  },
@@ -11393,7 +12637,13 @@
   "url": "https://capec.mitre.org/data/definitions/655.html",
   "text": "An adversary adds data to a file to increase the file size beyond what security tools are capable of handling in an attempt to mask their actions. In addition to this, adding data to a file also changes the file's hash, frustrating security tools that look for known bad files by their hash.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1027.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-656",
@@ -11416,6 +12666,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-494"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1072"
    }
   ]
  },
@@ -11431,6 +12686,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-829"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1055"
    }
   ]
  },
@@ -11466,6 +12726,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-494"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1185"
    }
   ]
  },
@@ -11546,6 +12811,21 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-862"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1211"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1542.002"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1556"
    }
   ]
  },
@@ -11561,6 +12841,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-404"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1498.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1499.001"
    }
   ]
  },
@@ -11601,6 +12891,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-693"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1565.002"
    }
   ]
  },
@@ -11611,7 +12906,13 @@
   "url": "https://capec.mitre.org/data/definitions/669.html",
   "text": "An adversary with access to an organization’s software update infrastructure inserts malware into the content of an outgoing update to fielded systems where a wide range of malicious effects are possible. With the same level of access, the adversary can alter a software update to perform specific malicious acts including granting the adversary control over the software’s normal functionality.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
+   }
+  ]
  },
  {
   "id": "CAPEC-670",
@@ -11620,7 +12921,18 @@
   "url": "https://capec.mitre.org/data/definitions/670.html",
   "text": "An adversary with the ability to alter tools used in a development environment causes software to be developed with maliciously modified tools. Such tools include requirements management and database tools, software design tools, configuration management tools, compilers, system build tools, and software performance testing and load testing tools. The adversary then carries out malicious acts onc…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1127"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
+   }
+  ]
  },
  {
   "id": "CAPEC-671",
@@ -11629,7 +12941,13 @@
   "url": "https://capec.mitre.org/data/definitions/671.html",
   "text": "An adversary with access to functional requirements for an application specific integrated circuit (ASIC), a chip designed/customized for a singular particular use, maliciously alters requirements derived from originating capability needs. In the chip manufacturing process, requirements drive the chip design which, when the chip is fully manufactured, could result in an ASIC which may not meet th…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-672",
@@ -11638,7 +12956,13 @@
   "url": "https://capec.mitre.org/data/definitions/672.html",
   "text": "During the programming step of chip manufacture, an adversary with access and necessary technical skills maliciously alters a chip’s intended program logic to produce an effect intended by the adversary when the fully manufactured chip is deployed and in operational use. Intended effects can include the ability of the adversary to remotely control a host system to carry out malicious acts.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-673",
@@ -11647,7 +12971,13 @@
   "url": "https://capec.mitre.org/data/definitions/673.html",
   "text": "Software produced by a reputable developer is clandestinely infected with malicious code and then digitally signed by the unsuspecting developer, where the software has been altered via a compromised software development or build process prior to being signed. The receiver or user of the software has no reason to believe that it is anything but legitimate and proceeds to deploy it to organization…",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
+   }
+  ]
  },
  {
   "id": "CAPEC-674",
@@ -11656,7 +12986,13 @@
   "url": "https://capec.mitre.org/data/definitions/674.html",
   "text": "An adversary alters the functionality of a field-programmable gate array (FPGA) by causing an FPGA configuration memory chip reload in order to introduce a malicious function that could result in the FPGA performing or enabling malicious functions on a host system. Prior to the memory chip reload, the adversary alters the program for the FPGA by adding a function to impact system operation.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-675",
@@ -11670,6 +13006,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-1266"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1052"
    }
   ]
  },
@@ -11700,7 +13041,13 @@
   "url": "https://capec.mitre.org/data/definitions/677.html",
   "text": "Malware is inserted in a server motherboard (e.g., in the flash memory) in order to alter server functionality from that intended. The development environment or hardware/software support activity environment is susceptible to an adversary inserting malicious software into hardware components during development or update.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.003"
+   }
+  ]
  },
  {
   "id": "CAPEC-678",
@@ -11709,7 +13056,13 @@
   "url": "https://capec.mitre.org/data/definitions/678.html",
   "text": "During the system build process, the system is deliberately misconfigured by the alteration of the build data. Access to system configuration data files and build processes is susceptible to deliberate misconfiguration of the system.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
+   }
+  ]
  },
  {
   "id": "CAPEC-679",
@@ -11877,6 +13230,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-494"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.002"
    }
   ]
  },
@@ -11922,6 +13285,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-497"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1614"
    }
   ]
  },
@@ -11942,6 +13310,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-829"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1195.001"
    }
   ]
  },
@@ -11972,6 +13345,11 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-923"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1557.003"
    }
   ]
  },
@@ -11992,6 +13370,16 @@
     "type": "TARGETS",
     "target_kind": "CWE",
     "target_id": "CWE-829"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1176"
+   },
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1505.004"
    }
   ]
  },
@@ -12017,7 +13405,13 @@
   "url": "https://capec.mitre.org/data/definitions/700.html",
   "text": "An adversary which has gained elevated access to network boundary devices may use these devices to create a channel to bridge trusted and untrusted networks. Boundary devices do not necessarily have to be on the network’s edge, but rather must serve to segment portions of the target network the adversary wishes to cross into.",
   "stride": [],
-  "rels": []
+  "rels": [
+   {
+    "type": "MAPS_TO",
+    "target_kind": "ATTACK",
+    "target_id": "T1599"
+   }
+  ]
  },
  {
   "id": "CAPEC-701",

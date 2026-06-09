@@ -25,15 +25,17 @@ from app.schemas import Component, Mitigation, Threat
 _PROMPTS_DIR = Path(__file__).resolve().parents[2] / "llm" / "prompts"
 _env = Environment(loader=FileSystemLoader(_PROMPTS_DIR), autoescape=select_autoescape(disabled_extensions=("j2",)))
 
-_SYSTEM = "Você ancora ameaças STRIDE em CWE/CAPEC/ASVS reais. Cite APENAS os IDs candidatos fornecidos."
+_SYSTEM = "Você ancora ameaças STRIDE em CWE/CAPEC/ATT&CK/ASVS reais. Cite APENAS os IDs candidatos fornecidos."
 _MAX_CWE = 3
 _MAX_CAPEC = 2
+_MAX_ATTACK = 2
 
 
 class _EnrichItem(BaseModel):
     threat_id: str
     cwe_ids: list[str] = Field(default_factory=list)
     capec_ids: list[str] = Field(default_factory=list)
+    attack_ids: list[str] = Field(default_factory=list)
     mitigations: list[Mitigation] = Field(default_factory=list)
 
 
@@ -45,6 +47,7 @@ def _candidates(sg: Subgraph) -> dict:
     return {
         "cwe": [{"id": n.id, "name": n.name} for n in sg.nodes if n.kind == "CWE"],
         "capec": [{"id": n.id, "name": n.name} for n in sg.nodes if n.kind == "CAPEC"],
+        "attack": [{"id": n.id, "name": n.name} for n in sg.nodes if n.kind == "ATTACK"],
         "controls": [{"id": n.id, "name": n.name} for n in sg.nodes if n.kind == "Control"],
     }
 
@@ -53,6 +56,7 @@ def _apply_deterministic(threat: Threat, sg: Subgraph) -> None:
     """Fallback: anexa os candidatos do subgrafo (todos reais → grounded)."""
     threat.cwe_ids = sg.ids("CWE")[:_MAX_CWE]
     threat.capec_ids = sg.ids("CAPEC")[:_MAX_CAPEC]
+    threat.attack_ids = sg.ids("ATTACK")[:_MAX_ATTACK]
     # No fallback citamos os capítulos ASVS (ids sem '.'); o LLM real cita o requisito específico.
     controls = [(n.id, n.name) for n in sg.nodes if n.kind == "Control" and "." not in n.id]
     if controls and not any(m.refs for m in threat.mitigations):
@@ -67,8 +71,10 @@ def _apply_item(threat: Threat, item: _EnrichItem, sg: Subgraph) -> None:
     """Aplica a seleção do LLM, filtrando para os candidatos (segurança extra)."""
     cand_cwe = set(sg.ids("CWE"))
     cand_capec = set(sg.ids("CAPEC"))
+    cand_attack = set(sg.ids("ATTACK"))
     threat.cwe_ids = [c for c in item.cwe_ids if c in cand_cwe][:_MAX_CWE]
     threat.capec_ids = [c for c in item.capec_ids if c in cand_capec][:_MAX_CAPEC]
+    threat.attack_ids = [a for a in item.attack_ids if a in cand_attack][:_MAX_ATTACK]
     if item.mitigations:
         threat.mitigations = item.mitigations
 
