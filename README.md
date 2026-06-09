@@ -5,7 +5,7 @@
 Dois sistemas que recebem a **imagem de um diagrama de arquitetura** (AWS/Azure/GCP, agnóstico) e produzem um **relatório de modelagem de ameaças STRIDE** com vulnerabilidades e contramedidas:
 
 - **Cíclope** — baseline *LLM-only* (a imagem vai direto a um VLM → relatório). O melhor baseline possível, para comparação justa. **Leve** (não precisa de GPU/ML).
-- **ARGUS** — sistema especialista, pipeline de seis estágios: **E1** detector supervisionado (YOLO11) → **E2** OCR + fusão ícone/rótulo + cross-check/topologia (VLM) → **E3** DFD (fronteiras de confiança) → **E4** STRIDE-per-element → E5 Graph-RAG ancorado (CWE/CAPEC/CVE) → E6 scoring + relatório. **Pesado** (precisa de `torch`/OCR).
+- **ARGUS** — sistema especialista, pipeline de seis estágios: **E1** detector supervisionado (YOLO11) → **E2** OCR + fusão ícone/rótulo + cross-check/topologia (VLM) → **E3** DFD (fronteiras de confiança) → **E4** STRIDE-per-element → **E5** conhecimento ancorado (`CWE→CAPEC→ATT&CK→D3FEND` + `STRIDE→ASVS/NIST`, CVEs reais do NVD; *groundedness* anti-alucinação) → **E6** DREAD + relatório. **Pesado** (precisa de `torch`/OCR).
 
 Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais de cada estágio e o **estudo comparativo** Cíclope × ARGUS.
 
@@ -14,7 +14,8 @@ Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais d
 - **Fase 0** ✅ — backend FastAPI + Cíclope E2E + troca de LLM em runtime + shell React.
 - **Fase 1** ✅ — detector YOLO11 (dataset sintético auto-rotulado; mAP@50 0,99 no teste sintético). Modelo: [`zagari/argus-detector`](https://huggingface.co/zagari/argus-detector).
 - **Fase 2** ✅ — núcleo ARGUS: **E2** (OCR/fusão/cross-check/topologia), **E3** (DFD), **E4** (STRIDE-per-element) + aba "Pipeline ARGUS" na UI.
-- **Fases 3–6** 📋 — Graph-RAG (E5), DREAD, estudo comparativo, empacotamento.
+- **Fase 3** ✅ — **conhecimento ancorado** (E5/E6): grafo `CWE→CAPEC→ATT&CK→D3FEND` + `STRIDE→ASVS/NIST` (fonte de verdade portátil), **CVEs reais** (NVD, cache offline), **groundedness** (validação anti-alucinação) e **DREAD** determinístico. Camadas **opcionais**: **Chroma** (RAG semântico, embeddings locais) e **Neo4j** (Graph-RAG via Cypher + Browser). Ver [Conhecimento ancorado](#conhecimento-ancorado-fase-3--e5e6).
+- **Fases 4–6** 📋 — relatório/revisão humana/painel comparativo, estudo comparativo (gold set + LLM-judge), empacotamento.
 
 ## Stack
 
@@ -26,7 +27,7 @@ Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais d
 | Detecção (E1) | Ultralytics YOLO11 |
 | OCR (E2) | PaddleOCR / EasyOCR (plugável) |
 | Relatório | Jinja2 → WeasyPrint (PDF) |
-| Conhecimento (E5) | Neo4j (Graph-RAG) · Chroma (RAG) |
+| Conhecimento (E5) | Grafo local (fonte de verdade; CWE/CAPEC/ATT&CK/D3FEND/ASVS/NIST/CVE) · Chroma (RAG semântico, opcional) · Neo4j (Graph-RAG, opcional) |
 
 ## Modos de implantação
 
@@ -63,6 +64,56 @@ a latência do ARGUS (~1–2 min) é dominada pelas chamadas ao VLM, não pelo d
 > ⚠️ **Latência atrás de Cloudflare:** a análise do ARGUS leva ~1–2 min (3 chamadas ao VLM),
 > próximo do teto ~100s do Cloudflare *free* — pode haver 504 em execuções mais lentas. O
 > Cíclope (~30s) não tem esse risco. Mitigação futura: unir as chamadas VLM / análise assíncrona.
+
+## Conhecimento ancorado (Fase 3 — E5/E6)
+
+O ARGUS não "cita de memória": cada ameaça é **ancorada** num grafo de conhecimento curado e **validada** (anti-alucinação). Essa camada tem **três níveis** — o primeiro é sempre ligado; os outros dois são **opcionais** e *degradam graciosamente* (sem eles, o sistema funciona e entrega os mesmos resultados de base).
+
+### 1. Grafo local — sempre ligado, é a fonte de verdade
+Um grafo em memória (`LocalKG`), versionado **dentro do pacote** (`backend/app/argus/knowledge/catalog/`), liga — por (classe de componente × categoria STRIDE):
+
+`CWE` (fraquezas) → `CAPEC` (padrões de ataque) → `ATT&CK` (técnicas) → `D3FEND` (contramedidas), mais `STRIDE → ASVS / NIST 800-53` (controles) e **CVEs reais** do NVD (cache offline, **sem** chamadas de rede em runtime).
+
+- **Groundedness (anti-alucinação):** um validador confere se cada id citado (CWE/CAPEC/ATT&CK/CVE…) **existe** no grafo; ids inventados são descartados. É a mesma "régua" aplicada aos dois sistemas no estudo comparativo (Fase 5).
+- **E6 = DREAD** determinístico (defaults por tipo de elemento × STRIDE) para reduzir subjetividade.
+- **Portátil:** segue na imagem Docker, sem serviço externo. **Nada a configurar.**
+
+### 2. Chroma — RAG semântico (opcional)
+**O que é:** um banco **vetorial**. Indexa cada entidade do grafo como um *embedding* (vetor de significado, com modelo **local** multilíngue PT↔EN) e responde "quais entidades se parecem com este texto".
+
+**O que agrega:** *recall por significado*. Além das âncoras determinísticas (mapeamento curado), o E5 levanta candidatos **semânticos** — ex.: uma ameaça descrita em português casa com um CWE em inglês que o mapa fixo não previa. As âncoras que vêm **só** da semântica recebem o selo **≈sem** na UI.
+
+**O que se perde sem ele:** nada de base — cai no **determinístico** (mapeamento curado) e a busca do Explorer vira **substring**. É um *realce de recall*, não um requisito.
+
+**Como ligar** (precisa das deps de ML — modo **FULL**):
+```bash
+ARGUS_RAG=1     # no .env; no 1º start baixa o modelo e indexa em background (status na aba Início)
+# ARGUS_EMBED_MODEL=paraphrase-multilingual-MiniLM-L12-v2   # default; bge-m3 = mais pesado/preciso
+```
+O índice (Chroma) e o modelo persistem num **volume** → não re-baixam/re-indexam a cada deploy.
+
+### 3. Neo4j — Graph-RAG "de verdade" (opcional)
+**O que é:** um banco de **grafo**. Guarda nós **e arestas** como cidadãos de 1ª classe e permite consultas **multi-hop em Cypher** + visualização no **Neo4j Browser**.
+
+**O que agrega:** o **mesmo** grafo, agora navegável/consultável como grafo (ótimo para explicar e gravar o vídeo). Selecionado por `ARGUS_KG_BACKEND=neo4j`, com **fallback automático** ao `LocalKG` se a instância não responder.
+
+**Importante — equivalência comprovada:** o teste `pytest -m neo4j` verifica `LocalKG.subgraph == Neo4jKG.subgraph` (mesmos nós **e** arestas) em todas as categorias STRIDE. Ou seja, **os resultados são idênticos** com ou sem Neo4j — ele é **profundidade/vitrine**, não correção. O `LocalKG` continua a fonte de verdade.
+
+**Como ligar (dev local):**
+```bash
+docker compose --profile full up -d neo4j          # Neo4j: 7474 = Browser, 7687 = bolt
+cd backend && python -m app.argus.knowledge.ingest.mirror_neo4j   # espelha o LocalKG (driver em requirements-ml)
+ARGUS_KG_BACKEND=neo4j NEO4J_URI=bolt://localhost:7687 uvicorn app.main:app --reload
+# Browser: http://localhost:7474  (neo4j / arguspass)  ·  ex. de Cypher:
+#   MATCH p=(s:Stride {name:'Spoofing'})-[:REALIZED_BY]->()-[:EXPLOITED_BY]->()-[:MAPS_TO]->() RETURN p LIMIT 50
+```
+Reespelhe (`mirror_neo4j`) **quando os catálogos mudarem**; o grafo persiste no volume `neo4j_data`.
+
+> **Em produção, os dois são opt-in.** Por padrão o deploy roda **só o `LocalKG`** (nada a fazer).
+> Para ligar no servidor, ver `deploy/.env.prod.example`: o Chroma é `ARGUS_RAG=1`; o Neo4j sobe pelo
+> profile `graph` (`docker compose -f docker-compose.prod.yml --profile graph up -d neo4j`, fora do
+> deploy padrão) + `ARGUS_KG_BACKEND=neo4j`. Como os resultados são **idênticos**, em prod o ganho do
+> Neo4j é apenas a visualização.
 
 ## Desenvolvimento local (sem Docker)
 
