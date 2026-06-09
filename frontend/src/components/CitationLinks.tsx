@@ -39,6 +39,12 @@ export function urlForId(id: string): string | null {
   return null
 }
 
+/** True se o id é uma CONTRAMEDIDA (controle ASVS/NIST/D3FEND); senão é âncora ofensiva (CWE/CAPEC/ATT&CK/CVE). */
+export function isControlId(id: string): boolean {
+  const s = id.trim().toUpperCase()
+  return s.startsWith('ASVS') || s.startsWith('NIST-') || s.startsWith('D3F-')
+}
+
 /** Renderiza uma lista de IDs como links clicáveis para a fonte (fallback: texto puro). */
 export default function CitationLinks({ ids, sep = ', ' }: { ids: string[]; sep?: string }) {
   return (

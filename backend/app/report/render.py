@@ -59,6 +59,15 @@ def _dread_band_class(band: str | None) -> str:
     return {"Crítico": "crit", "Alto": "high", "Médio": "med", "Baixo": "low"}.get(band or "", "low")
 
 
+def _is_control(ref: str) -> bool:
+    """True se o ref é contramedida (ASVS/NIST/D3FEND) — vs âncora ofensiva (CWE/CAPEC/CVE/ATT&CK)."""
+    s = (ref or "").strip().upper()
+    return s.startswith("ASVS") or s.startswith("NIST-") or s.startswith("D3F-")
+
+
+_env.tests["control"] = _is_control
+
+
 def _group_by_category(tm: ThreatModel) -> dict[str, list]:
     groups: dict[str, list] = {cat: [] for cat in _STRIDE_ORDER}
     for threat in tm.threats:

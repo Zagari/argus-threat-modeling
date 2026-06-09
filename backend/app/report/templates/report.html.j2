@@ -105,7 +105,8 @@
         {% if t.mitigations %}
         <ul>
           {% for m in t.mitigations %}
-            <li>{{ m.description }}{% if m.refs %} <span class="refs">[{{ cites(m.refs) }}]</span>{% endif %}</li>
+            {% set ctrls = m.refs | select("control") | list %}
+            <li>{{ m.description }}{% if ctrls %} <span class="refs">[{{ cites(ctrls) }}]</span>{% endif %}</li>
           {% endfor %}
         </ul>
         {% endif %}

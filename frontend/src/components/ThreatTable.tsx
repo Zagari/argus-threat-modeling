@@ -1,5 +1,5 @@
 import type { Threat, ThreatModel } from '../types'
-import CitationLinks from './CitationLinks'
+import CitationLinks, { isControlId } from './CitationLinks'
 
 const ORDER: string[] = [
   'Spoofing',
@@ -31,42 +31,53 @@ export default function ThreatTable({ tm }: { tm: ThreatModel }) {
             <h3 style={{ fontSize: 14, margin: '14px 0 6px' }}>
               <span className="badge cat">{cat}</span> <span className="muted">({groups[cat].length})</span>
             </h3>
-            {groups[cat].map((t) => (
-              <div className="threat" key={t.id}>
-                <strong>
-                  {t.id} — {t.title}
-                </strong>{' '}
-                <span className={`badge ${sevClass(t.impact)}`}>{t.impact}</span>
-                <div className="meta">
-                  Componente: {t.component_id} ({t.element_type}) · Prob.: {t.likelihood} · Risco: {t.risk_score}/25
-                  {t.dread_score != null ? ` · DREAD ${t.dread_score} (${t.dread_band})` : ''}
-                  {t.cwe_ids.length > 0 && (
-                    <>
-                      {' · '}
-                      <CitationLinks ids={t.cwe_ids} />
-                    </>
+            {groups[cat].map((t) => {
+              const offensive = [...t.cwe_ids, ...t.capec_ids, ...t.attack_ids]
+              const controls = Array.from(new Set(t.mitigations.flatMap((m) => m.refs).filter(isControlId)))
+              return (
+                <div className="threat" key={t.id}>
+                  <strong>
+                    {t.id} — {t.title}
+                  </strong>{' '}
+                  <span className={`badge ${sevClass(t.impact)}`}>{t.impact}</span>
+                  <div className="meta">
+                    Componente: {t.component_id} ({t.element_type}) · Prob.: {t.likelihood} · Risco: {t.risk_score}/25
+                    {t.dread_score != null ? ` · DREAD ${t.dread_score} (${t.dread_band})` : ''}
+                    {t.grounded ? ' · ancorada' : ''}
+                  </div>
+                  {offensive.length > 0 && (
+                    <div className="meta">
+                      <strong>Âncoras ofensivas:</strong> <CitationLinks ids={offensive} />
+                    </div>
                   )}
-                  {t.capec_ids.length > 0 && (
-                    <>
-                      {' · '}
-                      <CitationLinks ids={t.capec_ids} />
-                    </>
+                  {controls.length > 0 && (
+                    <div className="meta">
+                      <strong>Contramedidas:</strong> <CitationLinks ids={controls} />
+                    </div>
                   )}
-                  {t.grounded ? ' · ancorada' : ''}
+                  <div>{t.attack_scenario}</div>
+                  {t.mitigations.length > 0 && (
+                    <ul>
+                      {t.mitigations.map((m, i) => {
+                        const ctrls = m.refs.filter(isControlId)
+                        return (
+                          <li key={i}>
+                            {m.description}
+                            {ctrls.length ? (
+                              <span className="refs">
+                                {' ['}
+                                <CitationLinks ids={ctrls} />
+                                {']'}
+                              </span>
+                            ) : null}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
                 </div>
-                <div>{t.attack_scenario}</div>
-                {t.mitigations.length > 0 && (
-                  <ul>
-                    {t.mitigations.map((m, i) => (
-                      <li key={i}>
-                        {m.description}
-                        {m.refs.length ? <span className="refs"> [{m.refs.join(', ')}]</span> : null}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+                )
+              })}
           </div>
         ) : null,
       )}

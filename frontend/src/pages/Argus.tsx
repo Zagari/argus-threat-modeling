@@ -490,7 +490,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
 
           {/* ── E5 ── */}
           <StageCard
-            title="E5 · Conhecimento ancorado"
+            title="E5 · Conhecimento ancorado — fraquezas, ataques e contramedidas"
             status={st.status.e5}
             elapsed={st.data.e5?.elapsed_s}
             subtitle={
@@ -506,7 +506,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                 <p className="kv" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                   <span>
                     {st.data.e5.grounded ?? 0}/{st.tm?.threats.length ?? st.data.e4?.n_threats ?? '—'} ameaças
-                    ancoradas em CWE/CAPEC reais · {st.data.e5.ids_valid ?? 0} citações válidas
+                    ancoradas em CWE/CAPEC/ATT&CK reais · {st.data.e5.ids_valid ?? 0} citações válidas
                     {(st.data.e5.ids_invalid ?? 0) > 0
                       ? `, ${st.data.e5.ids_invalid} removida(s) por não existirem (alucinação)`
                       : ''}
@@ -544,9 +544,12 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                   </div>
                 )}
                 <p className="muted">
-                  As citações (CWE/CAPEC) e a marca <strong>"ancorada"</strong> aparecem na tabela de ameaças (E4); o
-                  validador remove qualquer ID inexistente. Os <strong>CVEs vêm da NVD</strong> (o ARGUS os recupera,
-                  não inventa).
+                  <strong>É aqui (E5) que buscamos as contramedidas.</strong> Cada ameaça é ancorada em fraquezas
+                  (CWE), padrões de ataque (CAPEC/ATT&amp;CK) e <strong>contramedidas (ASVS/NIST/D3FEND)</strong> reais,
+                  recuperadas dos catálogos (não inventadas). Na tabela de ameaças (E4) isso aparece como{' '}
+                  <strong>"Âncoras ofensivas"</strong> e <strong>"Contramedidas"</strong> (clicáveis até a fonte); o
+                  validador remove qualquer ID inexistente, e os CVEs vêm da NVD. O <strong>E6</strong> a seguir só
+                  pontua o risco (DREAD).
                 </p>
               </>
             ) : (
