@@ -2,8 +2,8 @@ import type {
   Capabilities,
   DetectStatus,
   DetectionResult,
-  KnowledgeHit,
   KnowledgeOptions,
+  KnowledgeSearch,
   Settings,
   StageEvent,
   Subgraph,
@@ -107,8 +107,8 @@ export function getSubgraph(canonical: string, stride: string): Promise<Subgraph
   )
 }
 
-export function searchKnowledge(q: string): Promise<KnowledgeHit[]> {
-  return fetch(`/knowledge/search?q=${encodeURIComponent(q)}`).then(j<KnowledgeHit[]>)
+export function searchKnowledge(q: string): Promise<KnowledgeSearch> {
+  return fetch(`/knowledge/search?q=${encodeURIComponent(q)}`).then(j<KnowledgeSearch>)
 }
 
 export function detectStatus(): Promise<DetectStatus> {

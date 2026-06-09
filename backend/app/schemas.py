@@ -65,6 +65,9 @@ class Threat(BaseModel):
     cwe_ids: list[str] = Field(default_factory=list)
     capec_ids: list[str] = Field(default_factory=list)
     attack_ids: list[str] = Field(default_factory=list)
+    semantic_anchors: list[str] = Field(
+        default_factory=list, description="Âncoras que vieram SÓ da busca semântica (Chroma), não do mapeamento curado."
+    )
     mitigations: list[Mitigation] = Field(default_factory=list)
     status: ThreatStatus = "Open"
     provenance: Provenance = "argus"

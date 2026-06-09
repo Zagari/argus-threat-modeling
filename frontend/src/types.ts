@@ -31,6 +31,7 @@ export interface Threat {
   status: string
   provenance: string
   grounded: boolean
+  semantic_anchors?: string[]
   dread?: Record<string, number> | null
   dread_score?: number | null
   dread_band?: string | null
@@ -95,6 +96,7 @@ export interface Capabilities {
   llm: { provider: string; model: string; mock: boolean }
   usd_brl_rate: number
   cost_factor: number
+  rag: { status: string; model: string | null; error: string | null }
 }
 
 export interface TextRegion {
@@ -135,12 +137,14 @@ export interface StageEvent {
   n_labeled?: number
   n_edges?: number
   n_threats?: number
-  // E5 (enriquecimento/groundedness + CVEs reais)
+  // E5 (enriquecimento/groundedness + CVEs reais + recuperação semântica)
   groundedness?: number
   id_validity?: number
   grounded?: number
   ids_valid?: number
   ids_invalid?: number
+  sem_candidates?: number
+  threats_semantic?: number
   n_cves?: number
   cves?: CveByComponent[]
   // E6 (DREAD)
@@ -176,6 +180,11 @@ export interface KnowledgeHit {
   kind: string
   name: string
   url: string | null
+  score?: number | null
+}
+export interface KnowledgeSearch {
+  mode: string
+  hits: KnowledgeHit[]
 }
 
 export interface Settings {

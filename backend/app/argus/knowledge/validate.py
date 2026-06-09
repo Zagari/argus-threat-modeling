@@ -33,6 +33,8 @@ class ValidationReport:
     ids_valid: int = 0
     ids_invalid: int = 0
     invalid: list[str] = field(default_factory=list)
+    sem_candidates: int = 0      # candidatos sugeridos pela busca semântica (Chroma)
+    threats_semantic: int = 0    # ameaças com ≥1 âncora vinda só do semântico
 
     @property
     def groundedness(self) -> float:
@@ -50,6 +52,8 @@ class ValidationReport:
             "ids_invalid": self.ids_invalid,
             "threats_grounded": self.grounded,
             "threats_total": self.threats,
+            "sem_candidates": self.sem_candidates,
+            "threats_semantic": self.threats_semantic,
         }
 
 

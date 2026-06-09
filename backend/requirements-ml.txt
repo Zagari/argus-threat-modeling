@@ -14,3 +14,8 @@ huggingface_hub>=0.24
 easyocr>=1.7
 # paddleocr>=2.7   # primário no servidor Linux (requer paddlepaddle)
 # paddlepaddle>=2.6
+
+# RAG semântico (E5 híbrido + busca do Knowledge Explorer) — embeddings LOCAIS.
+# Opcional/gracioso: sem estas libs (ou ARGUS_RAG!=1), tudo cai no determinístico/substring.
+chromadb>=0.5
+sentence-transformers>=3.0

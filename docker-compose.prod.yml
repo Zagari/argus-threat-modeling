@@ -14,6 +14,13 @@ services:
     image: ghcr.io/zagari/argus-backend:latest
     restart: unless-stopped
     env_file: .env
+    # RAG semântico (3.7): índice Chroma + cache do modelo persistem num volume → não
+    # re-baixam/re-indexam a cada deploy. Ative com ARGUS_RAG=1 no .env (opt-in; default off).
+    environment:
+      ARGUS_CHROMA_DIR: /data/chroma
+      HF_HOME: /data/hf
+    volumes:
+      - rag_data:/data
     expose:
       - "8000"   # interno à rede do compose; NÃO publicado no host
 
@@ -25,3 +32,6 @@ services:
     ports:
       # Apenas localhost:${APP_PORT} -> porta 80 do container. Seu NGINX faz o proxy público.
       - "127.0.0.1:${APP_PORT:-8090}:80"
+
+volumes:
+  rag_data:   # índice Chroma + cache de modelos do RAG (3.7)

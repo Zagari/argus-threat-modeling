@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Query
 
+from app.argus.knowledge import rag
 from app.argus.knowledge.model import Entity, Subgraph
 from app.argus.knowledge.store import get_store
 from app.taxonomy import CANONICAL_CLASSES
@@ -43,13 +44,17 @@ def entity(kind: str, eid: str) -> Entity:
 
 
 @router.get("/search")
-def search(q: str = Query(..., min_length=2), limit: int = Query(25, ge=1, le=100)) -> list[dict]:
-    """Busca por substring em id/nome (determinística). Útil para o Knowledge Explorer."""
+def search(q: str = Query(..., min_length=2), limit: int = Query(25, ge=1, le=100)) -> dict:
+    """Busca SEMÂNTICA (Chroma) quando o índice está pronto; senão, substring (fallback gracioso)."""
+    if rag.ready():
+        hits = rag.search(q, k=limit)
+        if hits:
+            return {"mode": "semântica", "hits": hits}
     ql = q.lower()
     out: list[dict] = []
     for e in get_store().iter_entities():
         if ql in e.id.lower() or ql in e.name.lower():
-            out.append({"id": e.id, "kind": e.kind, "name": e.name, "url": e.url})
+            out.append({"id": e.id, "kind": e.kind, "name": e.name, "url": e.url, "score": None})
             if len(out) >= limit:
                 break
-    return out
+    return {"mode": "substring", "hits": out}

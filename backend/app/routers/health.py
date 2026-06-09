@@ -4,6 +4,7 @@ from fastapi import APIRouter
 
 from app import __version__
 from app.argus import detect as detector
+from app.argus.knowledge import rag
 from app.config import get_config
 
 router = APIRouter(tags=["health"])
@@ -29,4 +30,5 @@ def capabilities() -> dict:
         "llm": {"provider": cfg.provider, "model": cfg.model, "mock": cfg.mock},
         "usd_brl_rate": cfg.usd_brl_rate,
         "cost_factor": cfg.cost_factor,
+        "rag": rag.status(),
     }

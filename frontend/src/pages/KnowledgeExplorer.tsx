@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getKnowledgeOptions, getSubgraph, searchKnowledge } from '../api/client'
 import { urlForId } from '../components/CitationLinks'
 import KnowledgeSubgraph from '../components/KnowledgeSubgraph'
-import type { KnowledgeHit, KnowledgeOptions, Subgraph } from '../types'
+import type { KnowledgeOptions, KnowledgeSearch, Subgraph } from '../types'
 
 export default function KnowledgeExplorer() {
   const [opts, setOpts] = useState<KnowledgeOptions | null>(null)
@@ -10,7 +10,7 @@ export default function KnowledgeExplorer() {
   const [stride, setStride] = useState('Spoofing')
   const [sg, setSg] = useState<Subgraph | null>(null)
   const [q, setQ] = useState('')
-  const [hits, setHits] = useState<KnowledgeHit[]>([])
+  const [search, setSearch] = useState<KnowledgeSearch | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function KnowledgeExplorer() {
     e.preventDefault()
     if (q.trim().length < 2) return
     try {
-      setHits(await searchKnowledge(q.trim()))
+      setSearch(await searchKnowledge(q.trim()))
     } catch (err) {
       setError(String(err))
     }
@@ -89,28 +89,36 @@ export default function KnowledgeExplorer() {
             Buscar
           </button>
         </form>
-        {hits.length > 0 && (
-          <table className="threats" style={{ marginTop: 12, fontSize: 13 }}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tipo</th>
-                <th>Nome</th>
-              </tr>
-            </thead>
-            <tbody>
-              {hits.map((h) => {
-                const url = h.url ?? urlForId(h.id)
-                return (
-                  <tr key={`${h.kind}-${h.id}`}>
-                    <td>{url ? <a className="cite" href={url} target="_blank" rel="noreferrer">{h.id}</a> : h.id}</td>
-                    <td>{h.kind}</td>
-                    <td>{h.name}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+        {search && search.hits.length > 0 && (
+          <>
+            <div className="kv" style={{ marginTop: 10 }}>
+              Modo: <span className={`chip ${search.mode === 'semântica' ? 'ok' : ''}`}>{search.mode}</span>
+              {search.mode === 'semântica' ? ' (por significado)' : ' (texto literal — índice semântico indisponível)'}
+            </div>
+            <table className="threats" style={{ marginTop: 8, fontSize: 13 }}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tipo</th>
+                  <th>Nome</th>
+                  {search.mode === 'semântica' && <th className="num">Relevância</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {search.hits.map((h) => {
+                  const url = h.url ?? urlForId(h.id)
+                  return (
+                    <tr key={`${h.kind}-${h.id}`}>
+                      <td>{url ? <a className="cite" href={url} target="_blank" rel="noreferrer">{h.id}</a> : h.id}</td>
+                      <td>{h.kind}</td>
+                      <td>{h.name}</td>
+                      {search.mode === 'semântica' && <td className="num">{h.score != null ? h.score.toFixed(2) : '—'}</td>}
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
     </div>

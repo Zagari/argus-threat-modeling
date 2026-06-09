@@ -45,12 +45,22 @@ export function isControlId(id: string): boolean {
   return s.startsWith('ASVS') || s.startsWith('NIST-') || s.startsWith('D3F-')
 }
 
-/** Renderiza uma lista de IDs como links clicáveis para a fonte (fallback: texto puro). */
-export default function CitationLinks({ ids, sep = ', ' }: { ids: string[]; sep?: string }) {
+/** Renderiza uma lista de IDs como links clicáveis. `semantic` marca os vindos só da busca semântica. */
+export default function CitationLinks({
+  ids,
+  sep = ', ',
+  semantic = [],
+}: {
+  ids: string[]
+  sep?: string
+  semantic?: string[]
+}) {
+  const sem = new Set(semantic.map((s) => s.trim().toUpperCase()))
   return (
     <>
       {ids.map((id, i) => {
         const url = urlForId(id)
+        const isSem = sem.has(id.trim().toUpperCase())
         return (
           <Fragment key={`${id}-${i}`}>
             {i > 0 && sep}
@@ -60,6 +70,11 @@ export default function CitationLinks({ ids, sep = ', ' }: { ids: string[]; sep?
               </a>
             ) : (
               id
+            )}
+            {isSem && (
+              <span className="sem-tag" title="recuperada pela busca semântica (Chroma), não pelo mapeamento curado">
+                {' ≈sem'}
+              </span>
             )}
           </Fragment>
         )

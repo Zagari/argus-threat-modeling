@@ -514,6 +514,15 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                   </span>
                   <UsageBadge u={st.data.e5.usage_delta} label="VLM" rate={rate} factor={factor} />
                 </p>
+                {(st.data.e5.sem_candidates ?? 0) > 0 && (
+                  <p className="kv">
+                    <strong>Recuperação híbrida:</strong> mapeamento determinístico +{' '}
+                    <strong>{st.data.e5.sem_candidates}</strong> candidato(s) sugerido(s) pela <em>busca semântica</em>
+                    {(st.data.e5.threats_semantic ?? 0) > 0
+                      ? `; ${st.data.e5.threats_semantic} ameaça(s) ganharam uma âncora que o mapeamento curado não tinha (marcada com ≈sem).`
+                      : '.'}
+                  </p>
+                )}
                 {(st.data.e5.n_cves ?? 0) > 0 && (
                   <div style={{ margin: '8px 0' }}>
                     <div className="kv">

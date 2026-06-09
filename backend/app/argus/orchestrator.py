@@ -169,6 +169,8 @@ def iter_stages(
         "grounded": ground.get("threats_grounded"),
         "ids_valid": ground.get("ids_valid", 0),
         "ids_invalid": ground.get("ids_invalid", 0),
+        "sem_candidates": ground.get("sem_candidates", 0),
+        "threats_semantic": ground.get("threats_semantic", 0),
         "n_cves": n_cves,
         "cves": cve_detail,
         "usage_delta": _usage_delta(u0, provider.current_usage()),

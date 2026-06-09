@@ -27,5 +27,6 @@ def test_entity_ok_e_404(client):
 def test_search(client):
     r = client.get("/knowledge/search", params={"q": "authentication"})
     assert r.status_code == 200, r.text
-    items = r.json()
-    assert items and any("authentication" in i["name"].lower() for i in items)
+    body = r.json()
+    assert body["mode"] in ("semântica", "substring")
+    assert body["hits"] and any("authentication" in i["name"].lower() for i in body["hits"])

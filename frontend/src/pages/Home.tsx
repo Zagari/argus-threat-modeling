@@ -34,6 +34,11 @@ export default function Home({ caps, onNavigate }: { caps: Capabilities | null; 
             </span>
           )}
           <span className={`chip ${mock ? 'warn' : 'ok'}`}>{mock ? 'mock ligado' : 'análise real'}</span>
+          {caps?.rag && caps.rag.status !== 'off' && (
+            <span className={`chip ${caps.rag.status === 'pronto' ? 'ok' : caps.rag.status === 'erro' ? 'off' : 'warn'}`}>
+              busca semântica: {caps.rag.status}
+            </span>
+          )}
         </div>
       </div>
 

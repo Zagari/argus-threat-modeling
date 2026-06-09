@@ -47,7 +47,8 @@ export default function ThreatTable({ tm }: { tm: ThreatModel }) {
                   </div>
                   {offensive.length > 0 && (
                     <div className="meta">
-                      <strong>Âncoras ofensivas:</strong> <CitationLinks ids={offensive} />
+                      <strong>Âncoras ofensivas:</strong>{' '}
+                      <CitationLinks ids={offensive} semantic={t.semantic_anchors ?? []} />
                     </div>
                   )}
                   {controls.length > 0 && (

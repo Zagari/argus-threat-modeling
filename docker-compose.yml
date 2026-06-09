@@ -26,6 +26,13 @@ services:
       ARGUS_DETECTOR_HF: "${ARGUS_DETECTOR_HF:-}"
       ARGUS_OCR_GPU: "${ARGUS_OCR_GPU:-0}"
       ARGUS_CROSSCHECK: "${ARGUS_CROSSCHECK:-1}"
+      # RAG semântico (3.7) — opt-in (precisa de ARGUS_ML=true p/ as deps); índice/modelo no volume
+      ARGUS_RAG: "${ARGUS_RAG:-0}"
+      ARGUS_EMBED_MODEL: "${ARGUS_EMBED_MODEL:-paraphrase-multilingual-MiniLM-L12-v2}"
+      ARGUS_CHROMA_DIR: /data/chroma
+      HF_HOME: /data/hf
+    volumes:
+      - rag_data:/data
 
   frontend:
     build:
@@ -50,3 +57,4 @@ services:
 
 volumes:
   neo4j_data:
+  rag_data:    # índice Chroma + cache de modelos do RAG (3.7)
