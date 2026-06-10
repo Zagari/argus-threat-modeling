@@ -79,7 +79,7 @@ def build_subgraph(canonical: str, stride: str, nb: _Neighbors) -> Subgraph:
         name, url = nb.name_url(kind, eid)
         sg.nodes.append(SubgraphNode(id=eid, kind=kind, name=name, url=url))
 
-    for cwe in seeds.STRIDE_TO_CWE.get(stride, []):
+    for cwe in seeds.cwes_for(canonical, stride):
         add(KIND_CWE, cwe)
         sg.edges.append(SubgraphEdge(source=stride_id, target=cwe, type="REALIZED_BY"))
         for capec in nb.capec_by_cwe(cwe)[:_MAX_CAPEC_PER_CWE]:
@@ -92,18 +92,37 @@ def build_subgraph(canonical: str, stride: str, nb: _Neighbors) -> Subgraph:
                     add(KIND_D3FEND, dfd)
                     sg.edges.append(SubgraphEdge(source=atk, target=dfd, type="COUNTERED_BY"))
 
-    for ctrl in seeds.STRIDE_TO_ASVS.get(stride, []):
+    for ctrl in seeds.asvs_for(canonical, stride):
         add(KIND_CONTROL, ctrl)
         sg.edges.append(SubgraphEdge(source=stride_id, target=ctrl, type="MITIGATED_BY"))
         for req in nb.reqs_by_chapter(ctrl)[:_MAX_ASVS_REQ]:
             add(KIND_CONTROL, req)
             sg.edges.append(SubgraphEdge(source=ctrl, target=req, type="REQUIRES"))
 
-    for nctrl in seeds.STRIDE_TO_NIST.get(stride, []):
+    for nctrl in seeds.nist_for(canonical, stride):
         add(KIND_CONTROL, nctrl)
         sg.edges.append(SubgraphEdge(source=stride_id, target=nctrl, type="MITIGATED_BY"))
 
     return sg
+
+
+def panorama(store: KnowledgeStore, canonical: str) -> Subgraph:
+    """União dos 6 subgrafos STRIDE de uma classe (visão "Grafo" do Explorer). Dedup por nó/aresta."""
+    pan = Subgraph(canonical=canonical, stride="*")
+    seen_n: set[tuple[str, str]] = set()
+    seen_e: set[tuple[str, str, str]] = set()
+    for st in seeds.STRIDES:
+        sg = store.subgraph(canonical, st)
+        for n in sg.nodes:
+            if (n.kind, n.id) not in seen_n:
+                seen_n.add((n.kind, n.id))
+                pan.nodes.append(n)
+        for e in sg.edges:
+            key = (e.source, e.target, e.type)
+            if key not in seen_e:
+                seen_e.add(key)
+                pan.edges.append(e)
+    return pan
 
 
 class LocalKG:

@@ -90,6 +90,213 @@ STRIDE_TO_NIST: dict[str, list[str]] = {
     "Elevation of Privilege": ["NIST-AC-6", "NIST-AC-3", "NIST-AC-2"],
 }
 
+# Ordem canônica das 6 categorias STRIDE (para o panorama e os seletores).
+STRIDES: list[str] = [
+    "Spoofing", "Tampering", "Repudiation",
+    "Information Disclosure", "Denial of Service", "Elevation of Privilege",
+]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Curadoria POR CLASSE DE COMPONENTE (3.9). Override por célula (classe × STRIDE);
+# células ausentes caem na base por propriedade (STRIDE_TO_*). Os CWEs refletem as
+# fraquezas TÍPICAS do tipo de ativo (a cadeia CAPEC→ATT&CK→D3FEND é data-driven a
+# partir deles). Todo id é validado contra o catálogo em test_curadoria.py.
+# A matriz STRIDE-per-element guia quais categorias são relevantes por tipo de elemento
+# (ExternalEntity: S,R; DataStore: T,R,I,D[,E]; Process: as 6).
+# ─────────────────────────────────────────────────────────────────────────────
+CLASS_STRIDE_TO_CWE: dict[str, dict[str, list[str]]] = {
+    # ── ExternalEntity ──────────────────────────────────────────────────────
+    "actor_user": {
+        "Spoofing": ["CWE-287", "CWE-384", "CWE-307", "CWE-640", "CWE-620"],
+        "Repudiation": ["CWE-778", "CWE-117"],
+    },
+    "backend_external": {
+        "Spoofing": ["CWE-295", "CWE-287", "CWE-345"],
+        "Tampering": ["CWE-345", "CWE-494"],
+        "Information Disclosure": ["CWE-319", "CWE-200"],
+        "Repudiation": ["CWE-778"],
+    },
+    # ── Process ─────────────────────────────────────────────────────────────
+    "edge_security": {
+        "Spoofing": ["CWE-290", "CWE-348", "CWE-345"],
+        "Tampering": ["CWE-20", "CWE-444", "CWE-436"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-209"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-693", "CWE-863"],
+    },
+    "api_gateway": {
+        "Spoofing": ["CWE-287", "CWE-290", "CWE-347", "CWE-345"],
+        "Tampering": ["CWE-20", "CWE-915", "CWE-444"],
+        "Repudiation": ["CWE-778", "CWE-223"],
+        "Information Disclosure": ["CWE-200", "CWE-598", "CWE-209"],
+        "Denial of Service": ["CWE-770", "CWE-400", "CWE-799"],
+        "Elevation of Privilege": ["CWE-285", "CWE-862", "CWE-863", "CWE-639"],
+    },
+    "load_balancer": {
+        "Spoofing": ["CWE-290", "CWE-348"],
+        "Tampering": ["CWE-444", "CWE-345"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-319"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-693"],
+    },
+    "compute": {
+        "Spoofing": ["CWE-287", "CWE-295"],
+        "Tampering": ["CWE-94", "CWE-78", "CWE-502"],
+        "Repudiation": ["CWE-778", "CWE-532"],
+        "Information Disclosure": ["CWE-200", "CWE-312", "CWE-526"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-250", "CWE-269", "CWE-732", "CWE-426"],
+    },
+    "serverless_fn": {
+        "Spoofing": ["CWE-287", "CWE-345"],
+        "Tampering": ["CWE-94", "CWE-502", "CWE-915"],
+        "Repudiation": ["CWE-778", "CWE-532"],
+        "Information Disclosure": ["CWE-532", "CWE-200", "CWE-526"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-250", "CWE-269", "CWE-862"],
+    },
+    "app_service": {
+        "Spoofing": ["CWE-287", "CWE-384", "CWE-290"],
+        "Tampering": ["CWE-79", "CWE-89", "CWE-352", "CWE-20"],
+        "Repudiation": ["CWE-778", "CWE-117"],
+        "Information Disclosure": ["CWE-200", "CWE-209", "CWE-359"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-285", "CWE-862", "CWE-863", "CWE-639"],
+    },
+    "cdn": {
+        "Spoofing": ["CWE-290", "CWE-345"],
+        "Tampering": ["CWE-345", "CWE-444"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-525", "CWE-524"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-639"],
+    },
+    "identity": {
+        "Spoofing": ["CWE-287", "CWE-384", "CWE-290", "CWE-347", "CWE-307"],
+        "Tampering": ["CWE-347", "CWE-345"],
+        "Repudiation": ["CWE-778", "CWE-223"],
+        "Information Disclosure": ["CWE-522", "CWE-200"],
+        "Denial of Service": ["CWE-307", "CWE-400"],
+        "Elevation of Privilege": ["CWE-269", "CWE-266", "CWE-863"],
+    },
+    "email_notify": {
+        "Spoofing": ["CWE-290", "CWE-287"],
+        "Tampering": ["CWE-93", "CWE-20"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-201"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-862"],
+    },
+    # ── DataStore ───────────────────────────────────────────────────────────
+    "database_sql": {
+        "Tampering": ["CWE-89", "CWE-564", "CWE-20"],
+        "Repudiation": ["CWE-778", "CWE-532"],
+        "Information Disclosure": ["CWE-200", "CWE-311", "CWE-312"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-862", "CWE-863", "CWE-250"],
+    },
+    "database_nosql": {
+        "Tampering": ["CWE-943", "CWE-89", "CWE-20"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-311", "CWE-1188"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-862", "CWE-863"],
+    },
+    "cache": {
+        "Tampering": ["CWE-345", "CWE-502"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-311", "CWE-312"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-306", "CWE-862"],
+    },
+    "object_storage": {
+        "Tampering": ["CWE-494", "CWE-345"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-732", "CWE-668", "CWE-311"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-732", "CWE-284", "CWE-862"],
+    },
+    "file_storage": {
+        "Tampering": ["CWE-22", "CWE-73", "CWE-494"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-552", "CWE-311"],
+        "Denial of Service": ["CWE-400", "CWE-409", "CWE-770"],
+        "Elevation of Privilege": ["CWE-732", "CWE-284"],
+    },
+    "message_queue": {
+        "Tampering": ["CWE-345", "CWE-502"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-311", "CWE-319"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-862", "CWE-306"],
+    },
+    "secrets": {
+        "Spoofing": ["CWE-287", "CWE-306"],
+        "Tampering": ["CWE-345"],
+        "Repudiation": ["CWE-778", "CWE-223"],
+        "Information Disclosure": ["CWE-522", "CWE-312", "CWE-798", "CWE-200"],
+        "Denial of Service": ["CWE-400"],
+        "Elevation of Privilege": ["CWE-862", "CWE-863", "CWE-732"],
+    },
+    "search": {
+        "Tampering": ["CWE-943", "CWE-89"],
+        "Repudiation": ["CWE-778"],
+        "Information Disclosure": ["CWE-200", "CWE-306", "CWE-668"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-862", "CWE-306"],
+    },
+    "monitoring": {
+        "Tampering": ["CWE-117", "CWE-345"],
+        "Repudiation": ["CWE-778", "CWE-223", "CWE-532"],
+        "Information Disclosure": ["CWE-532", "CWE-200", "CWE-359"],
+        "Denial of Service": ["CWE-400", "CWE-770"],
+        "Elevation of Privilege": ["CWE-862"],
+    },
+    # trust_boundary: não é alvo de ameaça → cai na base por propriedade.
+}
+
+# Override de contramedidas por classe APENAS onde o ativo muda o capítulo/controle
+# relevante (caso contrário, cai na base STRIDE_TO_ASVS / STRIDE_TO_NIST por propriedade).
+CLASS_STRIDE_TO_ASVS: dict[str, dict[str, list[str]]] = {
+    "database_sql": {"Information Disclosure": ["ASVS-V6", "ASVS-V8"]},
+    "cache": {"Information Disclosure": ["ASVS-V6", "ASVS-V8"]},
+    "message_queue": {"Information Disclosure": ["ASVS-V8", "ASVS-V9"]},
+    "object_storage": {"Information Disclosure": ["ASVS-V8", "ASVS-V14"], "Elevation of Privilege": ["ASVS-V4", "ASVS-V14"]},
+    "file_storage": {"Tampering": ["ASVS-V12", "ASVS-V5"], "Information Disclosure": ["ASVS-V8", "ASVS-V12"], "Denial of Service": ["ASVS-V12"]},
+    "secrets": {"Information Disclosure": ["ASVS-V6", "ASVS-V8"]},
+    "monitoring": {"Information Disclosure": ["ASVS-V7", "ASVS-V8"]},
+    "compute": {"Elevation of Privilege": ["ASVS-V4", "ASVS-V14"]},
+    "serverless_fn": {"Elevation of Privilege": ["ASVS-V4", "ASVS-V14"]},
+}
+
+CLASS_STRIDE_TO_NIST: dict[str, dict[str, list[str]]] = {
+    "database_sql": {"Information Disclosure": ["NIST-SC-28", "NIST-AC-3"]},
+    "object_storage": {"Information Disclosure": ["NIST-SC-28", "NIST-AC-3"], "Elevation of Privilege": ["NIST-AC-3", "NIST-AC-6"]},
+    "file_storage": {"Information Disclosure": ["NIST-SC-28", "NIST-AC-3"]},
+    "secrets": {"Information Disclosure": ["NIST-SC-28", "NIST-SC-12", "NIST-IA-5"]},
+    "monitoring": {"Repudiation": ["NIST-AU-2", "NIST-AU-9", "NIST-AU-12"], "Information Disclosure": ["NIST-AU-9", "NIST-SC-28"]},
+    "compute": {"Elevation of Privilege": ["NIST-AC-6", "NIST-CM-7"]},
+    "serverless_fn": {"Elevation of Privilege": ["NIST-AC-6", "NIST-AC-3"]},
+}
+
+
+def cwes_for(canonical: str, stride: str) -> list[str]:
+    """CWEs curados para (classe, STRIDE); cai na base por propriedade se a célula não existir."""
+    cell = CLASS_STRIDE_TO_CWE.get(canonical, {}).get(stride)
+    return cell if cell else STRIDE_TO_CWE.get(stride, [])
+
+
+def asvs_for(canonical: str, stride: str) -> list[str]:
+    cell = CLASS_STRIDE_TO_ASVS.get(canonical, {}).get(stride)
+    return cell if cell else STRIDE_TO_ASVS.get(stride, [])
+
+
+def nist_for(canonical: str, stride: str) -> list[str]:
+    cell = CLASS_STRIDE_TO_NIST.get(canonical, {}).get(stride)
+    return cell if cell else STRIDE_TO_NIST.get(stride, [])
+
 
 def nist_url(nist_id: str) -> str:
     """Deep-link (csf.tools) para um controle NIST 800-53 (ex.: 'NIST-AC-6' → família ac)."""

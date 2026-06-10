@@ -8,23 +8,18 @@ from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, Query
 
-from app.argus.knowledge import rag
+from app.argus.knowledge import rag, seeds
 from app.argus.knowledge.model import Entity, Subgraph
-from app.argus.knowledge.store import get_store
+from app.argus.knowledge.store import get_store, panorama
 from app.taxonomy import CANONICAL_CLASSES
 
 router = APIRouter(prefix="/knowledge", tags=["knowledge"])
-
-_STRIDE = [
-    "Spoofing", "Tampering", "Repudiation",
-    "Information Disclosure", "Denial of Service", "Elevation of Privilege",
-]
 
 
 @router.get("/options")
 def options() -> dict:
     """Listas para os seletores do Explorer: classes canônicas e categorias STRIDE."""
-    return {"classes": CANONICAL_CLASSES, "stride": _STRIDE}
+    return {"classes": CANONICAL_CLASSES, "stride": seeds.STRIDES}
 
 
 @router.get("/subgraph", response_model=Subgraph)
@@ -33,6 +28,12 @@ def subgraph(
     stride: str = Query(..., description="categoria STRIDE"),
 ) -> Subgraph:
     return get_store().subgraph(canonical, stride)
+
+
+@router.get("/panorama", response_model=Subgraph)
+def panorama_ep(canonical: str = Query(..., description="classe canônica")) -> Subgraph:
+    """Visão 'Grafo' do Explorer: união curada das 6 categorias STRIDE da classe."""
+    return panorama(get_store(), canonical)
 
 
 @router.get("/entity/{kind}/{eid}", response_model=Entity)

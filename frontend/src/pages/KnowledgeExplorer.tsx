@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { getKnowledgeOptions, getSubgraph, searchKnowledge } from '../api/client'
+import { getKnowledgeOptions, getPanorama, getSubgraph, searchKnowledge } from '../api/client'
 import { urlForId } from '../components/CitationLinks'
 import KnowledgeSubgraph from '../components/KnowledgeSubgraph'
 import type { KnowledgeOptions, KnowledgeSearch, Subgraph } from '../types'
@@ -24,10 +24,10 @@ export default function KnowledgeExplorer() {
   }, [])
 
   useEffect(() => {
-    getSubgraph(canonical, stride)
-      .then(setSg)
-      .catch((e) => setError(String(e)))
-  }, [canonical, stride])
+    // "Grafo" mostra o panorama (as 6 STRIDE da classe); "Camadas" mostra um (classe, STRIDE).
+    const load = view === 'force' ? getPanorama(canonical) : getSubgraph(canonical, stride)
+    load.then(setSg).catch((e) => setError(String(e)))
+  }, [canonical, stride, view])
 
   async function runSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -44,8 +44,9 @@ export default function KnowledgeExplorer() {
       <div className="card">
         <h2 style={{ margin: 0, fontSize: 18 }}>Base de conhecimento</h2>
         <p className="muted" style={{ marginTop: 4 }}>
-          O grafo que ancora as ameaças do ARGUS: CWE (fraquezas) → CAPEC (padrões de ataque) e os controles ASVS, por
-          (classe de componente × categoria STRIDE). Os mesmos catálogos usados na validação (groundedness).
+          O grafo que ancora as ameaças do ARGUS: CWE→CAPEC→ATT&CK→D3FEND e os controles ASVS/NIST,{' '}
+          <strong>curados por (classe de componente × categoria STRIDE)</strong>. Os mesmos catálogos usados na
+          validação (groundedness) e na seleção do E5.
         </p>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ minWidth: 220 }}>
@@ -60,13 +61,18 @@ export default function KnowledgeExplorer() {
           </div>
           <div style={{ minWidth: 220 }}>
             <label>Categoria STRIDE</label>
-            <select value={stride} onChange={(e) => setStride(e.target.value)}>
+            <select value={stride} onChange={(e) => setStride(e.target.value)} disabled={view === 'force'}>
               {(opts?.stride ?? [stride]).map((s) => (
                 <option key={s} value={s}>
                   {s}
                 </option>
               ))}
             </select>
+            {view === 'force' && (
+              <span className="muted" style={{ fontSize: 11 }}>
+                O modo “Grafo” mostra as 6 categorias.
+              </span>
+            )}
           </div>
         </div>
         {error && <div className="error">{error}</div>}
@@ -75,7 +81,12 @@ export default function KnowledgeExplorer() {
       <div className="card">
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 }}>
           <label style={{ margin: 0 }}>
-            Subgrafo de <strong>({canonical}, {stride})</strong> — clique num nó para abrir a fonte oficial
+            {view === 'force' ? (
+              <>Grafo de <strong>{canonical}</strong> (as 6 categorias STRIDE)</>
+            ) : (
+              <>Subgrafo de <strong>({canonical}, {stride})</strong></>
+            )}{' '}
+            — clique num nó para abrir a fonte oficial
           </label>
           <div className="seg" style={{ marginLeft: 'auto' }} role="tablist" aria-label="Modo de visualização">
             <button className={view === 'tiers' ? 'active' : ''} onClick={() => setView('tiers')} aria-pressed={view === 'tiers'}>

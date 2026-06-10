@@ -107,6 +107,10 @@ export function getSubgraph(canonical: string, stride: string): Promise<Subgraph
   )
 }
 
+export function getPanorama(canonical: string): Promise<Subgraph> {
+  return fetch(`/knowledge/panorama?canonical=${encodeURIComponent(canonical)}`).then(j<Subgraph>)
+}
+
 export function searchKnowledge(q: string): Promise<KnowledgeSearch> {
   return fetch(`/knowledge/search?q=${encodeURIComponent(q)}`).then(j<KnowledgeSearch>)
 }
