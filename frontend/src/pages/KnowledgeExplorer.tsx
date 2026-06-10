@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { getKnowledgeOptions, getSubgraph, searchKnowledge } from '../api/client'
 import { urlForId } from '../components/CitationLinks'
 import KnowledgeSubgraph from '../components/KnowledgeSubgraph'
 import type { KnowledgeOptions, KnowledgeSearch, Subgraph } from '../types'
+
+// Grafo force-directed (react-force-graph-2d): pesado e usado só aqui → code-split sob demanda.
+const KnowledgeForceGraph = lazy(() => import('../components/KnowledgeForceGraph'))
 
 export default function KnowledgeExplorer() {
   const [opts, setOpts] = useState<KnowledgeOptions | null>(null)
   const [canonical, setCanonical] = useState('api_gateway')
   const [stride, setStride] = useState('Spoofing')
   const [sg, setSg] = useState<Subgraph | null>(null)
+  const [view, setView] = useState<'tiers' | 'force'>('tiers')
   const [q, setQ] = useState('')
   const [search, setSearch] = useState<KnowledgeSearch | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -69,10 +73,30 @@ export default function KnowledgeExplorer() {
       </div>
 
       <div className="card">
-        <label>
-          Subgrafo de <strong>({canonical}, {stride})</strong> — clique num nó para abrir a fonte oficial
-        </label>
-        {sg ? <KnowledgeSubgraph sg={sg} /> : <p className="muted">Carregando subgrafo…</p>}
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 8 }}>
+          <label style={{ margin: 0 }}>
+            Subgrafo de <strong>({canonical}, {stride})</strong> — clique num nó para abrir a fonte oficial
+          </label>
+          <div className="seg" style={{ marginLeft: 'auto' }} role="tablist" aria-label="Modo de visualização">
+            <button className={view === 'tiers' ? 'active' : ''} onClick={() => setView('tiers')} aria-pressed={view === 'tiers'}>
+              Camadas
+            </button>
+            <button className={view === 'force' ? 'active' : ''} onClick={() => setView('force')} aria-pressed={view === 'force'}>
+              Grafo
+            </button>
+          </div>
+        </div>
+        {sg ? (
+          view === 'tiers' ? (
+            <KnowledgeSubgraph sg={sg} />
+          ) : (
+            <Suspense fallback={<p className="muted">Carregando grafo…</p>}>
+              <KnowledgeForceGraph sg={sg} />
+            </Suspense>
+          )
+        ) : (
+          <p className="muted">Carregando subgrafo…</p>
+        )}
       </div>
 
       <div className="card">
