@@ -15,6 +15,24 @@ from app.argus.knowledge.seeds import capec_url
 
 CAPEC_XML_URL = "https://capec.mitre.org/data/xml/capec_latest.xml"
 
+# Sinais de relevância para o rank (3.10): likelihood domina, severidade desempata, abstração afina.
+_LIKELIHOOD = {"High": 3, "Medium": 2, "Low": 1}
+_SEVERITY = {"Very High": 5, "High": 4, "Medium": 3, "Low": 2, "Very Low": 1}
+_ABSTRACTION = {"Standard": 2, "Meta": 1, "Detailed": 0}
+
+
+def _text(ap: ET.Element, tag: str) -> str:
+    el = ap.find(f"{{*}}{tag}")
+    return (el.text or "").strip() if el is not None and el.text else ""
+
+
+def _rank(ap: ET.Element) -> int:
+    """Score intrínseco (maior = mais relevante): likelihood×100 + severidade×10 + abstração."""
+    lk = _LIKELIHOOD.get(_text(ap, "Likelihood_Of_Attack"), 0)
+    sv = _SEVERITY.get(_text(ap, "Typical_Severity"), 0)
+    ab = _ABSTRACTION.get(ap.get("Abstraction", ""), 0)
+    return lk * 100 + sv * 10 + ab
+
 
 def parse(xml: bytes) -> list[dict]:
     root = ET.fromstring(xml)
@@ -42,6 +60,7 @@ def parse(xml: bytes) -> list[dict]:
             "name": ap.get("Name", ""),
             "url": capec_url(cid),
             "text": common.clip("".join(desc.itertext()) if desc is not None else ""),
+            "rank": _rank(ap),
             "stride": [],
             "rels": rels,
         })

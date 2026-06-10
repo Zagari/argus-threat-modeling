@@ -34,6 +34,7 @@ class Entity(BaseModel):
     name: str = ""
     text: str = ""
     url: str | None = None
+    rank: int = 0  # relevância intrínseca do catálogo (3.10): ordena candidatos antes do corte por salto
     stride: list[str] = Field(default_factory=list, description="Categorias STRIDE associadas (quando houver).")
     rels: list[Relation] = Field(default_factory=list)
 

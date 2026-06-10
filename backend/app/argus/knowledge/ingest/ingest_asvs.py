@@ -31,6 +31,17 @@ def _cwe_rels(raw: str) -> list[dict]:
     return [{"type": "ADDRESSES", "target_kind": "CWE", "target_id": f"CWE-{n}"} for n in re.findall(r"\d+", raw or "")]
 
 
+def _rank(r: dict) -> int:
+    """Nível ASVS como relevância (3.10): L1 (baseline) > L2 > L3 → 3/2/1."""
+    if r.get("level1"):
+        return 3
+    if r.get("level2"):
+        return 2
+    if r.get("level3"):
+        return 1
+    return 0
+
+
 def parse(doc: dict) -> list[dict]:
     entities: list[dict] = []
     for r in doc.get("requirements", []):
@@ -43,6 +54,7 @@ def parse(doc: dict) -> list[dict]:
             "name": _clean(r.get("req_description", "")),
             "url": asvs_chapter_url(r.get("chapter_id", "")),
             "text": f"{r.get('chapter_name', '')} · {r.get('section_name', '')}".strip(" ·"),
+            "rank": _rank(r),
             "stride": [],
             "rels": _cwe_rels(r.get("cwe", "")),
         })

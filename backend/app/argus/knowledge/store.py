@@ -149,6 +149,7 @@ class LocalKG:
         self._index_capec_links()
         self._index_asvs_reqs()
         self._index_chains()
+        self._rank_indexes()
         self._loaded = True
 
     def _load_seeds(self) -> None:
@@ -225,6 +226,17 @@ class LocalKG:
                 for r in e.rels:
                     if r.type == "COUNTERS" and r.target_kind == KIND_ATTACK:
                         self._d3fend_by_attack.setdefault(r.target_id, []).append(e.id)
+
+    def _rank_indexes(self) -> None:
+        """3.10 — ordena os vizinhos por relevância (rank do catálogo) ANTES do corte por salto.
+        Determinístico (desempate por id) → os dois backends ordenam igual (equivalência preservada)."""
+        def rk(kind: str, eid: str) -> int:
+            e = self._by.get((kind, eid))
+            return e.rank if e else 0
+        for capecs in self._capec_by_cwe.values():
+            capecs.sort(key=lambda c: (-rk(KIND_CAPEC, c), c))
+        for reqs in self._reqs_by_chapter.values():
+            reqs.sort(key=lambda r: (-rk(KIND_CONTROL, r), r))
 
     # ── contrato ───────────────────────────────────────────────────────────────
     def exists(self, kind: str, id: str) -> bool:
