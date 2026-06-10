@@ -103,6 +103,9 @@ class ThreatModel(BaseModel):
     components: list[Component] = Field(default_factory=list)
     edges: list[Edge] = Field(default_factory=list)
     threats: list[Threat] = Field(default_factory=list)
+    diagram_image: str | None = Field(
+        default=None, description="Diagrama anotado (E1, data URL base64) p/ embutir no relatório."
+    )
     meta: dict = Field(
         default_factory=dict,
         description="provider, modelo, latência (s), custo, versões, etc.",

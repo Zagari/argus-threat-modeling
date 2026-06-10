@@ -75,6 +75,7 @@ export interface ThreatModel {
   components: Component[]
   edges: Edge[]
   threats: Threat[]
+  diagram_image?: string | null
   meta: Record<string, unknown>
 }
 

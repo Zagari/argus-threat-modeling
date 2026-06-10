@@ -171,6 +171,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
   const factor = caps?.cost_factor ?? 1
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
+  const [systemName, setSystemName] = useState('')
   const [st, setSt] = useState<PipeState>(initState)
   const [running, setRunning] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -191,7 +192,13 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
     const ctrl = new AbortController()
     abortRef.current = ctrl
     try {
-      await analyzeStream(file, 'argus', (stage, data) => setSt((prev) => reduce(prev, stage, data)), ctrl.signal)
+      await analyzeStream(
+        file,
+        'argus',
+        (stage, data) => setSt((prev) => reduce(prev, stage, data)),
+        ctrl.signal,
+        systemName,
+      )
     } catch (e) {
       if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
     } finally {
@@ -233,6 +240,14 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
           accept="image/*"
           disabled={!argusMl}
           onChange={(e) => onPick(e.target.files?.[0] ?? null)}
+        />
+        <label>Nome do sistema (opcional)</label>
+        <input
+          type="text"
+          disabled={!argusMl}
+          value={systemName}
+          onChange={(e) => setSystemName(e.target.value)}
+          placeholder="se vazio, o modelo nomeia a partir do diagrama"
         />
         <div style={{ marginTop: 14, display: 'flex', gap: 10 }}>
           <button className="primary" disabled={!argusMl || !file || running} onClick={run}>

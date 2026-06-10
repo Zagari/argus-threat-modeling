@@ -3,49 +3,74 @@
 <head>
 <meta charset="utf-8">
 <style>
-  @page { size: A4; margin: 2cm; }
+  @page {
+    size: A4; margin: 2cm 2cm 2.2cm;
+    @bottom-center { content: "Página " counter(page) " de " counter(pages); font-size: 8px; color: #999; }
+    @bottom-right { content: "ARGUS · Modelagem de Ameaças STRIDE"; font-size: 8px; color: #bbb; }
+  }
+  @page:first { @bottom-center { content: ""; } @bottom-right { content: ""; } }
   body { font-family: "Helvetica", "Arial", sans-serif; color: #1a1a1a; font-size: 11px; line-height: 1.45; }
   h1 { font-size: 20px; margin: 0 0 2px; }
-  h2 { font-size: 14px; margin: 18px 0 6px; border-bottom: 2px solid #333; padding-bottom: 3px; }
+  h2 { font-size: 14px; margin: 20px 0 6px; border-bottom: 2px solid #333; padding-bottom: 3px; }
   h3 { font-size: 12px; margin: 12px 0 4px; color: #b8860b; }
-  .sub { color: #666; font-size: 10px; margin-bottom: 10px; }
+  p { margin: 5px 0; }
+  .sub { color: #666; font-size: 10px; }
+  .muted { color: #555; }
   table { width: 100%; border-collapse: collapse; margin: 6px 0; }
   th, td { border: 1px solid #ccc; padding: 4px 6px; text-align: left; vertical-align: top; }
   th { background: #f0f0f0; }
+  .num { text-align: center; }
   .badge { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 9px; color: #fff; }
-  .crit { background: #b00020; } .high { background: #d9534f; }
-  .med { background: #e0a800; } .low { background: #6c757d; }
+  .crit { background: #b00020; } .high { background: #d9534f; } .med { background: #e0a800; } .low { background: #6c757d; }
   .threat { border: 1px solid #ddd; border-left: 4px solid #b8860b; padding: 6px 8px; margin: 6px 0; page-break-inside: avoid; }
   .threat.ungrounded { border-left-color: #bbb; }
   .threat .meta { color: #666; font-size: 9px; }
+  .threat .dims { color: #555; font-size: 9px; margin-top: 2px; }
   .refs { color: #0645ad; font-size: 9px; }
   a { color: #0645ad; text-decoration: none; }
   ul { margin: 3px 0 3px 16px; padding: 0; }
-  .summary { background: #f7f5ee; border: 1px solid #e0d8bf; border-radius: 4px; padding: 8px 10px; margin: 8px 0 4px; font-size: 10px; }
+  .summary { background: #f7f5ee; border: 1px solid #e0d8bf; border-radius: 4px; padding: 8px 10px; margin: 10px 0; font-size: 10px; }
   .summary strong { color: #1a1a1a; }
   .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 9px; margin-right: 5px; border: 1px solid #ccc; }
-  .grounded { color: #1c7a3a; font-weight: bold; }
-  .ungr { color: #999; }
+  .grounded { color: #1c7a3a; font-weight: bold; } .ungr { color: #999; }
+  /* Capa */
+  .cover { page-break-after: always; padding-top: 32%; text-align: center; }
+  .cover h1 { font-size: 30px; }
+  .cover .sys { font-size: 16px; margin: 14px 0 6px; }
+  .cover .cmeta { color: #666; font-size: 11px; line-height: 1.7; }
+  .cover .tag { color: #b8860b; letter-spacing: 2px; font-size: 11px; text-transform: uppercase; }
+  /* Diagrama anotado */
+  img.diagram { max-width: 100%; max-height: 12cm; border: 1px solid #ccc; border-radius: 4px; display: block; margin: 8px auto 2px; }
+  /* Checklist de cobertura */
+  ul.chk { list-style: none; margin: 6px 0; padding: 0; }
+  ul.chk li { margin: 4px 0; font-size: 10px; }
+  .st { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 8px; color: #fff; margin-right: 4px; }
+  .st.ok { background: #1c7a3a; } .st.warn { background: #d9534f; } .st.info { background: #888; }
 </style>
 </head>
 <body>
 {% macro cites(ids) %}{% for id in ids %}{% if not loop.first %}, {% endif %}{% set u = cite_url(id) %}{% if u %}<a href="{{ u }}">{{ id }}</a>{% else %}{{ id }}{% endif %}{% endfor %}{% endmacro %}
 
-  <h1>Relatório de Modelagem de Ameaças — STRIDE</h1>
-  <div class="sub">
-    Sistema: <strong>{{ tm.system_name }}</strong> ·
-    Origem: <strong>{{ tm.meta.get("system", "—") }}</strong> ·
-    Modelo: {{ tm.meta.get("provider", "—") }} / {{ tm.meta.get("model", "—") }}
-    {% if tm.meta.get("latency_s") is not none %} · {{ tm.meta.get("latency_s") }}s{% endif %}
+  {# ===== Capa ===== #}
+  <div class="cover">
+    <div class="tag">Modelagem de Ameaças · STRIDE</div>
+    <h1>Relatório de Ameaças</h1>
+    <div class="sys">{{ tm.system_name }}</div>
+    <div class="cmeta">
+      Gerado por <strong>{{ tm.meta.get("system", "—")|upper }}</strong>
+      ({{ tm.meta.get("provider", "—") }} / {{ tm.meta.get("model", "—") }})<br>
+      {{ gerado_em }}{% if tm.meta.get("latency_s") is not none %} · análise em {{ tm.meta.get("latency_s") }}s{% endif %}
+    </div>
   </div>
 
+  {# ===== Resumo executivo ===== #}
   {% set g = tm.meta.get("groundedness") %}
   {% set dist = tm.meta.get("dread_dist") %}
   {% if g is not none or dist %}
   <div class="summary">
     {% if g is not none %}
       <span class="pill"><strong>Groundedness:</strong> {{ (g * 100)|round(0)|int }}%
-      ({{ tm.meta.get("threats_grounded", 0) }}/{{ tm.meta.get("threats_total", tm.threats|length) }} ameaças ancoradas em CWE/CAPEC reais)</span>
+      ({{ tm.meta.get("threats_grounded", 0) }}/{{ tm.meta.get("threats_total", tm.threats|length) }} ameaças ancoradas em catálogos reais)</span>
       {% if tm.meta.get("ids_invalid", 0) %}<span class="pill">IDs inválidos removidos: {{ tm.meta.get("ids_invalid") }}</span>{% endif %}
     {% endif %}
     {% if tm.meta.get("n_cves") %}<span class="pill"><strong>CVEs reais (NVD):</strong> {{ tm.meta.get("n_cves") }}</span>{% endif %}
@@ -59,21 +84,35 @@
   </div>
   {% endif %}
 
-  <h2>1. Componentes ({{ tm.components|length }})</h2>
+  {# ===== 1. Escopo e sistema (Shostack: no que estamos trabalhando?) ===== #}
+  <h2>1. Escopo e sistema analisado</h2>
+  <p class="muted">
+    Este relatório modela as ameaças de <strong>{{ tm.system_name }}</strong> a partir do diagrama de
+    arquitetura, segundo as quatro perguntas de Shostack: <em>no que estamos trabalhando</em> (§1),
+    <em>o que pode dar errado</em> (§2), <em>o que vamos fazer a respeito</em> (§3) e <em>fizemos um bom
+    trabalho</em> (§4). São <strong>{{ tm.components|length }}</strong> componentes e
+    <strong>{{ tm.edges|length }}</strong> fluxos de dados{% if tm.meta.get("boundaries") is not none %},
+    com {{ tm.meta.get("boundaries") }} fronteira(s) de confiança{% endif %}.
+  </p>
+
+  {% if tm.diagram_image %}
+  <img class="diagram" src="{{ tm.diagram_image }}" alt="Diagrama anotado">
+  <div class="sub" style="text-align:center">Diagrama com os componentes detectados (estágio E1).</div>
+  {% endif %}
+
+  <h3>1.1 Componentes ({{ tm.components|length }})</h3>
   <table>
     <thead><tr><th>ID</th><th>Rótulo</th><th>Classe canônica</th><th>Elemento DFD</th><th>CVEs reais (exemplos do produto típico)</th></tr></thead>
     <tbody>
     {% for c in tm.components %}
-      <tr>
-        <td>{{ c.id }}</td><td>{{ c.label or "—" }}</td><td>{{ c.canonical }}</td><td>{{ c.element_type }}</td>
-        <td>{% if c.cve_ids %}{{ cites(c.cve_ids) }}{% else %}—{% endif %}</td>
-      </tr>
+      <tr><td>{{ c.id }}</td><td>{{ c.label or "—" }}</td><td>{{ c.canonical }}</td><td>{{ c.element_type }}</td>
+        <td>{% if c.cve_ids %}{{ cites(c.cve_ids) }}{% else %}—{% endif %}</td></tr>
     {% endfor %}
     </tbody>
   </table>
 
   {% if tm.edges %}
-  <h2>2. Fluxos de dados ({{ tm.edges|length }})</h2>
+  <h3>1.2 Fluxos de dados ({{ tm.edges|length }})</h3>
   <table>
     <thead><tr><th>Origem</th><th>Destino</th><th>Rótulo</th><th>Cruza fronteira?</th></tr></thead>
     <tbody>
@@ -84,23 +123,44 @@
   </table>
   {% endif %}
 
-  <h2>3. Ameaças ({{ tm.threats|length }})</h2>
+  {# ===== 2. Ameaças (Shostack: o que pode dar errado?) ===== #}
+  <h2>2. Ameaças identificadas ({{ tm.threats|length }})</h2>
+
+  {% if top_risks %}
+  <h3>2.1 Riscos prioritários</h3>
+  <table>
+    <thead><tr><th class="num">#</th><th>Ameaça</th><th>Componente</th><th>STRIDE</th><th class="num">DREAD</th><th class="num">Risco 5×5</th></tr></thead>
+    <tbody>
+    {% for t in top_risks %}
+      <tr>
+        <td class="num">{{ loop.index }}</td>
+        <td>{{ t.title }}</td>
+        <td>{{ t.component_id }}</td>
+        <td>{{ t.stride_category }}</td>
+        <td class="num">{% if t.dread_score is not none %}<span class="badge {{ dread_band_class(t.dread_band) }}">{{ t.dread_score }}</span>{% else %}—{% endif %}</td>
+        <td class="num">{{ t.risk_score }}/25</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <h3>2.2 Ameaças por categoria STRIDE</h3>
   {% for category, threats in groups.items() %}
     {% if threats %}
-    <h3>{{ category }} ({{ threats|length }})</h3>
+    <h3 style="color:#333">{{ category }} ({{ threats|length }})</h3>
     {% for t in threats %}
       <div class="threat {{ '' if t.grounded else 'ungrounded' }}">
         <strong>{{ t.id }} — {{ t.title }}</strong>
         <span class="badge {{ sev_class(t.impact) }}">{{ t.impact }}</span>
         {% if t.dread_score is not none %}<span class="badge {{ dread_band_class(t.dread_band) }}">DREAD {{ t.dread_score }} ({{ t.dread_band }})</span>{% endif %}
         <div class="meta">
-          Componente: {{ t.component_id }} ({{ t.element_type }}) ·
-          Probabilidade: {{ t.likelihood }} · Risco 5×5: {{ t.risk_score }}/25
-          {% if t.cwe_ids %} · {{ cites(t.cwe_ids) }}{% endif %}
-          {% if t.capec_ids %} · {{ cites(t.capec_ids) }}{% endif %}
-          {% if t.attack_ids %} · {{ cites(t.attack_ids) }}{% endif %}
+          Componente: {{ t.component_id }} ({{ t.element_type }}) · Probabilidade: {{ t.likelihood }} · Risco 5×5: {{ t.risk_score }}/25
+          {% set off = t.cwe_ids + t.capec_ids + t.attack_ids %}
+          {% if off %} · Âncoras: {{ cites(off) }}{% endif %}
           · {% if t.grounded %}<span class="grounded">ancorada</span>{% else %}<span class="ungr">não ancorada</span>{% endif %}
         </div>
+        {% if t.dread %}<div class="dims">DREAD: {% for k, v in t.dread.items() %}{{ k|capitalize }} {{ v }}{% if not loop.last %} · {% endif %}{% endfor %}</div>{% endif %}
         <div>{{ t.attack_scenario }}</div>
         {% if t.mitigations %}
         <ul>
@@ -115,9 +175,30 @@
     {% endif %}
   {% endfor %}
 
+  {# ===== 3. Contramedidas (Shostack: o que vamos fazer a respeito?) ===== #}
+  <h2>3. Contramedidas recomendadas</h2>
+  {% if controls %}
+  <p class="muted">Controles e requisitos citados ao longo das ameaças — um checklist de implementação, clicável até a fonte oficial:</p>
+  <p>{{ cites(controls) }}</p>
+  {% else %}
+  <p class="muted">As contramedidas específicas constam em cada ameaça (§2).</p>
+  {% endif %}
+
+  {# ===== 4. Cobertura e validação (Shostack: fizemos um bom trabalho?) ===== #}
+  <h2>4. Cobertura e validação</h2>
+  <ul class="chk">
+    {% for ch in coverage.checks %}
+      <li><span class="st {{ ch.status }}">{{ {"ok": "OK", "warn": "ATENÇÃO", "info": "INFO"}[ch.status] }}</span><strong>{{ ch.label }}:</strong> {{ ch.detail }}</li>
+    {% endfor %}
+  </ul>
+  {% if coverage.gaps %}
+  <p class="muted" style="font-size:9px">Possíveis lacunas (categoria STRIDE aplicável sem ameaça gerada):
+    {% for name, miss in coverage.gaps %}<strong>{{ name }}</strong> ({{ miss|join(", ") }}){% if not loop.last %}; {% endif %}{% endfor %}.</p>
+  {% endif %}
+
   <div class="sub" style="margin-top:14px; border-top:1px solid #ddd; padding-top:6px;">
-    Âncoras (CWE/CAPEC/ATT&amp;CK/CVE/ASVS) são clicáveis e levam à fonte oficial. A
-    <em>groundedness</em> é a fração de ameaças com pelo menos uma âncora real validada nos catálogos.
+    Âncoras (CWE/CAPEC/ATT&amp;CK/CVE) e contramedidas (ASVS/NIST/D3FEND) são clicáveis e levam à fonte
+    oficial. A <em>groundedness</em> é a fração de ameaças com pelo menos uma âncora real validada nos catálogos.
   </div>
 </body>
 </html>

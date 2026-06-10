@@ -60,8 +60,9 @@ def test_topology_mock_chains_components() -> None:
         Component(id="C2", canonical="api_gateway", element_type="Process"),
         Component(id="C3", canonical="database_sql", element_type="DataStore"),
     ]
-    edges = topology.extract(b"fake", comps)  # ARGUS_LLM_MOCK=1 no conftest
+    edges, name = topology.extract(b"fake", comps)  # ARGUS_LLM_MOCK=1 no conftest
     assert [(e.source, e.target) for e in edges] == [("C1", "C2"), ("C2", "C3")]
+    assert name == ""  # mock não nomeia
 
 
 def test_crosscheck_noop_in_mock() -> None:

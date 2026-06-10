@@ -7,6 +7,7 @@ import type { ThreatModel, Usage } from '../types'
 export default function Ciclope({ rate = 6, factor = 1 }: { rate?: number; factor?: number }) {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
+  const [systemName, setSystemName] = useState('')
   const [tm, setTm] = useState<ThreatModel | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -24,7 +25,7 @@ export default function Ciclope({ rate = 6, factor = 1 }: { rate?: number; facto
     setError(null)
     setTm(null)
     try {
-      setTm(await analyze(file, 'ciclope'))
+      setTm(await analyze(file, 'ciclope', systemName))
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {
@@ -44,6 +45,13 @@ export default function Ciclope({ rate = 6, factor = 1 }: { rate?: number; facto
         </p>
         <label>Diagrama de arquitetura (imagem)</label>
         <input type="file" accept="image/*" onChange={(e) => onPick(e.target.files?.[0] ?? null)} />
+        <label>Nome do sistema (opcional)</label>
+        <input
+          type="text"
+          value={systemName}
+          onChange={(e) => setSystemName(e.target.value)}
+          placeholder="se vazio, o modelo nomeia a partir do diagrama"
+        />
         <div style={{ marginTop: 14 }}>
           <button className="primary" disabled={!file || loading} onClick={run}>
             {loading ? 'Analisando…' : 'Analisar'}

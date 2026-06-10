@@ -48,10 +48,15 @@ export function testSettings(): Promise<{ ok: boolean; message?: string; mock?: 
   return fetch('/settings/test', { method: 'POST' }).then(j<{ ok: boolean; message?: string; mock?: boolean }>)
 }
 
-export async function analyze(file: File, system: string): Promise<ThreatModel> {
+function analyzeQuery(path: string, system: string, systemName?: string): string {
+  const name = systemName?.trim()
+  return `${path}?system=${encodeURIComponent(system)}${name ? `&system_name=${encodeURIComponent(name)}` : ''}`
+}
+
+export async function analyze(file: File, system: string, systemName?: string): Promise<ThreatModel> {
   const fd = new FormData()
   fd.append('file', file)
-  const r = await fetch(`/analyze?system=${encodeURIComponent(system)}`, { method: 'POST', body: fd })
+  const r = await fetch(analyzeQuery('/analyze', system, systemName), { method: 'POST', body: fd })
   return j<ThreatModel>(r)
 }
 
@@ -65,10 +70,11 @@ export async function analyzeStream(
   system: string,
   onEvent: (stage: string, data: StageEvent) => void,
   signal?: AbortSignal,
+  systemName?: string,
 ): Promise<void> {
   const fd = new FormData()
   fd.append('file', file)
-  const r = await fetch(`/analyze/stream?system=${encodeURIComponent(system)}`, {
+  const r = await fetch(analyzeQuery('/analyze/stream', system, systemName), {
     method: 'POST',
     body: fd,
     signal,

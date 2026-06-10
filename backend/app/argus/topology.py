@@ -34,11 +34,14 @@ Regras:
 dados típico (ex.: usuário -> gateway -> serviço -> banco).
 - Não invente componentes nem IDs; ignore conexões duvidosas.
 - `label` (opcional): protocolo/anotação da seta, se visível (ex.: HTTPS, SQL).
-- NÃO preencha `crosses_boundary` (será calculado depois)."""
+- NÃO preencha `crosses_boundary` (será calculado depois).
+- `system_name`: um nome curto e descritivo do sistema retratado (ex.: "Loja online (AWS)", \
+"Pipeline de dados"). Se não estiver claro, deixe vazio."""
 
 
 class _EdgeList(BaseModel):
     edges: list[Edge] = Field(default_factory=list)
+    system_name: str = Field(default="", description="Nome curto do sistema retratado (vazio se não óbvio).")
 
 
 def _mock_edges(components: list[Component]) -> list[Edge]:
@@ -46,16 +49,16 @@ def _mock_edges(components: list[Component]) -> list[Edge]:
     return [Edge(source=ids[i], target=ids[i + 1], label="mock") for i in range(len(ids) - 1)]
 
 
-def extract(image_bytes: bytes, components: list[Component], *, mime: str = "image/jpeg") -> list[Edge]:
-    """Retorna as arestas dirigidas entre os componentes, lidas do diagrama pelo VLM."""
+def extract(image_bytes: bytes, components: list[Component], *, mime: str = "image/jpeg") -> tuple[list[Edge], str]:
+    """Arestas dirigidas entre os componentes (lidas pelo VLM) + nome curto do sistema (pode ser vazio)."""
     cfg = get_config()
     if cfg.mock:
-        return _mock_edges(components)
+        return _mock_edges(components), ""
     # fronteiras de confiança NÃO são origem/destino de fluxo — fora da extração de arestas
     flow = [c for c in components if c.element_type != "TrustBoundary"]
     valid = {c.id for c in flow}
     if len(flow) < 2:
-        return []
+        return [], ""
 
     comp_lines = "\n".join(
         f"- {c.id}: {c.canonical}" + (f' (rótulo: "{c.label}")' if c.label else "")
@@ -73,4 +76,4 @@ def extract(image_bytes: bytes, components: list[Component], *, mime: str = "ima
         if e.source in valid and e.target in valid and e.source != e.target and key not in seen:
             seen.add(key)
             edges.append(e)
-    return edges
+    return edges, result.system_name.strip()

@@ -98,7 +98,7 @@ def _run_e1_e2(data: bytes, conf: float | None) -> dict:
 
     # E2b — topologia (VLM)
     try:
-        edges = topology.extract(data, components)
+        edges, _ = topology.extract(data, components)
     except Exception as e:  # noqa: BLE001
         raise HTTPException(status_code=500, detail=f"Falha na topologia: {e}") from e
 

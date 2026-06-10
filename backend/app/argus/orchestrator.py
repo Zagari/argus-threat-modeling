@@ -52,7 +52,8 @@ def iter_stages(
     estágio) para a UI mostrar onde a latência se concentra (o VLM domina).
     """
     t0 = time.perf_counter()
-    name = system_name or "Sistema sob análise"
+    user_name = (system_name or "").strip()  # nome dado pelo usuário (override); senão, o VLM nomeia (E2)
+    name = user_name or "Sistema sob análise"
     yield {"stage": "start", "system_name": name}
 
     # ── E1 — detecção (obrigatória; lança DetectorUnavailable) ──
@@ -115,9 +116,11 @@ def iter_stages(
     # ── E2d — topologia (VLM extrai os fluxos entre componentes) ──
     s = time.perf_counter()
     u0 = provider.current_usage()
-    edges = topology.extract(image_bytes, components)
+    edges, topo_name = topology.extract(image_bytes, components)
+    if not user_name and topo_name:  # opção 1: VLM nomeia o sistema quando o usuário não deu nome
+        name = topo_name
     yield {
-        "stage": "e2_topology", "edges": edges, "components": components,
+        "stage": "e2_topology", "edges": edges, "components": components, "system_name": name,
         "n_edges": len(edges), "usage_delta": _usage_delta(u0, provider.current_usage()),
         "elapsed_s": round(time.perf_counter() - s, 3),
     }
@@ -189,6 +192,7 @@ def iter_stages(
     usage = provider.current_usage()
     tm = ThreatModel(
         system_name=name, components=components, edges=edges, threats=threats,
+        diagram_image=det.get("annotated_image"),
         meta={
             "system": "argus", "provider": cfg.provider, "model": cfg.model,
             "latency_s": latency, "ocr_used": ocr_used, "threats": len(threats), "n_cves": n_cves,
