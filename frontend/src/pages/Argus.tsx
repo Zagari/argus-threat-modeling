@@ -516,7 +516,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                 </p>
                 {(st.data.e5.sem_candidates ?? 0) > 0 && (
                   <p className="kv">
-                    <strong>Recuperação híbrida:</strong> mapeamento determinístico +{' '}
+                    <strong>Recuperação híbrida:</strong> mapeamento curado (por classe×STRIDE, ranqueado) +{' '}
                     <strong>{st.data.e5.sem_candidates}</strong> candidato(s) sugerido(s) pela <em>busca semântica</em>
                     {(st.data.e5.threats_semantic ?? 0) > 0 ? (
                       <>
@@ -560,7 +560,7 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
                 <p className="muted">
                   <strong>É aqui (E5) que buscamos as contramedidas.</strong> Cada ameaça é ancorada em fraquezas
                   (CWE), padrões de ataque (CAPEC/ATT&amp;CK) e <strong>contramedidas (ASVS/NIST/D3FEND)</strong> reais,
-                  recuperadas dos catálogos (não inventadas). Na tabela de ameaças (E4) isso aparece como{' '}
+                  <strong> curadas por (classe × STRIDE)</strong> e recuperadas dos catálogos (não inventadas). Na tabela de ameaças (E4) isso aparece como{' '}
                   <strong>"Âncoras ofensivas"</strong> e <strong>"Contramedidas"</strong> (clicáveis até a fonte); o
                   validador remove qualquer ID inexistente, e os CVEs vêm da NVD. O <strong>E6</strong> a seguir só
                   pontua o risco (DREAD).

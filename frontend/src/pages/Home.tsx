@@ -1,14 +1,19 @@
 import type { Capabilities } from '../types'
 
-type Tab = 'home' | 'ciclope' | 'argus' | 'settings'
+type Tab = 'home' | 'ciclope' | 'argus' | 'knowledge' | 'settings'
 
 const STAGES: { id: string; name: string; desc: string; done: boolean }[] = [
   { id: 'E1', name: 'Detecção (YOLO11)', desc: 'detector supervisionado localiza os ícones/componentes no diagrama.', done: true },
   { id: 'E2', name: 'Leitura & Topologia', desc: 'OCR + fusão ícone↔rótulo, cross-check e topologia por VLM.', done: true },
   { id: 'E3', name: 'DFD', desc: 'monta o Data Flow Diagram e marca as fronteiras de confiança.', done: true },
   { id: 'E4', name: 'STRIDE-per-element', desc: 'ameaças por elemento, restritas à matriz STRIDE canônica.', done: true },
-  { id: 'E5', name: 'Graph-RAG ancorado', desc: 'enriquece cada ameaça com CWE/CAPEC/ATT&CK/CVE (Neo4j + RAG).', done: false },
-  { id: 'E6', name: 'DREAD + relatório', desc: 'pontuação de risco DREAD e relatório final auditável.', done: false },
+  {
+    id: 'E5',
+    name: 'Conhecimento ancorado',
+    desc: 'ancora cada ameaça em CWE→CAPEC→ATT&CK→D3FEND e ASVS/NIST + CVEs reais, curados por classe×STRIDE (groundedness).',
+    done: true,
+  },
+  { id: 'E6', name: 'DREAD + relatório', desc: 'pontuação de risco DREAD e relatório final auditável.', done: true },
 ]
 
 export default function Home({ caps, onNavigate }: { caps: Capabilities | null; onNavigate: (t: Tab) => void }) {
@@ -85,6 +90,20 @@ export default function Home({ caps, onNavigate }: { caps: Capabilities | null; 
             {argusMl ? 'Abrir o ARGUS →' : 'ARGUS indisponível (LITE)'}
           </button>
         </div>
+      </div>
+
+      <div className="card">
+        <h3 style={{ marginTop: 0 }}>Base de conhecimento</h3>
+        <p className="muted" style={{ marginBottom: 8 }}>
+          A aba <strong>Conhecimento</strong> abre o grafo que ancora o ARGUS:{' '}
+          <strong>CWE→CAPEC→ATT&amp;CK→D3FEND</strong> e os controles <strong>ASVS/NIST</strong>,{' '}
+          <strong>curados por (classe de componente × categoria STRIDE)</strong>. Duas visões —{' '}
+          <strong>Camadas</strong> (diagrama por níveis) e <strong>Grafo</strong> (force-directed). São os mesmos
+          catálogos usados na validação (groundedness) e na seleção de âncoras do E5, clicáveis até a fonte oficial.
+        </p>
+        <button className="primary" onClick={() => onNavigate('knowledge')}>
+          Abrir a Base de conhecimento →
+        </button>
       </div>
 
       <div className="card">

@@ -74,6 +74,8 @@ Um grafo em memória (`LocalKG`), versionado **dentro do pacote** (`backend/app/
 
 `CWE` (fraquezas) → `CAPEC` (padrões de ataque) → `ATT&CK` (técnicas) → `D3FEND` (contramedidas), mais `STRIDE → ASVS / NIST 800-53` (controles) e **CVEs reais** do NVD (cache offline, **sem** chamadas de rede em runtime).
 
+- **Curadoria por classe (3.9):** o mapa de fraquezas/contramedidas é **curado por (classe × STRIDE)** sobre um piso por propriedade — `database_sql`+Tampering ancora em SQLi (CWE-89), `api_gateway`+Tampering em mass assignment/request smuggling. Cada id é validado contra o catálogo (anti-alucinação na própria curadoria).
+- **Ranqueado antes do corte (3.10):** os candidatos das cadeias são ordenados por relevância intrínseca (CAPEC por *Likelihood*+*Severity*+abstração; ASVS por nível L1>L2>L3) antes do teto por salto — os N escolhidos são os mais pertinentes, não os primeiros do catálogo.
 - **Groundedness (anti-alucinação):** um validador confere se cada id citado (CWE/CAPEC/ATT&CK/CVE…) **existe** no grafo; ids inventados são descartados. É a mesma "régua" aplicada aos dois sistemas no estudo comparativo (Fase 5).
 - **E6 = DREAD** determinístico (defaults por tipo de elemento × STRIDE) para reduzir subjetividade.
 - **Portátil:** segue na imagem Docker, sem serviço externo. **Nada a configurar.**
