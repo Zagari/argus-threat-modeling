@@ -7,14 +7,14 @@ Dois sistemas que recebem a **imagem de um diagrama de arquitetura** (AWS/Azure/
 - **Cíclope** — baseline *LLM-only* (a imagem vai direto a um VLM → relatório). O melhor baseline possível, para comparação justa. **Leve** (não precisa de GPU/ML).
 - **ARGUS** — sistema especialista, pipeline de seis estágios: **E1** detector supervisionado (YOLO11) → **E2** OCR + fusão ícone/rótulo + cross-check/topologia (VLM) → **E3** DFD (fronteiras de confiança) → **E4** STRIDE-per-element → **E5** conhecimento ancorado (`CWE→CAPEC→ATT&CK→D3FEND` + `STRIDE→ASVS/NIST`, CVEs reais do NVD; *groundedness* anti-alucinação) → **E6** DREAD + relatório. **Pesado** (precisa de `torch`/OCR).
 
-Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais de cada estágio e o **estudo comparativo** Cíclope × ARGUS.
+Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais de cada estágio e a base de conhecimento; o **painel comparativo** Cíclope × ARGUS é o objetivo da Fase 4 (em construção).
 
 ## Estado atual
 
 - **Fase 0** ✅ — backend FastAPI + Cíclope E2E + troca de LLM em runtime + shell React.
 - **Fase 1** ✅ — detector YOLO11 (dataset sintético auto-rotulado; mAP@50 0,99 no teste sintético). Modelo: [`zagari/argus-detector`](https://huggingface.co/zagari/argus-detector).
-- **Fase 2** ✅ — núcleo ARGUS: **E2** (OCR/fusão/cross-check/topologia), **E3** (DFD), **E4** (STRIDE-per-element) + aba "Pipeline ARGUS" na UI.
-- **Fase 3** ✅ — **conhecimento ancorado** (E5/E6): grafo `CWE→CAPEC→ATT&CK→D3FEND` + `STRIDE→ASVS/NIST` (fonte de verdade portátil), **CVEs reais** (NVD, cache offline), **groundedness** (validação anti-alucinação) e **DREAD** determinístico. Camadas **opcionais**: **Chroma** (RAG semântico, embeddings locais) e **Neo4j** (Graph-RAG via Cypher + Browser). Ver [Conhecimento ancorado](#conhecimento-ancorado-fase-3--e5e6).
+- **Fase 2** ✅ — núcleo ARGUS: **E2** (OCR/fusão/cross-check/topologia), **E3** (DFD), **E4** (STRIDE-per-element) + aba **ARGUS** na UI.
+- **Fase 3** ✅ — **conhecimento ancorado** (E5/E6): grafo `CWE→CAPEC→ATT&CK→D3FEND` + `STRIDE→ASVS/NIST` **curado por (classe × STRIDE)** e ranqueado por relevância (fonte de verdade portátil), **CVEs reais** (NVD, cache offline), **groundedness** (validação anti-alucinação) e **DREAD** determinístico. Camadas **opcionais**: **Chroma** (RAG semântico, embeddings locais) e **Neo4j** (Graph-RAG via Cypher + Browser). Ver [Conhecimento ancorado](#conhecimento-ancorado-fase-3--e5e6).
 - **Fases 4–6** 📋 — relatório/revisão humana/painel comparativo, estudo comparativo (gold set + LLM-judge), empacotamento.
 
 ## Stack
@@ -36,7 +36,7 @@ O backend tem **dois modos**, escolhidos no `docker compose` pela variável `ARG
 | Modo | O que serve | Requisitos | Como subir |
 |---|---|---|---|
 | **LITE** (padrão) | Só o **Cíclope** (LLM-only) | nenhum extra | `docker compose up --build` |
-| **FULL** | Cíclope **+ ARGUS** (E1–E4) | imagem maior (torch CPU); chave de LLM; modelo no HF | `ARGUS_ML=true` (ver abaixo) |
+| **FULL** | Cíclope **+ ARGUS** (E1–E6) | imagem maior (torch CPU); chave de LLM; modelo no HF | `ARGUS_ML=true` (ver abaixo) |
 
 ### LITE (rápido, sem GPU) — só o baseline
 ```bash
@@ -78,6 +78,7 @@ Um grafo em memória (`LocalKG`), versionado **dentro do pacote** (`backend/app/
 - **Ranqueado antes do corte (3.10):** os candidatos das cadeias são ordenados por relevância intrínseca (CAPEC por *Likelihood*+*Severity*+abstração; ASVS por nível L1>L2>L3) antes do teto por salto — os N escolhidos são os mais pertinentes, não os primeiros do catálogo.
 - **Groundedness (anti-alucinação):** um validador confere se cada id citado (CWE/CAPEC/ATT&CK/CVE…) **existe** no grafo; ids inventados são descartados. É a mesma "régua" aplicada aos dois sistemas no estudo comparativo (Fase 5).
 - **E6 = DREAD** determinístico (defaults por tipo de elemento × STRIDE) para reduzir subjetividade.
+- **Explorável:** a aba **Conhecimento** mostra o subgrafo em duas visões — **Camadas** (diagrama por níveis) e **Grafo** (panorama force-directed das 6 categorias STRIDE da classe) —, com nós clicáveis até a fonte oficial.
 - **Portátil:** segue na imagem Docker, sem serviço externo. **Nada a configurar.**
 
 ### 2. Chroma — RAG semântico (opcional)
@@ -126,7 +127,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 
 # Backend — FULL (ARGUS): instale também as deps de ML
-pip install -r requirements-ml.txt          # ultralytics, easyocr, huggingface_hub
+pip install -r requirements-ml.txt          # detector/OCR (ultralytics, easyocr) + RAG (chromadb, sentence-transformers) + neo4j
 export ARGUS_DETECTOR_HF=zagari/argus-detector GEMINI_API_KEY=sua-chave
 
 # Frontend
