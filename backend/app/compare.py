@@ -20,7 +20,7 @@ def _signatures(tm: ThreatModel) -> set[tuple[str, str]]:
     return {(canon.get(t.component_id, t.component_id), str(t.stride_category)) for t in tm.threats}
 
 
-def _summary(tm: ThreatModel) -> dict:
+def _summary(tm: ThreatModel, rep: validate.ValidationReport) -> dict:
     m = tm.meta
     usage = m.get("usage") or {}
     return {
@@ -28,10 +28,10 @@ def _summary(tm: ThreatModel) -> dict:
         "system_name": tm.system_name,
         "n_components": len(tm.components),
         "n_threats": len(tm.threats),
-        "groundedness": m.get("groundedness"),
-        "id_validity": m.get("id_validity"),
-        "ids_valid": m.get("ids_valid"),
-        "ids_invalid": m.get("ids_invalid"),
+        "groundedness": rep.groundedness,    # medido aqui com a MESMA régua p/ os dois
+        "id_validity": rep.id_validity,
+        "ids_valid": rep.ids_valid,
+        "ids_invalid": rep.ids_invalid,
         "dread_dist": m.get("dread_dist"),
         "n_cves": m.get("n_cves", 0),
         "latency_s": m.get("latency_s"),
@@ -44,17 +44,18 @@ def _fmt(sigs: set[tuple[str, str]]) -> list[dict]:
 
 
 def diff(ciclope: ThreatModel, argus: ThreatModel) -> dict:
-    """Resumo por sistema (com groundedness comparável) + diff por (classe × STRIDE)."""
+    """Resumo por sistema (groundedness com a MESMA régua) + diff por (classe × STRIDE)."""
     store = get_store()
-    # Régua única: o Cíclope não valida → medir aqui (sem alterar a saída). ARGUS já vem do E5.
-    for tm in (ciclope, argus):
-        if "groundedness" not in tm.meta:
-            validate.validate_model(tm, store, drop_invalid=False)
+    # Régua ÚNICA e idêntica para os dois (drop_invalid=False, só mede): compara o output FINAL de
+    # cada um com a MESMA regra — o ARGUS já entrega limpo (E5 removeu inválidos), o Cíclope entrega
+    # cru. Não usamos a groundedness interna do E5 (regra mais frouxa) p/ não favorecer um lado.
+    rep_c = validate.validate_threats(ciclope.threats, store, drop_invalid=False)
+    rep_a = validate.validate_threats(argus.threats, store, drop_invalid=False)
 
     sc, sa = _signatures(ciclope), _signatures(argus)
     return {
-        "ciclope": _summary(ciclope),
-        "argus": _summary(argus),
+        "ciclope": _summary(ciclope, rep_c),
+        "argus": _summary(argus, rep_a),
         "diff": {
             "common": _fmt(sc & sa),
             "only_ciclope": _fmt(sc - sa),

@@ -220,7 +220,9 @@ class LocalKG:
         for (kind, _id), e in self._by.items():
             if kind == KIND_CAPEC:
                 for r in e.rels:
-                    if r.type == "MAPS_TO" and r.target_kind == KIND_ATTACK:
+                    # só oferece ATT&CK que EXISTE como nó (filtra técnicas revogadas/ausentes que o
+                    # CAPEC ainda referencia em Taxonomy_Mappings desatualizados) — grounding honesto.
+                    if r.type == "MAPS_TO" and r.target_kind == KIND_ATTACK and (KIND_ATTACK, r.target_id) in self._by:
                         self._attack_by_capec.setdefault(e.id, []).append(r.target_id)
             elif kind == KIND_D3FEND:
                 for r in e.rels:

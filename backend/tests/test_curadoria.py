@@ -41,6 +41,15 @@ def test_compat_preservada() -> None:
     assert "CWE-20" in KG.subgraph("trust_boundary", "Tampering").ids("CWE")  # fallback à base
 
 
+def test_sem_attack_orfa_no_subgrafo() -> None:
+    """1(b): toda ATT&CK ofertada no subgrafo EXISTE como nó (sem técnica revogada/órfã do CAPEC)."""
+    for cls in ("api_gateway", "database_sql", "compute", "serverless_fn", "identity", "app_service"):
+        for stride in seeds.STRIDES:
+            for n in KG.subgraph(cls, stride).nodes:
+                if n.kind == "ATTACK":
+                    assert KG.exists("ATTACK", n.id), f"ATT&CK órfã ofertada: {n.id} em {cls}/{stride}"
+
+
 def test_panorama_une_as_6_stride() -> None:
     pan = panorama(KG, "database_sql")
     assert len([n for n in pan.nodes if n.kind == "Stride"]) == 6
