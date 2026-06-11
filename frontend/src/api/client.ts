@@ -1,5 +1,6 @@
 import type {
   Capabilities,
+  CompareResult,
   DetectStatus,
   DetectionResult,
   KnowledgeOptions,
@@ -115,6 +116,14 @@ export function getSubgraph(canonical: string, stride: string): Promise<Subgraph
 
 export function getPanorama(canonical: string): Promise<Subgraph> {
   return fetch(`/knowledge/panorama?canonical=${encodeURIComponent(canonical)}`).then(j<Subgraph>)
+}
+
+export function compareDiff(ciclope: ThreatModel, argus: ThreatModel): Promise<CompareResult> {
+  return fetch('/compare/diff', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ciclope, argus }),
+  }).then(j<CompareResult>)
 }
 
 export function searchKnowledge(q: string): Promise<KnowledgeSearch> {

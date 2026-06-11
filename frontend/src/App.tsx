@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react'
 import { getCapabilities } from './api/client'
 import Argus from './pages/Argus'
 import Ciclope from './pages/Ciclope'
+import Compare from './pages/Compare'
 import Home from './pages/Home'
 import KnowledgeExplorer from './pages/KnowledgeExplorer'
 import SettingsPage from './pages/Settings'
 import type { Capabilities } from './types'
 
-type Tab = 'home' | 'ciclope' | 'argus' | 'knowledge' | 'settings'
+type Tab = 'home' | 'ciclope' | 'argus' | 'compare' | 'knowledge' | 'settings'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('home')
@@ -41,6 +42,9 @@ export default function App() {
           <button className={tab === 'argus' ? 'active' : ''} onClick={() => setTab('argus')}>
             ARGUS
           </button>
+          <button className={tab === 'compare' ? 'active' : ''} onClick={() => setTab('compare')}>
+            Comparar
+          </button>
           <button className={tab === 'knowledge' ? 'active' : ''} onClick={() => setTab('knowledge')}>
             Conhecimento
           </button>
@@ -65,6 +69,9 @@ export default function App() {
       </div>
       <div style={{ display: tab === 'argus' ? 'block' : 'none' }}>
         <Argus caps={caps} />
+      </div>
+      <div style={{ display: tab === 'compare' ? 'block' : 'none' }}>
+        <Compare caps={caps} />
       </div>
       <div style={{ display: tab === 'knowledge' ? 'block' : 'none' }}>
         <KnowledgeExplorer />

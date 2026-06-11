@@ -26,8 +26,8 @@ export default function Home({ caps, onNavigate }: { caps: Capabilities | null; 
         <h2 style={{ margin: '0 0 6px' }}>Modelagem de ameaças STRIDE a partir de diagramas de arquitetura</h2>
         <p className="muted" style={{ marginTop: 0 }}>
           Dois sistemas analisam a <strong>imagem de um diagrama</strong> (AWS/Azure/GCP, agnóstico) e produzem um
-          modelo de ameaças <strong>STRIDE</strong> com cenários de ataque e contramedidas. Cada um tem a sua aba —
-          o objetivo do projeto é <em>compará-los</em>.
+          modelo de ameaças <strong>STRIDE</strong> com cenários de ataque e contramedidas. Cada um tem a sua aba, e a
+          aba <strong>Comparar</strong> os coloca <em>lado a lado</em> (com a groundedness dos dois) — o coração do projeto.
         </p>
         <div className="chips">
           <span className={`chip ${argusMl ? 'ok' : 'off'}`}>

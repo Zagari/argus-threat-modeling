@@ -188,6 +188,38 @@ export interface KnowledgeSearch {
   hits: KnowledgeHit[]
 }
 
+// ── Painel comparativo (Cíclope × ARGUS) ──
+export interface CompareSummary {
+  system?: string | null
+  system_name?: string
+  n_components: number
+  n_threats: number
+  groundedness?: number | null
+  id_validity?: number | null
+  ids_valid?: number | null
+  ids_invalid?: number | null
+  dread_dist?: Record<string, number> | null
+  n_cves: number
+  latency_s?: number | null
+  cost_usd?: number | null
+}
+export interface CompareSig {
+  canonical: string
+  stride: string
+}
+export interface CompareResult {
+  ciclope: CompareSummary
+  argus: CompareSummary
+  diff: {
+    common: CompareSig[]
+    only_ciclope: CompareSig[]
+    only_argus: CompareSig[]
+    n_common: number
+    n_only_ciclope: number
+    n_only_argus: number
+  }
+}
+
 export interface Settings {
   provider: string
   model: string

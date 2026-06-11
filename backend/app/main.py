@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app import __version__
 from app.argus.knowledge import rag
 from app.config import get_config
-from app.routers import analyze, health, knowledge, report, settings, stage
+from app.routers import analyze, compare, health, knowledge, report, settings, stage
 
 
 @asynccontextmanager
@@ -45,6 +45,7 @@ def create_app() -> FastAPI:
     app.include_router(report.router)
     app.include_router(stage.router)
     app.include_router(knowledge.router)
+    app.include_router(compare.router)
     return app
 
 
