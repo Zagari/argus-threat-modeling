@@ -1,10 +1,18 @@
 import { useState } from 'react'
-import { analyze, downloadPdf } from '../api/client'
+import { analyze, downloadPdf, imageKey } from '../api/client'
 import ThreatTable from '../components/ThreatTable'
 import UsageBadge from '../components/UsageBadge'
 import type { ThreatModel, Usage } from '../types'
 
-export default function Ciclope({ rate = 6, factor = 1 }: { rate?: number; factor?: number }) {
+export default function Ciclope({
+  rate = 6,
+  factor = 1,
+  onResult,
+}: {
+  rate?: number
+  factor?: number
+  onResult?: (tm: ThreatModel, key: string) => void
+}) {
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [systemName, setSystemName] = useState('')
@@ -25,7 +33,9 @@ export default function Ciclope({ rate = 6, factor = 1 }: { rate?: number; facto
     setError(null)
     setTm(null)
     try {
-      setTm(await analyze(file, 'ciclope', systemName))
+      const result = await analyze(file, 'ciclope', systemName)
+      setTm(result)
+      onResult?.(result, imageKey(file)) // Lote 2: disponibiliza p/ a aba Comparar reaproveitar
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {

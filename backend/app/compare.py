@@ -49,8 +49,8 @@ def diff(ciclope: ThreatModel, argus: ThreatModel) -> dict:
     # Régua ÚNICA e idêntica para os dois (drop_invalid=False, só mede): compara o output FINAL de
     # cada um com a MESMA regra — o ARGUS já entrega limpo (E5 removeu inválidos), o Cíclope entrega
     # cru. Não usamos a groundedness interna do E5 (regra mais frouxa) p/ não favorecer um lado.
-    rep_c = validate.validate_threats(ciclope.threats, store, drop_invalid=False)
-    rep_a = validate.validate_threats(argus.threats, store, drop_invalid=False)
+    rep_c = validate.validate_threats(ciclope.threats, store, drop_invalid=False, include_refs=False)
+    rep_a = validate.validate_threats(argus.threats, store, drop_invalid=False, include_refs=False)
 
     sc, sa = _signatures(ciclope), _signatures(argus)
     return {

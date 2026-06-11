@@ -65,8 +65,10 @@ def _norm(raw: str, kind: str) -> str:
     return f"{kind}-{digits}" if digits else s
 
 
-def _cited(threat: Threat) -> list[tuple[str, str]]:
-    """Pares (kind, id) citados pela ameaça: listas estruturadas + refs de texto livre."""
+def _cited(threat: Threat, include_refs: bool = True) -> list[tuple[str, str]]:
+    """Pares (kind, id) citados pela ameaça: âncoras ESTRUTURADAS e, se `include_refs`, também os
+    IDs em texto livre (refs das mitigações). A comparação usa `include_refs=False` para medir só
+    as âncoras (cwe/capec/attack) dos dois sistemas — apples-to-apples (refs são contramedidas)."""
     out: list[tuple[str, str]] = []
     for c in threat.cwe_ids:
         out.append(("CWE", _norm(c, "CWE")))
@@ -74,11 +76,12 @@ def _cited(threat: Threat) -> list[tuple[str, str]]:
         out.append(("CAPEC", _norm(c, "CAPEC")))
     for c in threat.attack_ids:  # ATT&CK: id já vem como 'T1078' (sem normalização numérica)
         out.append(("ATTACK", c.strip().upper()))
-    for m in threat.mitigations:
-        for ref in m.refs:
-            for kind, rx in _ID_RE.items():
-                for num in rx.findall(ref):
-                    out.append((kind, f"{kind}-{num}"))
+    if include_refs:
+        for m in threat.mitigations:
+            for ref in m.refs:
+                for kind, rx in _ID_RE.items():
+                    for num in rx.findall(ref):
+                        out.append((kind, f"{kind}-{num}"))
     # dedup preservando ordem
     seen: set[tuple[str, str]] = set()
     uniq: list[tuple[str, str]] = []
@@ -95,7 +98,7 @@ def _present_kinds(store: KnowledgeStore) -> set[str]:
 
 
 def validate_threats(
-    threats: list[Threat], store: KnowledgeStore, *, drop_invalid: bool = True
+    threats: list[Threat], store: KnowledgeStore, *, drop_invalid: bool = True, include_refs: bool = True
 ) -> ValidationReport:
     """Valida as âncoras de cada ameaça (in-place: `grounded` e, se `drop_invalid`, remove IDs falsos)."""
     present = _present_kinds(store)
@@ -103,7 +106,7 @@ def validate_threats(
     for t in threats:
         rep.threats += 1
         valid_here = invalid_here = 0
-        for kind, cid in _cited(t):
+        for kind, cid in _cited(t, include_refs):
             if kind not in present:  # catálogo ainda não ingerido → não conta (evita falso-inválido)
                 continue
             rep.ids_total += 1

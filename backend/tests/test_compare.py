@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from app.compare import diff
-from app.schemas import Component, Threat, ThreatModel
+from app.schemas import Component, Mitigation, Threat, ThreatModel
 
 
 def _tm(system: str, *, threats: list[Threat], meta: dict | None = None) -> ThreatModel:
@@ -21,8 +21,10 @@ def _tm(system: str, *, threats: list[Threat], meta: dict | None = None) -> Thre
 def test_groundedness_medida_nos_dois_e_diff():
     # Cíclope cita um CWE inexistente (alucinação) → groundedness baixa; SEM meta de validação.
     ciclope = _tm("ciclope", threats=[
+        # cwe_ids estruturados (1 real + 1 alucinado); o CWE no `refs` NÃO deve contar (só-âncoras).
         Threat(id="T1", component_id="C1", element_type="DataStore", stride_category="Tampering",
-               title="SQLi", attack_scenario="s", cwe_ids=["CWE-89", "CWE-99999"]),
+               title="SQLi", attack_scenario="s", cwe_ids=["CWE-89", "CWE-99999"],
+               mitigations=[Mitigation(description="m", refs=["ASVS-V5", "CWE-7777"])]),
     ])
     # ARGUS: CWE real + já validado (E5) → groundedness alta; e uma ameaça a mais (só-ARGUS).
     argus = _tm("argus", meta={"groundedness": 1.0, "ids_valid": 2, "ids_invalid": 0}, threats=[
@@ -36,7 +38,8 @@ def test_groundedness_medida_nos_dois_e_diff():
 
     # régua única: o Cíclope foi medido aqui (alucinou → não-grounded), o ARGUS manteve o do E5
     assert res["ciclope"]["groundedness"] == 0.0
-    assert res["ciclope"]["ids_invalid"] == 1  # CWE-99999
+    assert res["ciclope"]["ids_invalid"] == 1  # só CWE-99999 (estruturado); CWE-7777 do `refs` NÃO conta
+    assert res["ciclope"]["ids_valid"] == 1     # só CWE-89 (estruturado)
     assert res["argus"]["groundedness"] == 1.0
     # diff por (classe × STRIDE): (database_sql, Tampering) é comum; (api_gateway, Spoofing) só-ARGUS
     assert res["diff"]["n_common"] == 1

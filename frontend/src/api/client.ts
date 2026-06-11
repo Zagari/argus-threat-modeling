@@ -118,6 +118,9 @@ export function getPanorama(canonical: string): Promise<Subgraph> {
   return fetch(`/knowledge/panorama?canonical=${encodeURIComponent(canonical)}`).then(j<Subgraph>)
 }
 
+/** Identidade da imagem (p/ o painel saber se as duas análises são da MESMA figura). */
+export const imageKey = (f: File): string => `${f.name}|${f.size}|${f.lastModified}`
+
 export function compareDiff(ciclope: ThreatModel, argus: ThreatModel): Promise<CompareResult> {
   return fetch('/compare/diff', {
     method: 'POST',

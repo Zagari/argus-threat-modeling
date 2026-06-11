@@ -220,6 +220,12 @@ export interface CompareResult {
   }
 }
 
+// Resultado já calculado numa aba individual, reaproveitável no painel (Lote 2).
+export interface CachedAnalysis {
+  tm: ThreatModel
+  key: string // identidade da imagem de origem (mesma figura)
+}
+
 export interface Settings {
   provider: string
   model: string

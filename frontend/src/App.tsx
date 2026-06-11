@@ -6,13 +6,16 @@ import Compare from './pages/Compare'
 import Home from './pages/Home'
 import KnowledgeExplorer from './pages/KnowledgeExplorer'
 import SettingsPage from './pages/Settings'
-import type { Capabilities } from './types'
+import type { CachedAnalysis, Capabilities } from './types'
 
 type Tab = 'home' | 'ciclope' | 'argus' | 'compare' | 'knowledge' | 'settings'
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('home')
   const [caps, setCaps] = useState<Capabilities | null>(null)
+  // Últimos resultados de cada aba (Lote 2): o painel Comparar reaproveita se forem da mesma figura.
+  const [ciclopeCache, setCiclopeCache] = useState<CachedAnalysis | null>(null)
+  const [argusCache, setArgusCache] = useState<CachedAnalysis | null>(null)
 
   function refreshCaps() {
     getCapabilities()
@@ -65,13 +68,17 @@ export default function App() {
         <Home caps={caps} onNavigate={setTab} />
       </div>
       <div style={{ display: tab === 'ciclope' ? 'block' : 'none' }}>
-        <Ciclope rate={caps?.usd_brl_rate ?? 6} factor={caps?.cost_factor ?? 1} />
+        <Ciclope
+          rate={caps?.usd_brl_rate ?? 6}
+          factor={caps?.cost_factor ?? 1}
+          onResult={(tm, key) => setCiclopeCache({ tm, key })}
+        />
       </div>
       <div style={{ display: tab === 'argus' ? 'block' : 'none' }}>
-        <Argus caps={caps} />
+        <Argus caps={caps} onResult={(tm, key) => setArgusCache({ tm, key })} />
       </div>
       <div style={{ display: tab === 'compare' ? 'block' : 'none' }}>
-        <Compare caps={caps} />
+        <Compare caps={caps} ciclopeCache={ciclopeCache} argusCache={argusCache} />
       </div>
       <div style={{ display: tab === 'knowledge' ? 'block' : 'none' }}>
         <KnowledgeExplorer />

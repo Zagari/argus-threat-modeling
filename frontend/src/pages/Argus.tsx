@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react'
-import { analyzeStream, downloadPdf } from '../api/client'
+import { analyzeStream, downloadPdf, imageKey } from '../api/client'
 import DetectionOverlay from '../components/DetectionOverlay'
 import DfdOverlay from '../components/DfdOverlay'
 import DreadTable from '../components/DreadTable'
@@ -165,7 +165,13 @@ function LineSwatch({ color, dashed, children }: { color: string; dashed?: boole
   )
 }
 
-export default function Argus({ caps }: { caps: Capabilities | null }) {
+export default function Argus({
+  caps,
+  onResult,
+}: {
+  caps: Capabilities | null
+  onResult?: (tm: ThreatModel, key: string) => void
+}) {
   const argusMl = caps?.argus_ml ?? false
   const rate = caps?.usd_brl_rate ?? 6
   const factor = caps?.cost_factor ?? 1
@@ -191,14 +197,19 @@ export default function Argus({ caps }: { caps: Capabilities | null }) {
     setRunning(true)
     const ctrl = new AbortController()
     abortRef.current = ctrl
+    let finalTm: ThreatModel | null = null
     try {
       await analyzeStream(
         file,
         'argus',
-        (stage, data) => setSt((prev) => reduce(prev, stage, data)),
+        (stage, data) => {
+          setSt((prev) => reduce(prev, stage, data))
+          if (stage === 'done' && data.threat_model) finalTm = data.threat_model
+        },
         ctrl.signal,
         systemName,
       )
+      if (finalTm) onResult?.(finalTm, imageKey(file)) // Lote 2: disponibiliza p/ a aba Comparar
     } catch (e) {
       if (!ctrl.signal.aborted) setError(e instanceof Error ? e.message : String(e))
     } finally {

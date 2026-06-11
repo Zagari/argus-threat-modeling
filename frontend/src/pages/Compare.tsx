@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { analyzeStream, compareDiff } from '../api/client'
 import ThreatTable from '../components/ThreatTable'
-import type { Capabilities, CompareResult, CompareSummary, StageEvent, ThreatModel } from '../types'
+import type { CachedAnalysis, Capabilities, CompareResult, CompareSummary, StageEvent, ThreatModel } from '../types'
 
 type SysState = { status: 'idle' | 'running' | 'done' | 'error'; stage: string; error: string | null }
 const IDLE: SysState = { status: 'idle', stage: '', error: null }
@@ -27,7 +27,15 @@ const pct = (x?: number | null) => (x == null ? '—' : `${Math.round(x * 100)}%
 const dread = (d?: Record<string, number> | null) =>
   d ? `${d['Crítico'] ?? 0} / ${d['Alto'] ?? 0} / ${d['Médio'] ?? 0} / ${d['Baixo'] ?? 0}` : '—'
 
-export default function Compare({ caps }: { caps: Capabilities | null }) {
+export default function Compare({
+  caps,
+  ciclopeCache,
+  argusCache,
+}: {
+  caps: Capabilities | null
+  ciclopeCache: CachedAnalysis | null
+  argusCache: CachedAnalysis | null
+}) {
   const argusMl = caps?.argus_ml ?? false
   const rate = caps?.usd_brl_rate ?? 6
   const factor = caps?.cost_factor ?? 1
@@ -56,32 +64,56 @@ export default function Compare({ caps }: { caps: Capabilities | null }) {
     setError(null)
   }
 
+  // Lote 2: há análises prontas das duas abas, para a MESMA figura?
+  const reusable = !!(ciclopeCache && argusCache && ciclopeCache.key === argusCache.key)
+
+  async function runOne(f: File, system: 'ciclope' | 'argus', setS: typeof setC): Promise<ThreatModel> {
+    setS({ status: 'running', stage: 'start', error: null })
+    try {
+      const tm = await streamTm(f, system, (stage) => setS((s) => ({ ...s, stage })))
+      setS((s) => ({ ...s, status: 'done' }))
+      return tm
+    } catch (e) {
+      setS((s) => ({ ...s, status: 'error', error: e instanceof Error ? e.message : String(e) }))
+      throw e
+    }
+  }
+
   async function run() {
     if (!file) return
     setError(null)
     setResult(null)
     setCTm(null)
     setATm(null)
-    setC({ status: 'running', stage: 'start', error: null })
-    setA({ status: 'running', stage: 'start', error: null })
+    setC(IDLE)
+    setA(IDLE)
     setRunning(true)
-    const pc = streamTm(file, 'ciclope', (stage) => setC((s) => ({ ...s, stage })))
-      .then((tm) => (setCTm(tm), setC((s) => ({ ...s, status: 'done' })), tm))
-      .catch((e: Error) => {
-        setC((s) => ({ ...s, status: 'error', error: e.message }))
-        throw e
-      })
-    const pa = streamTm(file, 'argus', (stage) => setA((s) => ({ ...s, stage })))
-      .then((tm) => (setATm(tm), setA((s) => ({ ...s, status: 'done' })), tm))
-      .catch((e: Error) => {
-        setA((s) => ({ ...s, status: 'error', error: e.message }))
-        throw e
-      })
     try {
-      const [cm, am] = await Promise.all([pc, pa])
+      // SEQUENCIAL (não paralelo): chamadas concorrentes ao VLM degradavam o ARGUS (rate-limit) → menos ameaças.
+      const cm = await runOne(file, 'ciclope', setC)
+      setCTm(cm)
+      const am = await runOne(file, 'argus', setA)
+      setATm(am)
       setResult(await compareDiff(cm, am))
     } catch {
       setError('Uma das análises falhou — veja o status de cada sistema abaixo.')
+    } finally {
+      setRunning(false)
+    }
+  }
+
+  async function reuse() {
+    if (!ciclopeCache || !argusCache) return
+    setError(null)
+    setRunning(true)
+    setC({ status: 'done', stage: '', error: null })
+    setA({ status: 'done', stage: '', error: null })
+    setCTm(ciclopeCache.tm)
+    setATm(argusCache.tm)
+    try {
+      setResult(await compareDiff(ciclopeCache.tm, argusCache.tm))
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e))
     } finally {
       setRunning(false)
     }
@@ -119,9 +151,10 @@ export default function Compare({ caps }: { caps: Capabilities | null }) {
           <span className="badge cat">estudo lado a lado</span>
         </div>
         <p className="muted" style={{ marginTop: 4 }}>
-          Roda os <strong>dois sistemas no mesmo diagrama</strong> (em paralelo) e mede ambos com a{' '}
-          <strong>mesma régua</strong>. A métrica-chave é a <strong>groundedness</strong>: o ARGUS recupera e
-          valida as âncoras; o Cíclope cita da memória do modelo (e pode alucinar IDs).
+          Roda os <strong>dois sistemas no mesmo diagrama</strong> (em <strong>sequência</strong>, para não
+          disputar o VLM) e mede ambos com a <strong>mesma régua</strong>. A métrica-chave é a{' '}
+          <strong>groundedness</strong>: o ARGUS recupera e valida as âncoras; o Cíclope cita da memória do
+          modelo (e pode alucinar IDs).
         </p>
 
         {!argusMl && (
@@ -130,11 +163,21 @@ export default function Compare({ caps }: { caps: Capabilities | null }) {
           </div>
         )}
 
+        {reusable && (
+          <div className="summary" style={{ marginTop: 8 }}>
+            ♻️ Há análises prontas das duas abas para <strong>a mesma figura</strong> (
+            <code>{ciclopeCache?.tm.system_name}</code>). Dá para comparar <strong>sem re-rodar</strong>.{' '}
+            <button className="ghost" disabled={running} onClick={reuse} style={{ marginLeft: 6 }}>
+              Usar resultados carregados
+            </button>
+          </div>
+        )}
+
         <label>Diagrama de arquitetura (imagem)</label>
         <input type="file" accept="image/*" disabled={!argusMl} onChange={(e) => onPick(e.target.files?.[0] ?? null)} />
         <div style={{ marginTop: 14 }}>
           <button className="primary" disabled={!argusMl || !file || running} onClick={run}>
-            {running ? 'Comparando (Cíclope + ARGUS)…' : 'Comparar os dois sistemas'}
+            {running ? 'Comparando (Cíclope → ARGUS)…' : 'Comparar (rodar do zero)'}
           </button>
         </div>
         {error && <div className="error">{error}</div>}
