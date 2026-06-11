@@ -20,6 +20,9 @@ def test_analyze_ciclope_retorna_threatmodel(client):
     assert len(tm["threats"]) >= 1
     assert all(t["provenance"] == "ciclope" for t in tm["threats"])
     assert tm["components"]
+    # Lote 1/C: o Cíclope agora também é MEDIDO pela régua agnóstica (groundedness no meta).
+    assert "groundedness" in tm["meta"]
+    assert 0.0 <= tm["meta"]["groundedness"] <= 1.0
 
 
 def test_argus_requer_detector(client):

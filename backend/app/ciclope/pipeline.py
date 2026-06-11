@@ -14,6 +14,8 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from app.argus import scoring
+from app.argus.knowledge import validate
+from app.argus.knowledge.store import get_store
 from app.config import get_config
 from app.llm import provider
 from app.llm.mock import mock_threat_model
@@ -43,6 +45,7 @@ def analyze(image_bytes: bytes, *, system_name: str | None = None, mime: str = "
         })
         scoring.apply(mock_tm.threats)
         mock_tm.meta["dread_dist"] = scoring.distribution(mock_tm.threats)
+        validate.validate_model(mock_tm, get_store(), drop_invalid=False)  # mede a groundedness (não remove)
         return mock_tm
 
     prompt = _env.get_template("ciclope.j2").render(canonical_classes=CANONICAL_CLASSES)
@@ -74,4 +77,6 @@ def analyze(image_bytes: bytes, *, system_name: str | None = None, mime: str = "
     )
     scoring.apply(tm.threats)
     tm.meta["dread_dist"] = scoring.distribution(tm.threats)
+    # Régua agnóstica: o Cíclope é o baseline → SÓ mede a groundedness (drop_invalid=False, não altera).
+    validate.validate_model(tm, get_store(), drop_invalid=False)
     return tm

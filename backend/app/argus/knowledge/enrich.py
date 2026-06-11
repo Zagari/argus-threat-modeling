@@ -9,6 +9,7 @@ curado) ficam em `Threat.semantic_anchors`. Em mock/erro/sem-RAG, cai no determi
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -85,12 +86,25 @@ def _apply_deterministic(p: _Pair) -> None:
         )
 
 
+_ANCHOR_RE = re.compile(r"^(CWE-\d+|CAPEC-\d+|T\d{4}(?:\.\d+)?)$", re.IGNORECASE)
+
+
+def _ref_ok(ref: str, allowed: set[str]) -> bool:
+    """Mantém controles (ASVS/NIST/D3FEND) e descrições; descarta âncora CWE/CAPEC/ATT&CK que NÃO
+    esteja entre os candidatos — anti-vazamento de id alucinado no texto da contramedida (3.x)."""
+    s = ref.strip().upper()
+    return s in allowed if _ANCHOR_RE.match(s) else True
+
+
 def _apply_item(p: _Pair, item: _EnrichItem) -> None:
     """Aplica a seleção do LLM, filtrando para os candidatos (det ∪ semântico)."""
     p.t.cwe_ids = [c for c in item.cwe_ids if c in p.cwe][:_MAX_CWE]
     p.t.capec_ids = [c for c in item.capec_ids if c in p.capec][:_MAX_CAPEC]
     p.t.attack_ids = [a for a in item.attack_ids if a in p.attack][:_MAX_ATTACK]
     if item.mitigations:
+        allowed = {x.upper() for x in (*p.cwe, *p.capec, *p.attack)}  # candidatos (chaves)
+        for m in item.mitigations:
+            m.refs = [r for r in m.refs if _ref_ok(r, allowed)]
         p.t.mitigations = item.mitigations
 
 

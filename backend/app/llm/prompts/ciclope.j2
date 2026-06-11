@@ -24,9 +24,10 @@ Você deve, em uma única passagem:
    Gere ameaças ESPECÍFICAS, citando o componente concreto. NÃO produza recomendações genéricas
    ("valide entradas") desconectadas de um componente.
 
-4) Para cada ameaça, sugira `mitigations` CONCRETAS e implementáveis (e, quando souber,
-   inclua referências como CWE-XXX ou 'ASVS V…' no campo `refs`). Estime `likelihood`,
-   `impact` e um `risk_score` 1–25 (probabilidade × impacto).
+4) Para cada ameaça, preencha `cwe_ids` (1–3 fraquezas CWE mais pertinentes) e `capec_ids`
+   (0–2 padrões de ataque CAPEC), com os IDs reais que você conhecer. Sugira também
+   `mitigations` CONCRETAS e implementáveis (no `refs`, controles como 'ASVS V…'). Estime
+   `likelihood`, `impact` e um `risk_score` 1–25 (probabilidade × impacto).
 
 Dê IDs estáveis: componentes "C1","C2",…; ameaças "THR-001","THR-002",….
 Defina `system_name` com um nome curto do sistema retratado.

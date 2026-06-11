@@ -32,6 +32,8 @@ export default function Compare({ caps }: { caps: Capabilities | null }) {
   const rate = caps?.usd_brl_rate ?? 6
   const factor = caps?.cost_factor ?? 1
   const brl = (usd?: number | null) => (usd == null ? '—' : `R$ ${(usd * rate * factor).toFixed(2)}`)
+  const idsInfo = (s: CompareSummary) =>
+    `${pct(s.id_validity)} (${s.ids_valid ?? 0}/${(s.ids_valid ?? 0) + (s.ids_invalid ?? 0)} reais)`
 
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
@@ -160,14 +162,14 @@ export default function Compare({ caps }: { caps: Capabilities | null }) {
               <div style={{ fontSize: 30, fontWeight: 800, color: (cs.groundedness ?? 0) >= 0.8 ? '#1c7a3a' : '#d9534f' }}>
                 {pct(cs.groundedness)}
               </div>
-              <div className="muted">{cs.ids_invalid ?? 0} ID(s) alucinado(s)</div>
+              <div className="muted">validade dos IDs: <strong>{idsInfo(cs)}</strong></div>
             </div>
             <div style={{ flex: 1 }}>
               <div className="summary-title">ARGUS — groundedness</div>
               <div style={{ fontSize: 30, fontWeight: 800, color: (as.groundedness ?? 0) >= 0.8 ? '#1c7a3a' : '#d9534f' }}>
                 {pct(as.groundedness)}
               </div>
-              <div className="muted">{as.ids_invalid ?? 0} ID(s) alucinado(s) · {as.n_cves} CVEs reais</div>
+              <div className="muted">validade dos IDs: <strong>{idsInfo(as)}</strong> · {as.n_cves} CVEs reais</div>
             </div>
           </div>
 
@@ -179,15 +181,19 @@ export default function Compare({ caps }: { caps: Capabilities | null }) {
               </thead>
               <tbody>
                 {metric('Ameaças', cs.n_threats, as.n_threats)}
-                {metric('Groundedness', pct(cs.groundedness), pct(as.groundedness), true)}
-                {metric('Validade de IDs', pct(cs.id_validity), pct(as.id_validity))}
-                {metric('IDs alucinados', cs.ids_invalid ?? '—', as.ids_invalid ?? '—')}
+                {metric('Groundedness (% ameaças ancoradas)', pct(cs.groundedness), pct(as.groundedness), true)}
+                {metric('Validade de IDs (% reais)', pct(cs.id_validity), pct(as.id_validity), true)}
+                {metric('IDs alucinados (absoluto)', cs.ids_invalid ?? '—', as.ids_invalid ?? '—')}
                 {metric('CVEs reais (NVD)', cs.n_cves, as.n_cves)}
                 {metric('DREAD (Crít/Alto/Méd/Baixo)', dread(cs.dread_dist), dread(as.dread_dist))}
                 {metric('Latência', cs.latency_s != null ? `${cs.latency_s}s` : '—', as.latency_s != null ? `${as.latency_s}s` : '—')}
                 {metric('Custo', brl(cs.cost_usd), brl(as.cost_usd))}
               </tbody>
             </table>
+            <p className="muted" style={{ fontSize: 11, marginBottom: 0 }}>
+              A métrica justa é a <strong>taxa</strong> (groundedness e validade de IDs): o ARGUS ancora muitos mais
+              IDs, então a <em>contagem absoluta</em> de alucinados não é comparável (quem cita menos tende a ter menos).
+            </p>
           </div>
 
           <div className="card">

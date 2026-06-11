@@ -39,3 +39,13 @@ def test_enrich_anexa_contramedidas_com_refs_de_controle():
     refs = [r for m in threats[0].mitigations for r in m.refs]
     assert any(r.startswith("ASVS-V") for r in refs)                       # controle citado
     assert all(store.exists("Control", r) for r in refs if r.startswith("ASVS-"))  # e real
+
+
+def test_ref_filtra_ancora_alucinada_mantem_controle():
+    """Anti-vazamento (Lote 1/A): refs mantêm controles e âncoras candidatas; descartam CWE/CAPEC fora."""
+    allowed = {"CWE-89", "CAPEC-66", "T1190"}
+    assert kg_enrich._ref_ok("ASVS-V2", allowed)        # controle → mantém
+    assert kg_enrich._ref_ok("NIST-IA-2", allowed)      # controle → mantém
+    assert kg_enrich._ref_ok("CWE-89", allowed)         # âncora candidata → mantém
+    assert not kg_enrich._ref_ok("CWE-9999", allowed)   # âncora alucinada → descarta
+    assert not kg_enrich._ref_ok("CAPEC-99999", allowed)
