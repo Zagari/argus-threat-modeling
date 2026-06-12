@@ -1,6 +1,6 @@
 import type { Capabilities } from '../types'
 
-type Tab = 'home' | 'ciclope' | 'argus' | 'knowledge' | 'settings'
+type Tab = 'home' | 'ciclope' | 'argus' | 'compare' | 'knowledge' | 'settings'
 
 const STAGES: { id: string; name: string; desc: string; done: boolean }[] = [
   { id: 'E1', name: 'Detecção (YOLO11)', desc: 'detector supervisionado localiza os ícones/componentes no diagrama.', done: true },
@@ -90,6 +90,24 @@ export default function Home({ caps, onNavigate }: { caps: Capabilities | null; 
             {argusMl ? 'Abrir o ARGUS →' : 'ARGUS indisponível (LITE)'}
           </button>
         </div>
+      </div>
+
+      <div className="card">
+        <div className="system-head">
+          <h3 style={{ margin: 0 }}>Comparar — Cíclope × ARGUS</h3>
+          <span className="badge cat">estudo lado a lado · o coração do projeto</span>
+        </div>
+        <p className="muted" style={{ marginBottom: 8 }}>
+          A aba <strong>Comparar</strong> roda os <strong>dois sistemas no mesmo diagrama</strong> (em sequência,
+          para não disputar o VLM) e os mede com a <strong>mesma régua</strong> — com destaque para a{' '}
+          <strong>groundedness</strong> (quanto de cada modelo está ancorado em CWE/CAPEC/ATT&amp;CK/CVE reais) e
+          as diferenças por <strong>(classe × STRIDE)</strong>. Se já houver análises das abas Cíclope e ARGUS para a
+          mesma figura, dá para comparar <strong>sem re-rodar</strong>. Uma execução é ilustrativa (o VLM varia entre
+          rodadas); a conclusão rigorosa, com médias sobre o <em>gold set</em>, é a Fase 5.
+        </p>
+        <button className="primary" disabled={!argusMl} onClick={() => onNavigate('compare')}>
+          {argusMl ? 'Abrir a Comparação →' : 'Comparação indisponível (LITE)'}
+        </button>
       </div>
 
       <div className="card">

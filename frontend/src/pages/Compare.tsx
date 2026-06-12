@@ -157,6 +157,19 @@ export default function Compare({
           modelo (e pode alucinar IDs).
         </p>
 
+        <p
+          className="muted"
+          style={{ marginTop: 8, fontSize: 12, borderLeft: '3px solid #e0a800', paddingLeft: 10 }}
+        >
+          ⚠️ <strong>Comparação ilustrativa de uma execução.</strong> O VLM <em>amostra</em> a cada chamada,
+          então <strong>os dois</strong> sistemas variam entre rodadas — mesmo sem alucinar. O ARGUS varia de
+          forma <strong>mais contida</strong> (detector, matriz STRIDE-por-elemento, validação/groundedness e
+          DREAD são determinísticos; só os estágios de VLM oscilam); o Cíclope varia <strong>mais</strong> (a
+          saída inteira é uma passagem única do VLM). Logo, <strong>uma rodada é anedótica para ambos</strong>:
+          a conclusão rigorosa roda cada sistema <strong>N vezes</strong> sobre um <em>gold set</em> e reporta
+          média ± desvio (Fase 5).
+        </p>
+
         {!argusMl && (
           <div className="banner-mock" style={{ marginTop: 8 }}>
             ⚠️ <strong>Comparação indisponível neste ambiente (modo LITE)</strong> — o ARGUS requer o detector + deps de ML.
@@ -167,7 +180,7 @@ export default function Compare({
           <div className="summary" style={{ marginTop: 8 }}>
             ♻️ Há análises prontas das duas abas para <strong>a mesma figura</strong> (
             <code>{ciclopeCache?.tm.system_name}</code>). Dá para comparar <strong>sem re-rodar</strong>.{' '}
-            <button className="ghost" disabled={running} onClick={reuse} style={{ marginLeft: 6 }}>
+            <button className="ochre" disabled={running} onClick={reuse} style={{ marginLeft: 6 }}>
               Usar resultados carregados
             </button>
           </div>

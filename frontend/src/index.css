@@ -7,6 +7,7 @@
   --muted: #9aa3b2;
   --accent: #d8a838;
   --accent-2: #4a9eff;
+  --ocre: #c8822a;
   --crit: #b00020;
   --high: #d9534f;
   --med: #e0a800;
@@ -49,6 +50,11 @@ button.primary {
   border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;
 }
 button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+button.ochre {
+  background: var(--ocre); color: #1a1a1a; border: none; padding: 10px 16px;
+  border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;
+}
+button.ochre:disabled { opacity: 0.5; cursor: not-allowed; }
 button.ghost {
   background: transparent; color: var(--text); border: 1px solid var(--border);
   padding: 9px 14px; border-radius: 8px; cursor: pointer; font-size: 14px;
