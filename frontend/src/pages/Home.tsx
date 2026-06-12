@@ -103,7 +103,8 @@ export default function Home({ caps, onNavigate }: { caps: Capabilities | null; 
           <strong>groundedness</strong> (quanto de cada modelo está ancorado em CWE/CAPEC/ATT&amp;CK/CVE reais) e
           as diferenças por <strong>(classe × STRIDE)</strong>. Se já houver análises das abas Cíclope e ARGUS para a
           mesma figura, dá para comparar <strong>sem re-rodar</strong>. Uma execução é ilustrativa (o VLM varia entre
-          rodadas); a conclusão rigorosa, com médias sobre o <em>gold set</em>, é a Fase 5.
+          rodadas); a <strong>conclusão rigorosa</strong> roda cada sistema <strong>N vezes</strong> sobre um{' '}
+          <em>gold set</em> e reporta médias.
         </p>
         <button className="primary" disabled={!argusMl} onClick={() => onNavigate('compare')}>
           {argusMl ? 'Abrir a Comparação →' : 'Comparação indisponível (LITE)'}

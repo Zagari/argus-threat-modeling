@@ -190,6 +190,13 @@ def _complete(
         resp = litellm.completion(messages=msgs, **kw)
     except Exception as e:  # noqa: BLE001 — normaliza qualquer erro de provider
         cfg = get_config()
+        # Limite de taxa (429): comum após uma rajada de chamadas (ex.: rodar várias análises
+        # seguidas). Mensagem clara em vez de um erro genérico que parece "travamento".
+        if "RateLimit" in type(e).__name__ or "429" in str(e):
+            raise LLMError(
+                f"Limite de taxa do provedor ({cfg.provider}/{cfg.model}). "
+                "Aguarde alguns segundos e rode novamente."
+            ) from e
         raise LLMError(f"Falha ao chamar o LLM ({cfg.provider} / {cfg.model}): {e}") from e
 
     _record_usage(resp)

@@ -1,23 +1,33 @@
-import { useState } from 'react'
-import { analyzeStream, compareDiff } from '../api/client'
+import { useEffect, useRef, useState } from 'react'
+import { analyzeStream, compareDiff, imageKey } from '../api/client'
 import ThreatTable from '../components/ThreatTable'
 import type { CachedAnalysis, Capabilities, CompareResult, CompareSummary, StageEvent, ThreatModel } from '../types'
 
-type SysState = { status: 'idle' | 'running' | 'done' | 'error'; stage: string; error: string | null }
-const IDLE: SysState = { status: 'idle', stage: '', error: null }
+type SysState = { status: 'idle' | 'running' | 'done' | 'error'; stage: string; error: string | null; startedAt: number | null }
+const IDLE: SysState = { status: 'idle', stage: '', error: null, startedAt: null }
 
 /** Roda uma análise por streaming e resolve com o ThreatModel final (rejeita em erro do pipeline). */
-function streamTm(file: File, system: string, onStage: (stage: string) => void): Promise<ThreatModel> {
+function streamTm(
+  file: File,
+  system: string,
+  onStage: (stage: string) => void,
+  signal?: AbortSignal,
+): Promise<ThreatModel> {
   return new Promise((resolve, reject) => {
     let tm: ThreatModel | null = null
-    analyzeStream(file, system, (stage: string, data: StageEvent) => {
-      if (stage === 'error') {
-        reject(new Error(data.message ?? 'erro no pipeline'))
-        return
-      }
-      if (stage === 'done' && data.threat_model) tm = data.threat_model
-      onStage(stage)
-    })
+    analyzeStream(
+      file,
+      system,
+      (stage: string, data: StageEvent) => {
+        if (stage === 'error') {
+          reject(new Error(data.message ?? 'erro no pipeline'))
+          return
+        }
+        if (stage === 'done' && data.threat_model) tm = data.threat_model
+        onStage(stage)
+      },
+      signal,
+    )
       .then(() => (tm ? resolve(tm) : reject(new Error('sem resultado'))))
       .catch(reject)
   })
@@ -52,8 +62,20 @@ export default function Compare({
   const [result, setResult] = useState<CompareResult | null>(null)
   const [running, setRunning] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [resultKey, setResultKey] = useState<string | null>(null)
+  const abortRef = useRef<AbortController | null>(null)
+  const [, setTick] = useState(0)
+
+  // Cronômetro: enquanto um sistema roda, força re-render a cada 1s para exibir o tempo decorrido.
+  // O Cíclope é uma passagem única do VLM (sem subetapas), então sem isto a coluna parece "travada".
+  useEffect(() => {
+    if (c.status !== 'running' && a.status !== 'running') return
+    const id = setInterval(() => setTick((t) => (t + 1) % 1_000_000), 1000)
+    return () => clearInterval(id)
+  }, [c.status, a.status])
 
   function onPick(f: File | null) {
+    abortRef.current?.abort() // cancela qualquer análise em curso antes de trocar a figura
     setFile(f)
     setPreview(f ? URL.createObjectURL(f) : null)
     setResult(null)
@@ -66,11 +88,18 @@ export default function Compare({
 
   // Lote 2: há análises prontas das duas abas, para a MESMA figura?
   const reusable = !!(ciclopeCache && argusCache && ciclopeCache.key === argusCache.key)
+  // O resultado exibido é de OUTRA figura que não a do par reaproveitável disponível?
+  const staleResult = !!(result && resultKey && reusable && ciclopeCache && resultKey !== ciclopeCache.key)
 
-  async function runOne(f: File, system: 'ciclope' | 'argus', setS: typeof setC): Promise<ThreatModel> {
-    setS({ status: 'running', stage: 'start', error: null })
+  async function runOne(
+    f: File,
+    system: 'ciclope' | 'argus',
+    setS: typeof setC,
+    signal: AbortSignal,
+  ): Promise<ThreatModel> {
+    setS({ status: 'running', stage: 'start', error: null, startedAt: Date.now() })
     try {
-      const tm = await streamTm(f, system, (stage) => setS((s) => ({ ...s, stage })))
+      const tm = await streamTm(f, system, (stage) => setS((s) => ({ ...s, stage })), signal)
       setS((s) => ({ ...s, status: 'done' }))
       return tm
     } catch (e) {
@@ -81,6 +110,9 @@ export default function Compare({
 
   async function run() {
     if (!file) return
+    abortRef.current?.abort() // garante que nada de uma execução anterior continua disputando o VLM
+    const ctrl = new AbortController()
+    abortRef.current = ctrl
     setError(null)
     setResult(null)
     setCTm(null)
@@ -90,28 +122,32 @@ export default function Compare({
     setRunning(true)
     try {
       // SEQUENCIAL (não paralelo): chamadas concorrentes ao VLM degradavam o ARGUS (rate-limit) → menos ameaças.
-      const cm = await runOne(file, 'ciclope', setC)
+      const cm = await runOne(file, 'ciclope', setC, ctrl.signal)
       setCTm(cm)
-      const am = await runOne(file, 'argus', setA)
+      const am = await runOne(file, 'argus', setA, ctrl.signal)
       setATm(am)
       setResult(await compareDiff(cm, am))
+      setResultKey(imageKey(file))
     } catch {
-      setError('Uma das análises falhou — veja o status de cada sistema abaixo.')
+      if (!ctrl.signal.aborted) setError('Uma das análises falhou — veja o status de cada sistema abaixo.')
     } finally {
+      if (abortRef.current === ctrl) abortRef.current = null
       setRunning(false)
     }
   }
 
   async function reuse() {
     if (!ciclopeCache || !argusCache) return
+    abortRef.current?.abort() // cancela execução em curso antes de reaproveitar
     setError(null)
     setRunning(true)
-    setC({ status: 'done', stage: '', error: null })
-    setA({ status: 'done', stage: '', error: null })
+    setC({ status: 'done', stage: '', error: null, startedAt: null })
+    setA({ status: 'done', stage: '', error: null, startedAt: null })
     setCTm(ciclopeCache.tm)
     setATm(argusCache.tm)
     try {
       setResult(await compareDiff(ciclopeCache.tm, argusCache.tm))
+      setResultKey(ciclopeCache.key)
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {
@@ -119,17 +155,30 @@ export default function Compare({
     }
   }
 
-  const col = (label: string, sys: SysState) => (
-    <div className="card system-card">
-      <div className="system-head">
-        <h3 style={{ margin: 0 }}>{label}</h3>
-        <span className={`chip ${sys.status === 'done' ? 'ok' : sys.status === 'error' ? 'off' : 'warn'}`}>
-          {sys.status === 'idle' ? '—' : sys.status === 'running' ? `rodando… (${sys.stage})` : sys.status}
-        </span>
+  const col = (label: string, sys: SysState) => {
+    const elapsed = sys.status === 'running' && sys.startedAt ? Math.round((Date.now() - sys.startedAt) / 1000) : null
+    return (
+      <div className="card system-card">
+        <div className="system-head">
+          <h3 style={{ margin: 0 }}>{label}</h3>
+          <span className={`chip ${sys.status === 'done' ? 'ok' : sys.status === 'error' ? 'off' : 'warn'}`}>
+            {sys.status === 'idle'
+              ? '—'
+              : sys.status === 'running'
+                ? `rodando… (${sys.stage})${elapsed != null ? ` · ${elapsed}s` : ''}`
+                : sys.status}
+          </span>
+        </div>
+        {sys.status === 'running' && label === 'Cíclope' && (
+          <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>
+            Passagem única do VLM (sem subetapas) — pode levar até ~90&nbsp;s
+            {elapsed != null && elapsed > 45 ? '; chamadas recentes podem estar sob limite de taxa do provedor' : ''}.
+          </div>
+        )}
+        {sys.error && <div className="error">{sys.error}</div>}
       </div>
-      {sys.error && <div className="error">{sys.error}</div>}
-    </div>
-  )
+    )
+  }
 
   const metric = (label: string, cv: string | number, av: string | number, hl = false) => (
     <tr>
@@ -166,8 +215,8 @@ export default function Compare({
           forma <strong>mais contida</strong> (detector, matriz STRIDE-por-elemento, validação/groundedness e
           DREAD são determinísticos; só os estágios de VLM oscilam); o Cíclope varia <strong>mais</strong> (a
           saída inteira é uma passagem única do VLM). Logo, <strong>uma rodada é anedótica para ambos</strong>:
-          a conclusão rigorosa roda cada sistema <strong>N vezes</strong> sobre um <em>gold set</em> e reporta
-          média ± desvio (Fase 5).
+          a <strong>comparação rigorosa</strong> roda cada sistema <strong>N vezes</strong> sobre um{' '}
+          <em>gold set</em> e reporta média ± desvio.
         </p>
 
         {!argusMl && (
@@ -183,6 +232,13 @@ export default function Compare({
             <button className="ochre" disabled={running} onClick={reuse} style={{ marginLeft: 6 }}>
               Usar resultados carregados
             </button>
+          </div>
+        )}
+
+        {staleResult && (
+          <div className="banner-mock" style={{ marginTop: 8 }}>
+            ⚠️ O resultado abaixo é de uma <strong>comparação anterior (outra figura)</strong>. Para a figura
+            carregada nas abas, clique em <strong>Usar resultados carregados</strong> ou selecione a imagem e rode do zero.
           </div>
         )}
 
