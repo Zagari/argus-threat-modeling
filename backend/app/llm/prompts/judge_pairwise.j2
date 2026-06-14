@@ -1,0 +1,20 @@
+## CONTEXTO DA ARQUITETURA
+Componentes (DFD): {{ components_json }}
+Fluxos de dados (arestas): {{ edges_json }}
+
+## RELATÓRIO A (anonimizado)
+{{ report_a_json }}
+
+## RELATÓRIO B (anonimizado)
+{{ report_b_json }}
+
+## RUBRICA (compare A vs B em cada dimensão)
+- coverage (Cobertura STRIDE): quão completas as categorias STRIDE aplicáveis por elemento do DFD.
+- specificity (Especificidade): ameaças referenciam componentes/fluxos concretos vs. genéricas.
+- actionability (Acionabilidade): mitigações concretas/implementáveis com controle (ASVS/D3FEND/NIST).
+- severity_calibration (Calibração): severidades coerentes com exposição/impacto reais.
+- consistency (Consistência): sem contradições; IDs/componentes/severidades coerentes.
+
+Para CADA dimensão, escreva PRIMEIRO `rationale` (citando evidências dos dois) e DEPOIS o `winner`
+("A", "B" ou "tie"). Avalie SUBSTÂNCIA, não tamanho/estilo. Decida também `overall_winner`,
+`confidence` (low/medium/high) e um `rationale` geral. Responda no schema JSON solicitado.

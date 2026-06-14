@@ -1,0 +1,21 @@
+## CONTEXTO DA ARQUITETURA
+Componentes (DFD): {{ components_json }}
+Fluxos de dados (arestas): {{ edges_json }}
+
+{% if reference_json %}## RELATÓRIO DE REFERÊNCIA (gold, revisado por humano)
+{{ reference_json }}
+
+{% endif %}## RELATÓRIO A AVALIAR (anonimizado)
+{{ report_json }}
+
+## RUBRICA (âncoras 1–5; notas 2 e 4 interpolam)
+- coverage (Cobertura STRIDE): 1={{ a.coverage[1] }} | 3={{ a.coverage[3] }} | 5={{ a.coverage[5] }}
+- specificity (Especificidade): 1={{ a.specificity[1] }} | 3={{ a.specificity[3] }} | 5={{ a.specificity[5] }}
+- actionability (Acionabilidade): 1={{ a.actionability[1] }} | 3={{ a.actionability[3] }} | 5={{ a.actionability[5] }}
+- severity_calibration (Calibração): 1={{ a.severity_calibration[1] }} | 3={{ a.severity_calibration[3] }} | 5={{ a.severity_calibration[5] }}
+- consistency (Consistência): 1={{ a.consistency[1] }} | 3={{ a.consistency[3] }} | 5={{ a.consistency[5] }}
+
+Avalie as 5 dimensões. Para CADA uma, escreva PRIMEIRO `rationale` + `evidence` (citando os IDs de
+ameaça, ex.: THR-003) e SÓ DEPOIS atribua `score` 1–5 conforme as âncoras. Liste `flags` para
+problemas objetivos (ex.: "hallucinated_component", "missing_mitigations", "duplicate_threats",
+"generic_threats:N"). NÃO calcule média — devolva só as 5 notas. Responda no schema JSON solicitado.
