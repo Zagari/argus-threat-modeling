@@ -43,19 +43,25 @@ def _fmt(sigs: set[tuple[str, str]]) -> list[dict]:
     return [{"canonical": c, "stride": s} for c, s in sorted(sigs)]
 
 
+def measure(tm: ThreatModel) -> dict:
+    """Mede UM `ThreatModel` com a régua ÚNICA e devolve o resumo por sistema.
+
+    Régua idêntica para os dois sistemas (`drop_invalid=False`, só mede; âncoras estruturadas via
+    `include_refs=False`): avalia o output FINAL de cada um com a MESMA regra — o ARGUS já entrega
+    limpo (E5 removeu inválidos), o Cíclope entrega cru. NÃO usa a groundedness interna do E5 (regra
+    mais frouxa) p/ não favorecer um lado. Usado pelo `diff` (painel) e pelo harness da Fase 5, para
+    que os dois caminhos reportem exatamente os mesmos números.
+    """
+    rep = validate.validate_threats(tm.threats, get_store(), drop_invalid=False, include_refs=False)
+    return _summary(tm, rep)
+
+
 def diff(ciclope: ThreatModel, argus: ThreatModel) -> dict:
     """Resumo por sistema (groundedness com a MESMA régua) + diff por (classe × STRIDE)."""
-    store = get_store()
-    # Régua ÚNICA e idêntica para os dois (drop_invalid=False, só mede): compara o output FINAL de
-    # cada um com a MESMA regra — o ARGUS já entrega limpo (E5 removeu inválidos), o Cíclope entrega
-    # cru. Não usamos a groundedness interna do E5 (regra mais frouxa) p/ não favorecer um lado.
-    rep_c = validate.validate_threats(ciclope.threats, store, drop_invalid=False, include_refs=False)
-    rep_a = validate.validate_threats(argus.threats, store, drop_invalid=False, include_refs=False)
-
     sc, sa = _signatures(ciclope), _signatures(argus)
     return {
-        "ciclope": _summary(ciclope, rep_c),
-        "argus": _summary(argus, rep_a),
+        "ciclope": measure(ciclope),
+        "argus": measure(argus),
         "diff": {
             "common": _fmt(sc & sa),
             "only_ciclope": _fmt(sc - sa),
