@@ -5,16 +5,23 @@ agrega as métricas em **média ± desvio** (a variância do VLM vira número). 
 única** (`app.compare.measure`) — os mesmos números do painel "Comparar".
 
 ## Pré-requisitos
-Roda no **venv do backend** (importa `app`). No **Mac** esse venv costuma ser **LITE** (sem ML) →
-o **ARGUS é pulado** e só o **Cíclope** roda. No **servidor** (com ML) rodam os **dois**.
-Precisa da chave do LLM gerador no `.env` (ex.: `GEMINI_API_KEY`).
+Roda no venv do backend (importa `app`). Dois caminhos:
+- **`.venv-ml` (Python 3.13, com ML)** — **Cíclope + ARGUS** (torch/ultralytics/easyocr + detector E1).
+- **`backend/.venv` (Python 3.14, LITE)** — só **Cíclope**; o ARGUS é **pulado** (sem ultralytics).
+
+Precisa da chave do LLM gerador no `.env` (`GEMINI_API_KEY`) e, p/ o ARGUS, do **detector** no `.env`:
+`ARGUS_DETECTOR_HF=zagari/argus-detector` + `ARGUS_DETECTOR_FILE=best.pt` (repo **público**, sem token HF;
+os pesos são baixados na 1ª detecção). RAG semântico (E5 híbrido) é **opcional**:
+`.venv-ml/bin/pip install chromadb sentence-transformers` + `ARGUS_RAG=1` (sem isso, cai no determinístico).
 
 ## Rodar no Mac (CLI)
 ```bash
 cd argus
-backend/.venv/bin/python eval/run_comparison.py            # 2 Figuras, N=3
+# Cíclope + ARGUS (venv de ML, Python 3.13):
+.venv-ml/bin/python eval/run_comparison.py                 # 2 Figuras, N=3, os dois sistemas
+.venv-ml/bin/python eval/run_comparison.py --images "data/gold/figura-*.jpg" --force
+# Só Cíclope (venv LITE 3.14), se não quiser carregar o ML:
 backend/.venv/bin/python eval/run_comparison.py --systems ciclope --n 3
-backend/.venv/bin/python eval/run_comparison.py --images "data/gold/figura-*.jpg" --force
 ```
 
 ## Rodar no servidor (notebook, inclui ARGUS)
