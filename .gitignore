@@ -8,8 +8,10 @@ venv/
 .ruff_cache/
 .mypy_cache/
 
-# Env / secrets
+# Env / secrets — ignora .env, .env.bak, .env.servidor, .env.local, etc. MENOS o template
 .env
+.env.*
+!.env.example
 *.local
 
 # Node / frontend
