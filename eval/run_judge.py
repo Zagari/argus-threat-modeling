@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -50,19 +51,30 @@ def _pointwise(image: str, system: str, idx: int, tm: dict, *, force: bool, resu
     return res
 
 
-def _pairwise(image: str, tm_c: dict, tm_a: dict, *, force: bool, results_dir: Path) -> dict:
+def _modal(dist: dict) -> str:
+    return max(dist.items(), key=lambda kv: kv[1])[0] if dist else "—"
+
+
+def _pairwise(image: str, tm_c: dict, tm_a: dict, *, n: int, force: bool, results_dir: Path) -> dict:
+    """Roda o pairwise **N vezes** e agrega a DISTRIBUIÇÃO de vencedores (o juiz é não-determinístico
+    mesmo a temp=0 → um único veredito é frágil em casos borderline)."""
     out = results_dir / image / "judge-pairwise.json"
     if out.exists() and not force:
         return json.loads(out.read_text(encoding="utf-8"))
     gt = _GOLD / f"{image}.gt.json"
-    if gt.exists():
-        # GT NEUTRA revisada disponível → contexto JUSTO (resolve o confound de vez).
-        res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"),
-                                   context=json.loads(gt.read_text(encoding="utf-8")))
-    else:
-        # reference-free HONESTO: sem GT, roda com o contexto de CADA sistema e só declara vencedor
-        # onde os dois concordam (divergência = confound → empate).
-        res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"))
+    context = json.loads(gt.read_text(encoding="utf-8")) if gt.exists() else None  # GT neutra → contexto justo
+    runs = [judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"), context=context) for _ in range(n)]
+
+    overall = Counter(r["overall_winner"] for r in runs)
+    res = {
+        "n": n,
+        "context": "gt_neutra" if context is not None else "reference_free",
+        "overall_dist": dict(overall),
+        "modal_winner": _modal(dict(overall)),
+        "per_dim_dist": {d: dict(Counter(r["per_dimension"].get(d, "tie") for r in runs)) for d in judge.DIMENSIONS},
+        "confounded_runs": sum(1 for r in runs if r.get("confounded")),
+        "runs": runs,
+    }
     out.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
     return res
 
@@ -75,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="LLM-as-judge sobre os caches do 5.1 (Fase 5).")
     ap.add_argument("--force", action="store_true", help="ignora o cache dos vereditos e re-julga")
     ap.add_argument("--pointwise-only", action="store_true", help="pula o pairwise")
+    ap.add_argument("--judge-n", type=int, default=3, help="execuções do juiz por pairwise (distribuição) [3]")
     args = ap.parse_args(argv)
 
     rd = harness.RESULTS_DIR
@@ -105,9 +118,10 @@ def main(argv: list[str] | None = None) -> int:
             }
         if not args.pointwise_only and {"ciclope", "argus"} <= set(systems):
             try:
-                pr = _pairwise(image, systems["ciclope"][0], systems["argus"][0], force=args.force, results_dir=rd)
+                pr = _pairwise(image, systems["ciclope"][0], systems["argus"][0],
+                               n=args.judge_n, force=args.force, results_dir=rd)
                 pairwise_out[image] = pr
-                print(f"  pairwise · {image} → vencedor: {pr['overall_winner']} ({pr['confidence']})")
+                print(f"  pairwise · {image} (N={pr['n']}) → {pr['overall_dist']} | modal: {pr['modal_winner']}")
             except Exception as e:  # noqa: BLE001
                 print(f"  pairwise · {image} → ERRO: {type(e).__name__}: {e}")
 
@@ -129,14 +143,14 @@ def main(argv: list[str] | None = None) -> int:
             f"| {dm(d['severity_calibration'])} | {dm(d['consistency'])} |"
         )
     if pairwise_out:
-        lines += ["", "## Pairwise Cíclope × ARGUS (honesto: dupla ordem + dual-contexto)", ""]
-        lines.append("| Imagem | Vencedor | Confiança | Confounded? | Por contexto | Por dimensão (cov/spec/action/sev/consist) |")
-        lines.append("|---|---|---|---|---|---|")
+        lines += ["", "## Pairwise Cíclope × ARGUS (N execuções do juiz — distribuição de vencedores)", ""]
+        lines.append("| Imagem | Contexto | N | Distribuição (overall) | Modal | Por dimensão (modal) |")
+        lines.append("|---|---|--:|---|---|---|")
         for image, pr in pairwise_out.items():
-            per = " · ".join(pr["per_dimension"].get(d, "—") for d in judge.DIMENSIONS)
-            bc = " / ".join(f"{k}→{v}" for k, v in pr.get("by_context", {}).items()) or "—"
-            conf = "**SIM**" if pr.get("confounded") else "não"
-            lines.append(f"| {image} | **{pr['overall_winner']}** | {pr['confidence']} | {conf} | {bc} | {per} |")
+            dist = " / ".join(f"{k}:{v}" for k, v in sorted(pr["overall_dist"].items()))
+            perdim = " · ".join(f"{d[:4]}:{_modal(pr['per_dim_dist'][d])}" for d in judge.DIMENSIONS)
+            ctx = "GT neutra" if pr.get("context") == "gt_neutra" else "ref-free"
+            lines.append(f"| {image} | {ctx} | {pr['n']} | {dist} | **{pr['modal_winner']}** | {perdim} |")
     table = "\n".join(lines)
     print("\n" + table + "\n")
 
