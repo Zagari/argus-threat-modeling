@@ -22,7 +22,9 @@ frontend/.vite/
 # Avaliação (Fase 5): cache de execuções e resultados + backups (regeneráveis; o capítulo versiona só o que precisar)
 eval/results/
 eval/results-*/
-eval/gold/*.png
+eval/gold/**/*.png
+eval/gold/**/*.jpg
+eval/gold/**/*.jpeg
 eval/gold/diagrams/
 .ipynb_checkpoints/
 

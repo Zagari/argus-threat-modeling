@@ -1,0 +1,87 @@
+{
+  "system_name": "Eventos com Service Bus (Azure)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "azure",
+  "complexity": "medio",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Cliente"
+    },
+    {
+      "id": "C2",
+      "canonical": "api_gateway",
+      "element_type": "Process",
+      "label": "API Management"
+    },
+    {
+      "id": "C3",
+      "canonical": "identity",
+      "element_type": "Process",
+      "label": "Entra ID"
+    },
+    {
+      "id": "C4",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Functions"
+    },
+    {
+      "id": "C5",
+      "canonical": "message_queue",
+      "element_type": "DataStore",
+      "label": "Service Bus"
+    },
+    {
+      "id": "C6",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "Azure SQL"
+    },
+    {
+      "id": "C7",
+      "canonical": "secrets",
+      "element_type": "DataStore",
+      "label": "Key Vault"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C1",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C4",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C5",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C6",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C7",
+      "crosses_boundary": false
+    }
+  ]
+}

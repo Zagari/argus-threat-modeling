@@ -1,0 +1,49 @@
+{
+  "system_name": "Função serverless simples (GCP)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "gcp",
+  "complexity": "simples",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Cliente"
+    },
+    {
+      "id": "C2",
+      "canonical": "api_gateway",
+      "element_type": "Process",
+      "label": "API Gateway"
+    },
+    {
+      "id": "C3",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Cloud Functions"
+    },
+    {
+      "id": "C4",
+      "canonical": "database_nosql",
+      "element_type": "DataStore",
+      "label": "Firestore"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": false
+    }
+  ]
+}

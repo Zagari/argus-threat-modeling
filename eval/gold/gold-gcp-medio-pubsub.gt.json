@@ -1,0 +1,82 @@
+{
+  "system_name": "Pipeline de eventos (GCP)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "gcp",
+  "complexity": "medio",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Cliente"
+    },
+    {
+      "id": "C2",
+      "canonical": "load_balancer",
+      "element_type": "Process",
+      "label": "Cloud LB"
+    },
+    {
+      "id": "C3",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "App (GCE)"
+    },
+    {
+      "id": "C4",
+      "canonical": "message_queue",
+      "element_type": "DataStore",
+      "label": "Pub/Sub"
+    },
+    {
+      "id": "C5",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Worker (Functions)"
+    },
+    {
+      "id": "C6",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "Cloud SQL"
+    },
+    {
+      "id": "C7",
+      "canonical": "cache",
+      "element_type": "DataStore",
+      "label": "Memorystore"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C5",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C6",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C3",
+      "target": "C7",
+      "crosses_boundary": false
+    }
+  ]
+}

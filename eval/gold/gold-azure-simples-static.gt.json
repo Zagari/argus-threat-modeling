@@ -1,0 +1,49 @@
+{
+  "system_name": "Site estático simples (Azure)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "azure",
+  "complexity": "simples",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Usuários"
+    },
+    {
+      "id": "C2",
+      "canonical": "cdn",
+      "element_type": "Process",
+      "label": "Azure CDN"
+    },
+    {
+      "id": "C3",
+      "canonical": "app_service",
+      "element_type": "Process",
+      "label": "Static Web App"
+    },
+    {
+      "id": "C4",
+      "canonical": "object_storage",
+      "element_type": "DataStore",
+      "label": "Blob Storage"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": false
+    }
+  ]
+}

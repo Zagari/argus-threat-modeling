@@ -1,0 +1,164 @@
+{
+  "system_name": "Microsserviços densos (GCP)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "gcp",
+  "complexity": "denso",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Usuários"
+    },
+    {
+      "id": "C2",
+      "canonical": "cdn",
+      "element_type": "Process",
+      "label": "Cloud CDN"
+    },
+    {
+      "id": "C3",
+      "canonical": "api_gateway",
+      "element_type": "Process",
+      "label": "API Gateway"
+    },
+    {
+      "id": "C4",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "Svc Pedidos (GKE)"
+    },
+    {
+      "id": "C5",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "Svc Pagamentos (GKE)"
+    },
+    {
+      "id": "C6",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Svc Notif (Functions)"
+    },
+    {
+      "id": "C7",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "Cloud SQL"
+    },
+    {
+      "id": "C8",
+      "canonical": "database_nosql",
+      "element_type": "DataStore",
+      "label": "Firestore"
+    },
+    {
+      "id": "C9",
+      "canonical": "cache",
+      "element_type": "DataStore",
+      "label": "Memorystore"
+    },
+    {
+      "id": "C10",
+      "canonical": "message_queue",
+      "element_type": "DataStore",
+      "label": "Pub/Sub"
+    },
+    {
+      "id": "C11",
+      "canonical": "object_storage",
+      "element_type": "DataStore",
+      "label": "Cloud Storage"
+    },
+    {
+      "id": "C12",
+      "canonical": "identity",
+      "element_type": "Process",
+      "label": "Cloud IAM"
+    },
+    {
+      "id": "C13",
+      "canonical": "secrets",
+      "element_type": "DataStore",
+      "label": "Cloud KMS"
+    },
+    {
+      "id": "C14",
+      "canonical": "monitoring",
+      "element_type": "DataStore",
+      "label": "Cloud Monitoring"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C5",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C4",
+      "target": "C7",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C9",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C7",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C10",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C10",
+      "target": "C6",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C8",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C3",
+      "target": "C12",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C13",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C11",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C14",
+      "crosses_boundary": false
+    }
+  ]
+}
