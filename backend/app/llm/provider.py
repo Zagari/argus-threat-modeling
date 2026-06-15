@@ -9,10 +9,13 @@ from __future__ import annotations
 
 import base64
 import json
-from collections.abc import Iterator
+import os
+import threading
+from collections.abc import Callable, Iterator
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
-from contextvars import ContextVar
-from dataclasses import dataclass
+from contextvars import ContextVar, copy_context
+from dataclasses import dataclass, field
 from typing import TypeVar
 
 import litellm
@@ -46,14 +49,16 @@ class UsageMeter:
     total_tokens: int = 0
     cost_usd: float = 0.0
     cost_known: bool = False
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False, compare=False)
 
     def add(self, *, prompt: int, completion: int, total: int, cost: float, cost_known: bool) -> None:
-        self.calls += 1
-        self.prompt_tokens += prompt
-        self.completion_tokens += completion
-        self.total_tokens += total
-        self.cost_usd += cost
-        self.cost_known = self.cost_known or cost_known
+        with self._lock:  # thread-safe: chamadas paralelas (ver `gather`) somam no mesmo medidor
+            self.calls += 1
+            self.prompt_tokens += prompt
+            self.completion_tokens += completion
+            self.total_tokens += total
+            self.cost_usd += cost
+            self.cost_known = self.cost_known or cost_known
 
     def snapshot(self) -> dict:
         return {
@@ -88,6 +93,33 @@ def current_usage() -> dict | None:
     """Snapshot do medidor ativo (ou None se não houver escopo `meter()`)."""
     m = _meter.get()
     return m.snapshot() if m is not None else None
+
+
+_CONCURRENCY = int(os.getenv("ARGUS_LLM_CONCURRENCY", "4"))
+
+
+def gather(thunks: list[Callable[..., object]], max_workers: int | None = None) -> list:
+    """Roda os `thunks` (callables sem args; use `functools.partial`) CONCORRENTEMENTE, reduzindo a
+    latência dos estágios em lote.
+
+    Propaga o contexto (cada thunk roda numa cópia do contexto atual → o `meter` é o MESMO objeto e
+    soma de forma thread-safe). Concorrência limitada por `ARGUS_LLM_CONCURRENCY` (default 4) p/ não
+    estourar o rate-limit do provider. Falha de um thunk vira `None` (o chamador faz fallback);
+    resultados na ordem dos thunks.
+    """
+    def _safe(t: Callable[..., object]) -> object:
+        try:
+            return t()
+        except Exception:  # noqa: BLE001 — falha de um lote → None; o chamador trata
+            return None
+
+    workers = max_workers if max_workers is not None else _CONCURRENCY
+    if workers <= 1 or len(thunks) <= 1:
+        return [_safe(t) for t in thunks]
+    with ThreadPoolExecutor(max_workers=min(workers, len(thunks))) as ex:
+        # uma cópia de contexto POR thunk (não dá p/ rodar a mesma Context concorrentemente)
+        futures = [ex.submit(copy_context().run, _safe, t) for t in thunks]
+        return [f.result() for f in futures]
 
 
 def _u(usage: object, key: str) -> int:

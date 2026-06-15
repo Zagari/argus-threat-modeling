@@ -14,6 +14,7 @@ ameaças saem com `grounded=False` --- a validação em CWE/CAPEC/CVE é o E5.
 from __future__ import annotations
 
 import os
+from functools import partial
 
 from pydantic import BaseModel, Field
 
@@ -193,29 +194,31 @@ def generate(
     ) or "(sem fluxos)"
     context = f"Componentes:\n{_comp_lines(flow_comps)}\n\nFluxos:\n{edge_lines}"
 
-    # Geração em LOTES de componentes: a matriz completa pode pedir dezenas de ameaças; uma resposta
-    # única estoura (timeout). Cada lote gera as células dos seus componentes; lote que falha é pulado.
+    # Geração em LOTES PARALELOS de componentes: a matriz completa pede dezenas de ameaças; uma resposta
+    # única estoura (timeout). Lotes pequenos, rodados em paralelo (provider.gather) → menor latência.
+    main_prompts = [
+        _PROMPT.format(components=_comp_lines(flow_comps[i : i + _COMP_BATCH]), edges=edge_lines)
+        for i in range(0, len(flow_comps), _COMP_BATCH)
+    ]
     threats: list[Threat] = []
-    for i in range(0, len(flow_comps), _COMP_BATCH):
-        prompt = _PROMPT.format(components=_comp_lines(flow_comps[i : i + _COMP_BATCH]), edges=edge_lines)
-        try:
-            threats += _to_threats(_call_gen(prompt, image_bytes, mime).threats, by_id, len(threats))
-        except Exception:  # noqa: BLE001 — lote que falha não derruba o E4; o backstop preenche
-            continue
+    for gen in provider.gather([partial(_call_gen, p, image_bytes, mime) for p in main_prompts]):
+        if gen is not None:
+            threats += _to_threats(gen.threats, by_id, len(threats))
 
-    # Piso da matriz: completa as células (componente × categoria aplicável) faltantes — em LOTES.
+    # Piso da matriz: completa as células (componente × categoria) faltantes — backstop em lotes PARALELOS.
     required = {(c.id, str(cat)) for c in flow_comps for cat in applicable_categories(c.element_type)}
     miss_by_comp: dict[str, list[str]] = {}
     for cid, cat in required - {(t.component_id, str(t.stride_category)) for t in threats}:
         miss_by_comp.setdefault(cid, []).append(cat)
     miss_ids = sorted(miss_by_comp)
-    for i in range(0, len(miss_ids), _COMP_BATCH):
-        sub = {(cid, cat) for cid in miss_ids[i : i + _COMP_BATCH] for cat in miss_by_comp[cid]}
-        try:
-            gen2 = _complete_missing(sub, by_id, context, image_bytes, mime)
-            threats += _to_threats(gen2.threats, by_id, len(threats), only_cells=sub)
-        except Exception:  # noqa: BLE001
-            continue
+    subs = [
+        {(cid, cat) for cid in miss_ids[i : i + _COMP_BATCH] for cat in miss_by_comp[cid]}
+        for i in range(0, len(miss_ids), _COMP_BATCH)
+    ]
+    gens = provider.gather([partial(_complete_missing, s, by_id, context, image_bytes, mime) for s in subs])
+    for sub, gen in zip(subs, gens, strict=True):
+        if gen is not None:
+            threats += _to_threats(gen.threats, by_id, len(threats), only_cells=sub)
 
     # Calibração: cap por prioridade (componente que cruza fronteira > severidade) em diagramas enormes
     # (ex.: réplicas multi-AZ); knob `ARGUS_E4_MAX_THREATS` (0 = sem teto). Diagramas menores não mudam.

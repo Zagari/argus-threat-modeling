@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import re
+from functools import partial
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -155,24 +156,27 @@ def _item(p: _Pair) -> dict:
     }
 
 
+def _chat_enrich(prompt: str) -> _EnrichResponse:
+    return provider.chat(  # type: ignore[return-value]
+        [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
+        response_model=_EnrichResponse, temperature=0.1,
+    )
+
+
 def _enrich_via_llm(pairs: list[_Pair]) -> None:
-    """Enriquece em LOTES (`_BATCH`): com a matriz completa o E5 pode ver dezenas de ameaças — mandar
-    todas numa chamada estoura prompt/response (timeout). Um lote que falha cai no determinístico
-    (loop principal do `enrich`)."""
+    """Enriquece em LOTES PARALELOS (`_BATCH`): com a matriz completa o E5 pode ver dezenas de ameaças
+    — mandar todas numa chamada estoura (timeout). Lotes pequenos, em paralelo (provider.gather) →
+    menor latência; lote que falha cai no determinístico (loop principal do `enrich`)."""
     template = _env.get_template("enrich.j2").render()
+    prompts = [
+        template + "\n\nITENS:\n" + json.dumps([_item(p) for p in pairs[i : i + _BATCH]], ensure_ascii=False)
+        for i in range(0, len(pairs), _BATCH)
+    ]
     by_id: dict[str, _EnrichItem] = {}
-    for i in range(0, len(pairs), _BATCH):
-        chunk = pairs[i : i + _BATCH]
-        prompt = template + "\n\nITENS:\n" + json.dumps([_item(p) for p in chunk], ensure_ascii=False)
-        try:
-            resp = provider.chat(
-                [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
-                response_model=_EnrichResponse, temperature=0.1,
-            )
-            for it in resp.items:  # type: ignore[union-attr]
+    for resp in provider.gather([partial(_chat_enrich, pr) for pr in prompts]):
+        if resp is not None:
+            for it in resp.items:
                 by_id[it.threat_id] = it
-        except Exception:  # noqa: BLE001 — lote que falha → fallback determinístico p/ essas ameaças
-            continue
     for p in pairs:
         item = by_id.get(p.t.id)
         if item is not None:
