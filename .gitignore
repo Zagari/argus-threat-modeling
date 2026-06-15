@@ -19,8 +19,9 @@ node_modules/
 frontend/dist/
 frontend/.vite/
 
-# Avaliação (Fase 5): cache de execuções e resultados (regeneráveis; o capítulo versiona só o que precisar)
+# Avaliação (Fase 5): cache de execuções e resultados + backups (regeneráveis; o capítulo versiona só o que precisar)
 eval/results/
+eval/results-*/
 .ipynb_checkpoints/
 
 # ML artefatos (vão para HF Hub / Releases, não para o git)

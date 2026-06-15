@@ -222,41 +222,59 @@ def render_pairwise(tm_a: dict, tm_b: dict, *, context: dict | None = None) -> s
     )
 
 
-def judge_pairwise(
-    tm1: dict, tm2: dict, *, labels: tuple[str, str] = ("sys1", "sys2"), context: dict | None = None
-) -> dict:
-    """Compara dois relatórios corrigindo *position bias*: roda nas DUAS ordens (A↔B) e agrega.
-
-    `tm1`/`tm2` são mapeados a `labels`. Em cada dimensão: vence quem ganhou nas duas ordens; se
-    divergir, vira `tie` e baixa a confiança. Requer credenciais do juiz (LLM).
-    """
+def _pairwise_one_context(tm1: dict, tm2: dict, labels: tuple[str, str], context: dict | None) -> dict:
+    """Pairwise com UM contexto, corrigindo *position bias* (dupla ordem A↔B)."""
     l1, l2 = labels
     v_ab = _complete(SYSTEM_PAIRWISE, render_pairwise(tm1, tm2, context=context), PairwiseVerdict)
     v_ba = _complete(SYSTEM_PAIRWISE, render_pairwise(tm2, tm1, context=context), PairwiseVerdict)
     assert isinstance(v_ab, PairwiseVerdict) and isinstance(v_ba, PairwiseVerdict)
 
-    # mapeia "A"/"B" de cada ordem para o rótulo real (na ordem AB: A=l1; na ordem BA: A=l2)
-    def real(order: str, winner: str) -> str:
+    def real(order: str, winner: str) -> str:  # "A"/"B" da ordem → rótulo real (AB: A=l1; BA: A=l2)
         if winner == "tie":
             return "tie"
         a_is = l1 if order == "ab" else l2
         b_is = l2 if order == "ab" else l1
         return a_is if winner == "A" else b_is
 
-    by_dim: dict[str, str] = {}
     d_ab = {d.dimension: d.winner for d in v_ab.per_dimension}
     d_ba = {d.dimension: d.winner for d in v_ba.per_dimension}
+    by_dim = {}
     for dim in DIMENSIONS:
         w1, w2 = real("ab", d_ab.get(dim, "tie")), real("ba", d_ba.get(dim, "tie"))
         by_dim[dim] = w1 if w1 == w2 else "tie"  # concordância entre ordens; senão empate
-
     ov1, ov2 = real("ab", v_ab.overall_winner), real("ba", v_ba.overall_winner)
     overall = ov1 if ov1 == ov2 else "tie"
-    confidence = "high" if ov1 == ov2 and ov1 != "tie" else ("low" if ov1 != ov2 else "medium")
+    return {"per_dimension": by_dim, "overall_winner": overall, "orders": {"ab": v_ab.model_dump(), "ba": v_ba.model_dump()}}
+
+
+def judge_pairwise(
+    tm1: dict, tm2: dict, *, labels: tuple[str, str] = ("sys1", "sys2"), context: dict | None = None
+) -> dict:
+    """Compara dois relatórios de forma HONESTA quanto ao *confound do contexto*.
+
+    O vencedor do pairwise com um único contexto é um **confound**: quem fornece a arquitetura
+    "vence" a consistência (suas ameaças batem com o contexto; as do outro parecem citar componentes
+    fora dele). Por isso, em modo *reference-free* (sem `context`), rodamos com o contexto de CADA
+    sistema e só declaramos vencedor onde os DOIS contextos concordam — divergência = empate
+    (confounded). Com um `context` NEUTRO explícito (gold set), usa só ele. Sempre corrige *position
+    bias* (dupla ordem). Requer credenciais do juiz (LLM).
+    """
+    if context is not None:  # contexto neutro (gold) → não há confound de quem-é-a-régua
+        r = _pairwise_one_context(tm1, tm2, labels, context)
+        overall = r["overall_winner"]
+        return {"labels": list(labels), "per_dimension": r["per_dimension"], "overall_winner": overall,
+                "confidence": "high" if overall != "tie" else "medium", "confounded": False, "orders": r["orders"]}
+
+    r1 = _pairwise_one_context(tm1, tm2, labels, tm1)  # contexto = labels[0]
+    r2 = _pairwise_one_context(tm1, tm2, labels, tm2)  # contexto = labels[1]
+    per = {d: (r1["per_dimension"][d] if r1["per_dimension"][d] == r2["per_dimension"][d] else "tie") for d in DIMENSIONS}
+    confounded = r1["overall_winner"] != r2["overall_winner"]
+    overall = "tie" if confounded else r1["overall_winner"]
     return {
         "labels": list(labels),
-        "per_dimension": by_dim,
+        "per_dimension": per,
         "overall_winner": overall,
-        "confidence": confidence,
-        "orders": {"ab": v_ab.model_dump(), "ba": v_ba.model_dump()},
+        "confidence": "low" if confounded or overall == "tie" else "high",
+        "confounded": confounded,
+        "by_context": {labels[0]: r1["overall_winner"], labels[1]: r2["overall_winner"]},
     }

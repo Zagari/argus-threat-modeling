@@ -52,9 +52,10 @@ def _pairwise(image: str, tm_c: dict, tm_a: dict, *, force: bool, results_dir: P
     out = results_dir / image / "judge-pairwise.json"
     if out.exists() and not force:
         return json.loads(out.read_text(encoding="utf-8"))
-    # contexto compartilhado = componentes do ARGUS (detector determinístico, mais completos) p/ as
-    # duas ordens lerem a MESMA arquitetura. Limitação reference-free; o gold set (5.3) traz GT neutra.
-    res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"), context=tm_a)
+    # reference-free HONESTO: sem contexto fixo → o juiz roda com o contexto de CADA sistema e só
+    # declara vencedor onde os dois concordam (divergência = confound → empate). Gold set (5.3) traz
+    # a GT neutra que resolve o confound de vez.
+    res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"))
     out.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
     return res
 
@@ -121,13 +122,14 @@ def main(argv: list[str] | None = None) -> int:
             f"| {dm(d['severity_calibration'])} | {dm(d['consistency'])} |"
         )
     if pairwise_out:
-        lines += ["", "## Pairwise Cíclope × ARGUS (run-0, dupla ordem)", ""]
-        lines.append("| Imagem | Vencedor geral | Confiança | Por dimensão (cov/spec/action/sev/consist) |")
-        lines.append("|---|---|---|---|")
+        lines += ["", "## Pairwise Cíclope × ARGUS (honesto: dupla ordem + dual-contexto)", ""]
+        lines.append("| Imagem | Vencedor | Confiança | Confounded? | Por contexto | Por dimensão (cov/spec/action/sev/consist) |")
+        lines.append("|---|---|---|---|---|---|")
         for image, pr in pairwise_out.items():
-            pd = pr["per_dimension"]
-            per = " · ".join(pd.get(d, "—") for d in judge.DIMENSIONS)
-            lines.append(f"| {image} | **{pr['overall_winner']}** | {pr['confidence']} | {per} |")
+            per = " · ".join(pr["per_dimension"].get(d, "—") for d in judge.DIMENSIONS)
+            bc = " / ".join(f"{k}→{v}" for k, v in pr.get("by_context", {}).items()) or "—"
+            conf = "**SIM**" if pr.get("confounded") else "não"
+            lines.append(f"| {image} | **{pr['overall_winner']}** | {pr['confidence']} | {conf} | {bc} | {per} |")
     table = "\n".join(lines)
     print("\n" + table + "\n")
 
