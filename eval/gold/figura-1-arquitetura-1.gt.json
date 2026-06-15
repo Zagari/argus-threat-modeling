@@ -1,0 +1,38 @@
+{
+  "system_name": "SEI/SIP em AWS (alta disponibilidade Multi-AZ)",
+  "_note": "Ground-truth NEUTRA revisada por humano (lendo o diagrama), classes canônicas — contexto justo p/ o juiz (resolve o confound do pairwise). Não é saída de nenhum dos sistemas.",
+  "components": [
+    {"id": "G1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Usuários SEI"},
+    {"id": "G2", "canonical": "edge_security", "element_type": "Process", "label": "AWS Shield"},
+    {"id": "G3", "canonical": "cdn", "element_type": "Process", "label": "Amazon CloudFront"},
+    {"id": "G4", "canonical": "edge_security", "element_type": "Process", "label": "AWS WAF"},
+    {"id": "G5", "canonical": "load_balancer", "element_type": "Process", "label": "Application Load Balancer (×3 AZ)"},
+    {"id": "G6", "canonical": "compute", "element_type": "Process", "label": "SEI/SIP (EC2, Auto Scaling, ×3 AZ)"},
+    {"id": "G7", "canonical": "database_sql", "element_type": "DataStore", "label": "Amazon RDS (Primary)"},
+    {"id": "G8", "canonical": "database_sql", "element_type": "DataStore", "label": "Amazon RDS (Secondary)"},
+    {"id": "G9", "canonical": "cache", "element_type": "DataStore", "label": "Amazon ElastiCache (memcached) Multi-AZ"},
+    {"id": "G10", "canonical": "file_storage", "element_type": "DataStore", "label": "Amazon EFS (NFS) Multi-AZ"},
+    {"id": "G11", "canonical": "search", "element_type": "Process", "label": "Solr (Auto Scaling)"},
+    {"id": "G12", "canonical": "monitoring", "element_type": "Process", "label": "AWS CloudTrail"},
+    {"id": "G13", "canonical": "secrets", "element_type": "Process", "label": "AWS KMS"},
+    {"id": "G14", "canonical": "object_storage", "element_type": "DataStore", "label": "AWS Backup"},
+    {"id": "G15", "canonical": "monitoring", "element_type": "Process", "label": "Amazon CloudWatch"},
+    {"id": "G16", "canonical": "email_notify", "element_type": "Process", "label": "Amazon SES"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AWS Cloud / VPC"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Subnet privada"}
+  ],
+  "edges": [
+    {"source": "G1", "target": "G2", "crosses_boundary": true, "label": "usuário → edge (internet)"},
+    {"source": "G2", "target": "G3", "crosses_boundary": true, "label": "Shield → CloudFront"},
+    {"source": "G3", "target": "G4", "crosses_boundary": true, "label": "CloudFront ↔ WAF"},
+    {"source": "G3", "target": "G5", "crosses_boundary": true, "label": "CloudFront → ALB (entra na VPC)"},
+    {"source": "G5", "target": "G6", "crosses_boundary": true, "label": "ALB → compute (subnet pública→privada)"},
+    {"source": "G6", "target": "G7", "crosses_boundary": false, "label": "compute → RDS Primary"},
+    {"source": "G6", "target": "G8", "crosses_boundary": false, "label": "compute → RDS Secondary"},
+    {"source": "G6", "target": "G9", "crosses_boundary": false, "label": "compute → ElastiCache"},
+    {"source": "G6", "target": "G10", "crosses_boundary": false, "label": "compute → EFS"},
+    {"source": "G6", "target": "G11", "crosses_boundary": false, "label": "compute → Solr"},
+    {"source": "G6", "target": "G16", "crosses_boundary": true, "label": "compute → SES (e-mail externo)"},
+    {"source": "G7", "target": "G8", "crosses_boundary": false, "label": "replicação RDS"}
+  ]
+}

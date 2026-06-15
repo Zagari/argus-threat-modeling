@@ -23,6 +23,8 @@ import metrics  # noqa: E402
 # garante o carregamento do .env (JUDGE_*) — harness já põe backend no path
 import app.config  # noqa: E402,F401
 
+_GOLD = Path(__file__).resolve().parent / "gold"  # GTs neutras revisadas (contexto justo p/ o pairwise)
+
 
 def load_cached(results_dir: Path) -> dict[str, dict[str, list[dict]]]:
     """{ imagem: { sistema: [tm por run] } } a partir dos caches do 5.1."""
@@ -52,10 +54,15 @@ def _pairwise(image: str, tm_c: dict, tm_a: dict, *, force: bool, results_dir: P
     out = results_dir / image / "judge-pairwise.json"
     if out.exists() and not force:
         return json.loads(out.read_text(encoding="utf-8"))
-    # reference-free HONESTO: sem contexto fixo → o juiz roda com o contexto de CADA sistema e só
-    # declara vencedor onde os dois concordam (divergência = confound → empate). Gold set (5.3) traz
-    # a GT neutra que resolve o confound de vez.
-    res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"))
+    gt = _GOLD / f"{image}.gt.json"
+    if gt.exists():
+        # GT NEUTRA revisada disponível → contexto JUSTO (resolve o confound de vez).
+        res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"),
+                                   context=json.loads(gt.read_text(encoding="utf-8")))
+    else:
+        # reference-free HONESTO: sem GT, roda com o contexto de CADA sistema e só declara vencedor
+        # onde os dois concordam (divergência = confound → empate).
+        res = judge.judge_pairwise(tm_c, tm_a, labels=("ciclope", "argus"))
     out.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
     return res
 

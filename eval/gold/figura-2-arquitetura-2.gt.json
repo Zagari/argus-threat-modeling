@@ -1,0 +1,30 @@
+{
+  "system_name": "Azure API Management (gateway + Logic Apps → backends)",
+  "_note": "Ground-truth NEUTRA revisada por humano (lendo o diagrama), classes canônicas — contexto justo p/ o juiz (resolve o confound do pairwise). Não é saída de nenhum dos sistemas.",
+  "components": [
+    {"id": "G1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Client (HTTP)"},
+    {"id": "G2", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Developer"},
+    {"id": "G3", "canonical": "identity", "element_type": "Process", "label": "Microsoft Entra (Azure AD)"},
+    {"id": "G4", "canonical": "api_gateway", "element_type": "Process", "label": "API gateway (API Management)"},
+    {"id": "G5", "canonical": "app_service", "element_type": "Process", "label": "Developer portal"},
+    {"id": "G6", "canonical": "serverless_fn", "element_type": "Process", "label": "Logic Apps (workflow/orchestração)"},
+    {"id": "G7", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Azure services"},
+    {"id": "G8", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "SaaS services"},
+    {"id": "G9", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Web services (REST)"},
+    {"id": "G10", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Web services (SOAP)"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Resource group (API Management)"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Backend Systems"}
+  ],
+  "edges": [
+    {"source": "G1", "target": "G4", "crosses_boundary": true, "label": "Client HTTP → API gateway (entra no RG)"},
+    {"source": "G1", "target": "G3", "crosses_boundary": true, "label": "Client → autenticação (Entra)"},
+    {"source": "G4", "target": "G3", "crosses_boundary": true, "label": "API gateway → autenticação (Entra)"},
+    {"source": "G4", "target": "G6", "crosses_boundary": false, "label": "API gateway → Logic Apps"},
+    {"source": "G4", "target": "G5", "crosses_boundary": false, "label": "API gateway → Developer portal (publish)"},
+    {"source": "G2", "target": "G5", "crosses_boundary": true, "label": "Developer → Developer portal"},
+    {"source": "G6", "target": "G7", "crosses_boundary": true, "label": "Logic Apps → Azure services"},
+    {"source": "G6", "target": "G8", "crosses_boundary": true, "label": "Logic Apps → SaaS services"},
+    {"source": "G6", "target": "G9", "crosses_boundary": true, "label": "Logic Apps → REST"},
+    {"source": "G6", "target": "G10", "crosses_boundary": true, "label": "Logic Apps → SOAP"}
+  ]
+}
