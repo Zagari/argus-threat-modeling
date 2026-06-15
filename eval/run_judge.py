@@ -88,12 +88,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--force", action="store_true", help="ignora o cache dos vereditos e re-julga")
     ap.add_argument("--pointwise-only", action="store_true", help="pula o pairwise")
     ap.add_argument("--judge-n", type=int, default=3, help="execuções do juiz por pairwise (distribuição) [3]")
+    ap.add_argument("--only", help="julga só diagramas cujo nome contém um destes (csv) — economiza juiz")
     args = ap.parse_args(argv)
 
     rd = harness.RESULTS_DIR
     data = load_cached(rd)
+    if args.only:
+        subs = [s.strip() for s in args.only.split(",") if s.strip()]
+        data = {img: syss for img, syss in data.items() if any(s in img for s in subs)}
     if not data:
-        print(f"⚠️  Nenhum relatório cacheado em {rd} — rode o eval/run_comparison.py antes.")
+        print(f"⚠️  Nenhum relatório cacheado em {rd} (ou nenhum casou --only) — rode o eval/run_comparison.py antes.")
         return 1
 
     pw_summary: dict[tuple[str, str], dict] = {}
