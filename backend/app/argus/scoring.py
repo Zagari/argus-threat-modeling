@@ -9,9 +9,14 @@ Mantemos o `risk_score` 5×5 (Prob.×Impacto) como visão executiva — DREAD é
 
 from __future__ import annotations
 
-from app.schemas import Threat
+from app.schemas import Impact, Likelihood, Threat
 
 _DIMS = ("damage", "reproducibility", "exploitability", "affected", "discoverability")
+
+# 5×5 executivo: pesos das bandas (Prob.×Impacto), iguais ao do E4 — mas agora as bandas DERIVAM
+# do DREAD (mesma base determinística), então `risk_score` fica coerente com `dread_band`.
+_L = {"High": 5, "Medium": 3, "Low": 1}
+_I = {"Critical": 5, "High": 4, "Medium": 2, "Low": 1}
 
 # Base DREAD por categoria STRIDE (D, R, E, A, Disc) — calibrada e documentada (ver relatório §5).
 _BASE: dict[str, tuple[int, int, int, int, int]] = {
@@ -55,13 +60,32 @@ def dread(element_type: str, stride_category: str) -> dict:
     return out
 
 
+def _likelihood_from(d: dict) -> Likelihood:
+    """Probabilidade (5×5) a partir do DREAD: facilidade = Repro+Exploit+Discover."""
+    x = (d["reproducibility"] + d["exploitability"] + d["discoverability"]) / 3
+    return "High" if x >= 7 else "Medium" if x >= 4.5 else "Low"
+
+
+def _impact_from(d: dict) -> Impact:
+    """Impacto (5×5) a partir do DREAD: severidade = Damage+Affected."""
+    x = (d["damage"] + d["affected"]) / 2
+    return "Critical" if x >= 8 else "High" if x >= 6 else "Medium" if x >= 4 else "Low"
+
+
 def apply(threats: list[Threat]) -> None:
-    """Anexa DREAD a cada ameaça in-place (determinístico; agnóstico de sistema)."""
+    """Anexa DREAD a cada ameaça in-place (determinístico; agnóstico de sistema).
+
+    O `risk_score` 5×5 e os campos `likelihood`/`impact` também passam a DERIVAR do DREAD (mesma
+    base), eliminando a contradição que o juiz flagou (ex.: `dread_band` Alto com `risk_score` baixo)
+    e tornando a visão executiva igualmente determinística/reprodutível para Cíclope e ARGUS."""
     for t in threats:
         d = dread(t.element_type, t.stride_category)
         t.dread = {k: int(d[k]) for k in _DIMS}
         t.dread_score = float(d["score"])
         t.dread_band = str(d["band"])
+        lik, imp = _likelihood_from(d), _impact_from(d)
+        t.likelihood, t.impact = lik, imp
+        t.risk_score = max(1, min(25, _L[lik] * _I[imp]))
 
 
 def distribution(threats: list[Threat]) -> dict:

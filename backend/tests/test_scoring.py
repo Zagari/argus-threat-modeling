@@ -35,6 +35,25 @@ def test_faixas():
     assert scoring._band(3.9) == "Baixo"
 
 
+_STRIDE = ["Spoofing", "Tampering", "Repudiation", "Information Disclosure", "Denial of Service", "Elevation of Privilege"]
+
+
+def test_risk_score_coerente_com_dread():
+    """O 5×5 deriva do DREAD → sem a contradição que o juiz flagou (dread Alto/Crítico × risk baixo)."""
+    threats = [_threat(f"T{i}", et, cat) for i, et in enumerate(["Process", "DataStore", "DataFlow"]) for cat in _STRIDE]
+    scoring.apply(threats)
+    for t in threats:
+        assert t.likelihood in ("High", "Medium", "Low")          # derivado, não o default cego
+        assert t.impact in ("Critical", "High", "Medium", "Low")
+        assert 1 <= t.risk_score <= 25
+        if t.dread_band in ("Crítico", "Alto"):                    # nunca alto no DREAD e baixo no 5×5
+            assert t.risk_score >= 5, f"{t.stride_category}/{t.element_type}: {t.dread_band} mas risk {t.risk_score}"
+    # determinístico: mesma entrada → mesmo risk_score
+    again = [_threat(f"U{i}", et, cat) for i, et in enumerate(["Process", "DataStore", "DataFlow"]) for cat in _STRIDE]
+    scoring.apply(again)
+    assert [t.risk_score for t in threats] == [t.risk_score for t in again]
+
+
 def test_apply_e_distribuicao():
     threats = [
         _threat("T1", "Process", "Elevation of Privilege"),
