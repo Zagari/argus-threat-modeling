@@ -1,0 +1,87 @@
+{
+  "system_name": "API Management (Azure)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "azure",
+  "complexity": "medio",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Cliente"
+    },
+    {
+      "id": "C2",
+      "canonical": "identity",
+      "element_type": "Process",
+      "label": "Entra ID"
+    },
+    {
+      "id": "C3",
+      "canonical": "api_gateway",
+      "element_type": "Process",
+      "label": "API Gateway"
+    },
+    {
+      "id": "C4",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Functions"
+    },
+    {
+      "id": "C5",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "Azure SQL"
+    },
+    {
+      "id": "C6",
+      "canonical": "cache",
+      "element_type": "DataStore",
+      "label": "Redis"
+    },
+    {
+      "id": "C7",
+      "canonical": "backend_external",
+      "element_type": "ExternalEntity",
+      "label": "SaaS externo"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C5",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C6",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C7",
+      "crosses_boundary": true
+    }
+  ]
+}

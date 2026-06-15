@@ -1,0 +1,93 @@
+{
+  "system_name": "3 camadas com fila (AWS)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "aws",
+  "complexity": "medio",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Usuários"
+    },
+    {
+      "id": "C2",
+      "canonical": "cdn",
+      "element_type": "Process",
+      "label": "CloudFront"
+    },
+    {
+      "id": "C3",
+      "canonical": "load_balancer",
+      "element_type": "Process",
+      "label": "ALB"
+    },
+    {
+      "id": "C4",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "App EC2"
+    },
+    {
+      "id": "C5",
+      "canonical": "message_queue",
+      "element_type": "DataStore",
+      "label": "SQS"
+    },
+    {
+      "id": "C6",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Worker Lambda"
+    },
+    {
+      "id": "C7",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "RDS"
+    },
+    {
+      "id": "C8",
+      "canonical": "object_storage",
+      "element_type": "DataStore",
+      "label": "S3"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C4",
+      "target": "C5",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C6",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C7",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C8",
+      "crosses_boundary": false
+    }
+  ]
+}

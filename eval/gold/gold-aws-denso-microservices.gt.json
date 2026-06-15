@@ -1,0 +1,186 @@
+{
+  "system_name": "Microsserviços densos (AWS)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "aws",
+  "complexity": "denso",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Usuários"
+    },
+    {
+      "id": "C2",
+      "canonical": "edge_security",
+      "element_type": "Process",
+      "label": "WAF"
+    },
+    {
+      "id": "C3",
+      "canonical": "cdn",
+      "element_type": "Process",
+      "label": "CloudFront"
+    },
+    {
+      "id": "C4",
+      "canonical": "api_gateway",
+      "element_type": "Process",
+      "label": "API Gateway"
+    },
+    {
+      "id": "C5",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "Svc Pedidos"
+    },
+    {
+      "id": "C6",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "Svc Pagamentos"
+    },
+    {
+      "id": "C7",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Svc Notif (Lambda)"
+    },
+    {
+      "id": "C8",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "RDS Pedidos"
+    },
+    {
+      "id": "C9",
+      "canonical": "database_nosql",
+      "element_type": "DataStore",
+      "label": "DynamoDB Sessão"
+    },
+    {
+      "id": "C10",
+      "canonical": "cache",
+      "element_type": "DataStore",
+      "label": "ElastiCache"
+    },
+    {
+      "id": "C11",
+      "canonical": "message_queue",
+      "element_type": "DataStore",
+      "label": "SQS"
+    },
+    {
+      "id": "C12",
+      "canonical": "identity",
+      "element_type": "Process",
+      "label": "IAM"
+    },
+    {
+      "id": "C13",
+      "canonical": "secrets",
+      "element_type": "DataStore",
+      "label": "KMS"
+    },
+    {
+      "id": "C14",
+      "canonical": "object_storage",
+      "element_type": "DataStore",
+      "label": "S3"
+    },
+    {
+      "id": "C15",
+      "canonical": "monitoring",
+      "element_type": "DataStore",
+      "label": "CloudWatch"
+    },
+    {
+      "id": "C16",
+      "canonical": "email_notify",
+      "element_type": "Process",
+      "label": "SES"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C4",
+      "target": "C5",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C4",
+      "target": "C6",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C5",
+      "target": "C8",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C10",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C8",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C11",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C11",
+      "target": "C7",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C7",
+      "target": "C16",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C5",
+      "target": "C9",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C13",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C4",
+      "target": "C12",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C14",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C15",
+      "crosses_boundary": false
+    }
+  ]
+}

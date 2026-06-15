@@ -1,0 +1,142 @@
+{
+  "system_name": "Orquestração de eventos densa (Azure)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "azure",
+  "complexity": "denso",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Cliente"
+    },
+    {
+      "id": "C2",
+      "canonical": "identity",
+      "element_type": "Process",
+      "label": "Entra ID"
+    },
+    {
+      "id": "C3",
+      "canonical": "cdn",
+      "element_type": "Process",
+      "label": "Front Door/CDN"
+    },
+    {
+      "id": "C4",
+      "canonical": "api_gateway",
+      "element_type": "Process",
+      "label": "API Management"
+    },
+    {
+      "id": "C5",
+      "canonical": "app_service",
+      "element_type": "Process",
+      "label": "Web App"
+    },
+    {
+      "id": "C6",
+      "canonical": "serverless_fn",
+      "element_type": "Process",
+      "label": "Functions"
+    },
+    {
+      "id": "C7",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "Azure SQL"
+    },
+    {
+      "id": "C8",
+      "canonical": "database_nosql",
+      "element_type": "DataStore",
+      "label": "Cosmos DB"
+    },
+    {
+      "id": "C9",
+      "canonical": "cache",
+      "element_type": "DataStore",
+      "label": "Redis"
+    },
+    {
+      "id": "C10",
+      "canonical": "object_storage",
+      "element_type": "DataStore",
+      "label": "Blob Storage"
+    },
+    {
+      "id": "C11",
+      "canonical": "backend_external",
+      "element_type": "ExternalEntity",
+      "label": "SaaS externo"
+    },
+    {
+      "id": "C12",
+      "canonical": "backend_external",
+      "element_type": "ExternalEntity",
+      "label": "Web service legado"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C4",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C4",
+      "target": "C5",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C6",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C7",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C8",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C5",
+      "target": "C9",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C10",
+      "crosses_boundary": false
+    },
+    {
+      "source": "C6",
+      "target": "C11",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C6",
+      "target": "C12",
+      "crosses_boundary": true
+    }
+  ]
+}

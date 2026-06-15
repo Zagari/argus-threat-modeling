@@ -1,0 +1,49 @@
+{
+  "system_name": "Web app simples (AWS)",
+  "_note": "GT NEUTRA gerada por eval/gen_gold.py (mingrammer) — classes canônicas; contexto justo p/ o juiz.",
+  "cloud": "aws",
+  "complexity": "simples",
+  "components": [
+    {
+      "id": "C1",
+      "canonical": "actor_user",
+      "element_type": "ExternalEntity",
+      "label": "Usuários"
+    },
+    {
+      "id": "C2",
+      "canonical": "load_balancer",
+      "element_type": "Process",
+      "label": "ALB"
+    },
+    {
+      "id": "C3",
+      "canonical": "compute",
+      "element_type": "Process",
+      "label": "App EC2"
+    },
+    {
+      "id": "C4",
+      "canonical": "database_sql",
+      "element_type": "DataStore",
+      "label": "RDS"
+    }
+  ],
+  "edges": [
+    {
+      "source": "C1",
+      "target": "C2",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C2",
+      "target": "C3",
+      "crosses_boundary": true
+    },
+    {
+      "source": "C3",
+      "target": "C4",
+      "crosses_boundary": false
+    }
+  ]
+}
