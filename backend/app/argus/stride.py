@@ -13,6 +13,8 @@ ameaças saem com `grounded=False` --- a validação em CWE/CAPEC/CVE é o E5.
 
 from __future__ import annotations
 
+import os
+
 from pydantic import BaseModel, Field
 
 from app.config import get_config
@@ -68,6 +70,7 @@ Células FALTANTES (id | classe | tipo DFD | rótulo | categorias a cobrir):
 
 _L = {"High": 5, "Medium": 3, "Low": 1}
 _I = {"Critical": 5, "High": 4, "Medium": 2, "Low": 1}
+_COMP_BATCH = 5  # componentes por chamada do E4 (matriz completa → dezenas de ameaças; lotes evitam timeout)
 
 
 class _ThreatGen(BaseModel):
@@ -130,6 +133,24 @@ def _to_threats(
     return out
 
 
+def _comp_lines(comps: list[Component]) -> str:
+    return "\n".join(
+        f"- {c.id} | {c.canonical} | {c.element_type} | {c.label or '-'} | "
+        f"{', '.join(applicable_categories(c.element_type))}"
+        for c in comps
+    )
+
+
+def _call_gen(prompt: str, image_bytes: bytes | None, mime: str) -> _Gen:
+    """Dispara a geração (vision se houver imagem; senão chat)."""
+    if image_bytes is not None:
+        return provider.vision(  # type: ignore[return-value]
+            image_bytes, prompt, response_model=_Gen, mime=mime, system=_SYSTEM, temperature=0.2)
+    return provider.chat(  # type: ignore[return-value]
+        [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
+        response_model=_Gen, temperature=0.2)
+
+
 def _complete_missing(
     missing: set[tuple[str, str]], by_id: dict[str, Component], context: str,
     image_bytes: bytes | None, mime: str,
@@ -143,13 +164,7 @@ def _complete_missing(
         f"{', '.join(sorted(cats))}"
         for cid, cats in sorted(by_comp.items())
     )
-    prompt = _MISSING_PROMPT.format(context=context, cells=cells)
-    if image_bytes is not None:
-        return provider.vision(  # type: ignore[return-value]
-            image_bytes, prompt, response_model=_Gen, mime=mime, system=_SYSTEM, temperature=0.2)
-    return provider.chat(  # type: ignore[return-value]
-        [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
-        response_model=_Gen, temperature=0.2)
+    return _call_gen(_MISSING_PROMPT.format(context=context, cells=cells), image_bytes, mime)
 
 
 def generate(
@@ -159,10 +174,11 @@ def generate(
     image_bytes: bytes | None = None,
     mime: str = "image/jpeg",
 ) -> list[Threat]:
-    """DFD → lista de ameaças STRIDE (constrangidas pela matriz por elemento).
+    """DFD → ameaças STRIDE com cobertura SISTEMÁTICA da matriz (≥1 por célula aplicável).
 
-    Quando `image_bytes` é fornecido, a geração é **multimodal** (o VLM vê o diagrama) — cenários
-    mais específicos/contextuais. Sem imagem, cai no caminho texto (DFD apenas)."""
+    Geração em **lotes de componentes** (evita resposta gigante/timeout) + **piso** (backstop nas
+    células faltantes) + **cap** por prioridade (`ARGUS_E4_MAX_THREATS`). Com `image_bytes`, é
+    multimodal (o VLM vê o diagrama → cenários mais específicos); sem imagem, caminho texto (DFD)."""
     flow_comps = [c for c in components if c.element_type != "TrustBoundary"]
     if not flow_comps:
         return []
@@ -172,35 +188,43 @@ def generate(
         return _mock_threats(flow_comps)
 
     by_id = {c.id: c for c in flow_comps}
-    comp_lines = "\n".join(
-        f"- {c.id} | {c.canonical} | {c.element_type} | {c.label or '-'} | "
-        f"{', '.join(applicable_categories(c.element_type))}"
-        for c in flow_comps
-    )
     edge_lines = "\n".join(
-        f"- {e.source} -> {e.target} | {'sim' if e.crosses_boundary else 'não'}"
-        for e in edges
+        f"- {e.source} -> {e.target} | {'sim' if e.crosses_boundary else 'não'}" for e in edges
     ) or "(sem fluxos)"
-    context = f"Componentes:\n{comp_lines}\n\nFluxos:\n{edge_lines}"
-    prompt = _PROMPT.format(components=comp_lines, edges=edge_lines)
-    if image_bytes is not None:
-        gen: _Gen = provider.vision(  # type: ignore[assignment]
-            image_bytes, prompt, response_model=_Gen, mime=mime, system=_SYSTEM, temperature=0.2,
-        )
-    else:
-        gen = provider.chat(  # type: ignore[assignment]
-            [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
-            response_model=_Gen, temperature=0.2,
-        )
-    threats = _to_threats(gen.threats, by_id, 0)
+    context = f"Componentes:\n{_comp_lines(flow_comps)}\n\nFluxos:\n{edge_lines}"
 
-    # Piso determinístico da matriz: completa as células (componente × categoria aplicável) faltantes.
-    required = {(c.id, str(cat)) for c in flow_comps for cat in applicable_categories(c.element_type)}
-    missing = required - {(t.component_id, str(t.stride_category)) for t in threats}
-    if missing:
+    # Geração em LOTES de componentes: a matriz completa pode pedir dezenas de ameaças; uma resposta
+    # única estoura (timeout). Cada lote gera as células dos seus componentes; lote que falha é pulado.
+    threats: list[Threat] = []
+    for i in range(0, len(flow_comps), _COMP_BATCH):
+        prompt = _PROMPT.format(components=_comp_lines(flow_comps[i : i + _COMP_BATCH]), edges=edge_lines)
         try:
-            gen2 = _complete_missing(missing, by_id, context, image_bytes, mime)
-            threats += _to_threats(gen2.threats, by_id, len(threats), only_cells=missing)
-        except Exception:  # noqa: BLE001 — backstop é reforço; nunca derruba o E4
-            pass
+            threats += _to_threats(_call_gen(prompt, image_bytes, mime).threats, by_id, len(threats))
+        except Exception:  # noqa: BLE001 — lote que falha não derruba o E4; o backstop preenche
+            continue
+
+    # Piso da matriz: completa as células (componente × categoria aplicável) faltantes — em LOTES.
+    required = {(c.id, str(cat)) for c in flow_comps for cat in applicable_categories(c.element_type)}
+    miss_by_comp: dict[str, list[str]] = {}
+    for cid, cat in required - {(t.component_id, str(t.stride_category)) for t in threats}:
+        miss_by_comp.setdefault(cid, []).append(cat)
+    miss_ids = sorted(miss_by_comp)
+    for i in range(0, len(miss_ids), _COMP_BATCH):
+        sub = {(cid, cat) for cid in miss_ids[i : i + _COMP_BATCH] for cat in miss_by_comp[cid]}
+        try:
+            gen2 = _complete_missing(sub, by_id, context, image_bytes, mime)
+            threats += _to_threats(gen2.threats, by_id, len(threats), only_cells=sub)
+        except Exception:  # noqa: BLE001
+            continue
+
+    # Calibração: cap por prioridade (componente que cruza fronteira > severidade) em diagramas enormes
+    # (ex.: réplicas multi-AZ); knob `ARGUS_E4_MAX_THREATS` (0 = sem teto). Diagramas menores não mudam.
+    max_threats = int(os.getenv("ARGUS_E4_MAX_THREATS", "80"))
+    if max_threats and len(threats) > max_threats:
+        crossing = {e.source for e in edges if e.crosses_boundary} | {e.target for e in edges if e.crosses_boundary}
+        threats.sort(key=lambda t: (t.component_id in crossing, t.risk_score), reverse=True)
+        threats = threats[:max_threats]
+    threats.sort(key=lambda t: (t.component_id, str(t.stride_category)))  # ordem estável p/ exibição
+    for idx, t in enumerate(threats):
+        t.id = f"THR-{idx + 1:03d}"
     return threats

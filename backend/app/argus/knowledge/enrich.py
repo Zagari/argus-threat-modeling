@@ -31,6 +31,7 @@ _MAX_CAPEC = 2
 _MAX_ATTACK = 2
 _SEM_CWE = 3
 _SEM_CAPEC = 2
+_BATCH = 12  # ameaças por chamada do E5 (com a matriz completa pode haver dezenas → evita timeout)
 
 
 class _EnrichItem(BaseModel):
@@ -141,27 +142,37 @@ def enrich(threats: list[Threat], components: list[Component], store: KnowledgeS
     return report
 
 
+def _item(p: _Pair) -> dict:
+    return {
+        "threat_id": p.t.id, "stride": p.t.stride_category, "title": p.t.title, "scenario": p.t.attack_scenario,
+        "component": (f"{p.comp.canonical}" + (f" / {p.comp.label}" if p.comp and p.comp.label else "")) if p.comp else "",
+        "candidates": {
+            "cwe": [{"id": i, "name": n} for i, n in p.cwe.items()],
+            "capec": [{"id": i, "name": n} for i, n in p.capec.items()],
+            "attack": [{"id": i, "name": n} for i, n in p.attack.items()],
+            "controls": [{"id": i, "name": n} for i, n in p.controls.items()],
+        },
+    }
+
+
 def _enrich_via_llm(pairs: list[_Pair]) -> None:
-    items = [
-        {
-            "threat_id": p.t.id, "stride": p.t.stride_category, "title": p.t.title, "scenario": p.t.attack_scenario,
-            "component": (f"{p.comp.canonical}" + (f" / {p.comp.label}" if p.comp and p.comp.label else "")) if p.comp else "",
-            "candidates": {
-                "cwe": [{"id": i, "name": n} for i, n in p.cwe.items()],
-                "capec": [{"id": i, "name": n} for i, n in p.capec.items()],
-                "attack": [{"id": i, "name": n} for i, n in p.attack.items()],
-                "controls": [{"id": i, "name": n} for i, n in p.controls.items()],
-            },
-        }
-        for p in pairs
-    ]
-    prompt = _env.get_template("enrich.j2").render() + "\n\nITENS:\n" + json.dumps(items, ensure_ascii=False)
-    resp = provider.chat(
-        [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
-        response_model=_EnrichResponse,
-        temperature=0.1,
-    )
-    by_id = {it.threat_id: it for it in resp.items}  # type: ignore[union-attr]
+    """Enriquece em LOTES (`_BATCH`): com a matriz completa o E5 pode ver dezenas de ameaças — mandar
+    todas numa chamada estoura prompt/response (timeout). Um lote que falha cai no determinístico
+    (loop principal do `enrich`)."""
+    template = _env.get_template("enrich.j2").render()
+    by_id: dict[str, _EnrichItem] = {}
+    for i in range(0, len(pairs), _BATCH):
+        chunk = pairs[i : i + _BATCH]
+        prompt = template + "\n\nITENS:\n" + json.dumps([_item(p) for p in chunk], ensure_ascii=False)
+        try:
+            resp = provider.chat(
+                [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
+                response_model=_EnrichResponse, temperature=0.1,
+            )
+            for it in resp.items:  # type: ignore[union-attr]
+                by_id[it.threat_id] = it
+        except Exception:  # noqa: BLE001 — lote que falha → fallback determinístico p/ essas ameaças
+            continue
     for p in pairs:
         item = by_id.get(p.t.id)
         if item is not None:
