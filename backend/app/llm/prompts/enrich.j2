@@ -4,9 +4,11 @@ Para CADA ameaça da lista ITENS, escolha APENAS entre os CANDIDATOS daquela ame
 - `cwe_ids`: 1–3 fraquezas CWE mais pertinentes (somente IDs presentes em `candidates.cwe`);
 - `capec_ids`: 0–2 padrões de ataque CAPEC pertinentes (somente de `candidates.capec`);
 - `attack_ids`: 0–2 técnicas MITRE ATT&CK pertinentes (somente de `candidates.attack`);
-- `mitigations`: 1–2 contramedidas CONCRETAS e específicas ao componente; no `refs`, cite APENAS
-  os controles de `candidates.controls` (ex.: "ASVS-V2"). NÃO coloque CWE/CAPEC no `refs` — eles
-  vão em `cwe_ids`/`capec_ids`.
+- `mitigations`: 1–2 contramedidas que NEUTRALIZEM o `scenario` ESPECÍFICO desta ameaça no
+  `component` citado — uma AÇÃO concreta e implementável (ex.: "Validar e parametrizar as queries no
+  RDS via prepared statements e aplicar WAF no API Gateway"), NÃO um controle genérico solto nem só
+  o nome do controle. No `refs`, cite APENAS os IDs de `candidates.controls` (ex.: "ASVS-V2") que
+  embasam a ação. NÃO coloque CWE/CAPEC no `refs` — eles vão em `cwe_ids`/`capec_ids`.
 
 REGRAS:
 - NUNCA cite um ID que não esteja nos candidatos daquela ameaça.

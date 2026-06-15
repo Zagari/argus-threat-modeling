@@ -25,7 +25,9 @@ _SYSTEM = (
     "ancoradas no componente. Responda sempre em português."
 )
 
-_PROMPT = """A partir do Data Flow Diagram (DFD) abaixo, gere as ameaças STRIDE.
+_PROMPT = """A partir do diagrama de arquitetura (a IMAGEM, quando fornecida) e do Data Flow Diagram
+(DFD) abaixo, gere as ameaças STRIDE. Use a imagem para contextualizar cada ameaça ao componente
+REAL (nome exibido, vizinhança, o que entra/sai dele).
 
 Componentes (id | classe | tipo DFD | rótulo | categorias STRIDE PERMITIDAS):
 {components}
@@ -36,11 +38,17 @@ Fluxos (origem -> destino | cruza fronteira de confiança?):
 Regras OBRIGATÓRIAS:
 - Para cada componente, gere ameaças SOMENTE nas categorias listadas como permitidas para ele.
 - PRIORIZE os componentes envolvidos em fluxos que CRUZAM fronteira de confiança.
-- Cada ameaça deve ser ESPECÍFICA ao componente (cite a classe/rótulo e o cenário de ataque),
-  não genérica.
-- Informe `likelihood` (High/Medium/Low), `impact` (Critical/High/Medium/Low), `cwe_ids`
-  sugeridos (ex.: "CWE-89") e UMA mitigação por ameaça.
-- Use os ids EXATOS dos componentes em `component_id`."""
+- `attack_scenario` deve ser ESPECÍFICO e CONTEXTUAL, NUNCA genérico (nada que sirva a qualquer
+  sistema). Cite: o RÓTULO/classe do componente, o FLUXO concreto (origem->destino) e a FRONTEIRA
+  cruzada quando houver; descreva o PASSO do atacante e o IMPACTO concreto (qual dado/função é
+  comprometido). Ex. ruim: "Um atacante pode adulterar os dados." Ex. bom: "Um atacante na rede
+  pública intercepta o fluxo 'API Gateway'->'RDS' (cruza a fronteira) e injeta SQL via parâmetro
+  não validado, lendo/alterando a tabela de pedidos."
+- `title` curto e específico (ex.: "SQL injection no RDS via API Gateway").
+- `mitigation`: UMA contramedida CONCRETA e implementável que neutralize ESSE cenário no componente
+  citado (não um controle genérico solto).
+- Informe `likelihood` (High/Medium/Low), `impact` (Critical/High/Medium/Low) e `cwe_ids` sugeridos
+  (ex.: "CWE-89"). Use os ids EXATOS dos componentes em `component_id`."""
 
 _L = {"High": 5, "Medium": 3, "Low": 1}
 _I = {"Critical": 5, "High": 4, "Medium": 2, "Low": 1}
@@ -82,8 +90,17 @@ def _mock_threats(components: list[Component]) -> list[Threat]:
     return out
 
 
-def generate(components: list[Component], edges: list[Edge]) -> list[Threat]:
-    """DFD → lista de ameaças STRIDE (constrangidas pela matriz por elemento)."""
+def generate(
+    components: list[Component],
+    edges: list[Edge],
+    *,
+    image_bytes: bytes | None = None,
+    mime: str = "image/jpeg",
+) -> list[Threat]:
+    """DFD → lista de ameaças STRIDE (constrangidas pela matriz por elemento).
+
+    Quando `image_bytes` é fornecido, a geração é **multimodal** (o VLM vê o diagrama) — cenários
+    mais específicos/contextuais. Sem imagem, cai no caminho texto (DFD apenas)."""
     flow_comps = [c for c in components if c.element_type != "TrustBoundary"]
     if not flow_comps:
         return []
@@ -103,10 +120,15 @@ def generate(components: list[Component], edges: list[Edge]) -> list[Threat]:
         for e in edges
     ) or "(sem fluxos)"
     prompt = _PROMPT.format(components=comp_lines, edges=edge_lines)
-    gen: _Gen = provider.chat(  # type: ignore[assignment]
-        [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
-        response_model=_Gen, temperature=0.2,
-    )
+    if image_bytes is not None:
+        gen: _Gen = provider.vision(  # type: ignore[assignment]
+            image_bytes, prompt, response_model=_Gen, mime=mime, system=_SYSTEM, temperature=0.2,
+        )
+    else:
+        gen = provider.chat(  # type: ignore[assignment]
+            [{"role": "system", "content": _SYSTEM}, {"role": "user", "content": prompt}],
+            response_model=_Gen, temperature=0.2,
+        )
 
     threats: list[Threat] = []
     for g in gen.threats:

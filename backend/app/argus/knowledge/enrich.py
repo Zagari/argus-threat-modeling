@@ -48,10 +48,11 @@ class _EnrichResponse(BaseModel):
 class _Pair:
     """Estado por ameaça: subgrafo determinístico + hits semânticos + pools de candidatos."""
 
-    def __init__(self, threat: Threat, sg: Subgraph, sem: dict[str, str]) -> None:
+    def __init__(self, threat: Threat, sg: Subgraph, sem: dict[str, str], comp: Component | None = None) -> None:
         self.t = threat
         self.sg = sg
         self.sem = sem  # id -> name (só do semântico)
+        self.comp = comp  # componente alvo (p/ dar contexto ao enrich)
         self.cwe = {n.id: n.name for n in sg.nodes if n.kind == "CWE"}
         self.capec = {n.id: n.name for n in sg.nodes if n.kind == "CAPEC"}
         for sid, sname in sem.items():
@@ -111,7 +112,11 @@ def _apply_item(p: _Pair, item: _EnrichItem) -> None:
 def enrich(threats: list[Threat], components: list[Component], store: KnowledgeStore) -> validate.ValidationReport:
     """Enriquece e valida as ameaças in-place; devolve o `ValidationReport` (groundedness + semântico)."""
     canon = {c.id: c.canonical for c in components}
-    pairs = [_Pair(t, store.subgraph(canon.get(t.component_id, ""), t.stride_category), _semantic_hits(t)) for t in threats]
+    comp_by_id = {c.id: c for c in components}
+    pairs = [
+        _Pair(t, store.subgraph(canon.get(t.component_id, ""), t.stride_category), _semantic_hits(t), comp_by_id.get(t.component_id))
+        for t in threats
+    ]
     sem_total = sum(len(p.sem) for p in pairs)
 
     if get_config().mock:
@@ -140,6 +145,7 @@ def _enrich_via_llm(pairs: list[_Pair]) -> None:
     items = [
         {
             "threat_id": p.t.id, "stride": p.t.stride_category, "title": p.t.title, "scenario": p.t.attack_scenario,
+            "component": (f"{p.comp.canonical}" + (f" / {p.comp.label}" if p.comp and p.comp.label else "")) if p.comp else "",
             "candidates": {
                 "cwe": [{"id": i, "name": n} for i, n in p.cwe.items()],
                 "capec": [{"id": i, "name": n} for i, n in p.capec.items()],

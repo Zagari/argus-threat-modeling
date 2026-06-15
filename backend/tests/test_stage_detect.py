@@ -32,7 +32,10 @@ def test_detect_returns_503_without_weights(client: TestClient) -> None:
     files = {"file": ("d.png", io.BytesIO(_png_bytes()), "image/png")}
     r = client.post("/stage/detect", files=files)
     assert r.status_code == 503
-    assert "detector" in r.json()["detail"].lower() or "ARGUS_DETECTOR" in r.json()["detail"]
+    # detector indisponível tem 2 motivos válidos: não-configurado (ARGUS_DETECTOR_*) OU deps de ML
+    # ausentes (ultralytics/torch). O teste valida um 503 com motivo significativo, agnóstico ao env.
+    detail = r.json()["detail"].lower()
+    assert any(k in detail for k in ("detector", "argus_detector", "ultralytics", "e1", "deps de ml"))
 
 
 def test_detect_empty_file_is_400(client: TestClient) -> None:

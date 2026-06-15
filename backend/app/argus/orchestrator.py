@@ -137,7 +137,7 @@ def iter_stages(
     # ── E4 — STRIDE-per-element ──
     s = time.perf_counter()
     u0 = provider.current_usage()
-    threats = stride.generate(components, edges)
+    threats = stride.generate(components, edges, image_bytes=image_bytes)
     yield {
         "stage": "e4_stride", "n_threats": len(threats),
         "usage_delta": _usage_delta(u0, provider.current_usage()),
