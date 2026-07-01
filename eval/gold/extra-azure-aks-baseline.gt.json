@@ -17,7 +17,7 @@
     {"id": "C11", "canonical": "object_storage", "element_type": "DataStore", "label": "Container Registry (Private Link)"},
     {"id": "C12", "canonical": "monitoring", "element_type": "DataStore", "label": "Azure Monitor / Managed Prometheus"},
     {"id": "C13", "canonical": "compute", "element_type": "Process", "label": "VPN/ExpressRoute Gateway"},
-    {"id": "C14", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Rede on-premises"},
+    {"id": "C14", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Rede on-premises"},
     {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Hub VNet"},
     {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Spoke VNet (AKS)"}
   ],

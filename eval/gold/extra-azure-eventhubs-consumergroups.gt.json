@@ -4,7 +4,7 @@
   "cloud": "azure",
   "complexity": "simples",
   "components": [
-    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Event Producers"},
+    {"id": "C1", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Event Producers"},
     {"id": "C2", "canonical": "message_queue", "element_type": "DataStore", "label": "Azure Event Hubs (Partições 1–4)"},
     {"id": "C3", "canonical": "serverless_fn", "element_type": "Process", "label": "Function App (Consumer group 1)"},
     {"id": "C4", "canonical": "serverless_fn", "element_type": "Process", "label": "Function App (Consumer group 2)"},

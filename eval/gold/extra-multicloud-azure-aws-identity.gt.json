@@ -6,7 +6,6 @@
   "components": [
     {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Usuários (tenant Company A)"},
     {"id": "C2", "canonical": "identity", "element_type": "Process", "label": "Azure Active Directory (IdP central: SSO/MFA/Conditional Access/RBAC)"},
-    {"id": "C3", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "AWS Organization"},
     {"id": "C4", "canonical": "identity", "element_type": "Process", "label": "AWS IAM (×N contas)"},
     {"id": "C5", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "AWS Accounts (1, 2, +)"},
     {"id": "C6", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Azure Subscriptions (1, 2, +)"},
@@ -15,8 +14,6 @@
   ],
   "edges": [
     {"source": "C1", "target": "C2", "crosses_boundary": false, "label": "usuários → Azure AD (login)"},
-    {"source": "C2", "target": "C3", "crosses_boundary": true, "label": "Azure AD federa SSO → AWS Organization (cross-cloud)"},
-    {"source": "C3", "target": "C4", "crosses_boundary": false, "label": "AWS Org → IAM"},
     {"source": "C4", "target": "C5", "crosses_boundary": false, "label": "IAM → AWS Accounts"},
     {"source": "C2", "target": "C6", "crosses_boundary": false, "label": "Azure AD → Azure Subscriptions (RBAC)"},
     {"source": "C2", "target": "C4", "crosses_boundary": true, "label": "federação de identidade Azure AD ↔ AWS IAM (cross-cloud trust)"}

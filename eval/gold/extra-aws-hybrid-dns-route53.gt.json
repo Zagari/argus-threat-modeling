@@ -7,7 +7,7 @@
     {"id": "C1", "canonical": "compute", "element_type": "Process", "label": "EC2 (workload, subnet privada)"},
     {"id": "C2", "canonical": "compute", "element_type": "Process", "label": "Route 53 Resolver + Inbound/Outbound Endpoints (DNS, ×2 AZ)"},
     {"id": "C3", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "corp.internal DNS Resolver (on-prem)"},
-    {"id": "C4", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Client on-premises"},
+    {"id": "C4", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Client on-premises"},
     {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AWS VPC (10.0.0.0/16)"},
     {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Corporate data center (172.16.0.0/16)"}
   ],

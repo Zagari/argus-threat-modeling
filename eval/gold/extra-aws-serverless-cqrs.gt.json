@@ -14,6 +14,7 @@
     {"id": "C8", "canonical": "serverless_fn", "element_type": "Process", "label": "Lambda — Data transform (×2)"},
     {"id": "C9", "canonical": "database_sql", "element_type": "DataStore", "label": "Aurora (read model)"},
     {"id": "C10", "canonical": "search", "element_type": "DataStore", "label": "OpenSearch (read model)"},
+    {"id": "C11", "canonical": "serverless_fn", "element_type": "Process", "label": "Amazon EventBridge Pipes (CDC)"},
     {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AWS Cloud"}
   ],
   "edges": [
@@ -21,7 +22,8 @@
     {"source": "C2", "target": "C3", "crosses_boundary": false, "label": "API GW → Lambda Command"},
     {"source": "C2", "target": "C4", "crosses_boundary": false, "label": "API GW → Lambda Query"},
     {"source": "C3", "target": "C5", "crosses_boundary": false, "label": "Command → DynamoDB (grava eventos)"},
-    {"source": "C5", "target": "C6", "crosses_boundary": false, "label": "DynamoDB Streams → SNS (via EventBridge Pipes/CDC)"},
+    {"source": "C5", "target": "C11", "crosses_boundary": false, "label": "DynamoDB Streams → EventBridge Pipes (CDC)"},
+    {"source": "C11", "target": "C6", "crosses_boundary": false, "label": "EventBridge Pipes → SNS"},
     {"source": "C6", "target": "C7", "crosses_boundary": false, "label": "SNS → SQS"},
     {"source": "C7", "target": "C8", "crosses_boundary": false, "label": "SQS → Lambda Data transform"},
     {"source": "C8", "target": "C9", "crosses_boundary": false, "label": "transform → Aurora (read model)"},

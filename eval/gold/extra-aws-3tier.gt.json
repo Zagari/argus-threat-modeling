@@ -4,7 +4,7 @@
   "cloud": "aws",
   "complexity": "complexo",
   "components": [
-    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Usuários"},
+    {"id": "C1", "canonical": "compute", "element_type": "Process", "label": "Internet Gateway"},
     {"id": "C2", "canonical": "load_balancer", "element_type": "Process", "label": "Elastic Load Balancer (público)"},
     {"id": "C3", "canonical": "compute", "element_type": "Process", "label": "EC2 — Web tier (×2 AZ)"},
     {"id": "C4", "canonical": "load_balancer", "element_type": "Process", "label": "Load Balancer interno (web→app)"},
@@ -16,7 +16,7 @@
     {"id": "B3", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Subnet privada (app/DB)"}
   ],
   "edges": [
-    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "usuário → ELB (internet → VPC)"},
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "Internet Gateway → ELB (ingresso da internet na VPC)"},
     {"source": "C2", "target": "C3", "crosses_boundary": true, "label": "ELB → EC2 web (subnet pública)"},
     {"source": "C3", "target": "C4", "crosses_boundary": false, "label": "web → LB interno"},
     {"source": "C4", "target": "C5", "crosses_boundary": true, "label": "LB interno → EC2 app (pública → privada)"},

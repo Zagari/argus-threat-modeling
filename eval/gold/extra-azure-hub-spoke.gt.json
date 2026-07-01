@@ -4,7 +4,7 @@
   "cloud": "azure",
   "complexity": "complexo",
   "components": [
-    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Rede cross-premises (on-prem)"},
+    {"id": "C1", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Rede cross-premises (on-prem)"},
     {"id": "C2", "canonical": "compute", "element_type": "Process", "label": "VPN Gateway (Hub)"},
     {"id": "C3", "canonical": "edge_security", "element_type": "Process", "label": "Azure Firewall (Hub)"},
     {"id": "C4", "canonical": "edge_security", "element_type": "Process", "label": "Azure Bastion (Hub)"},

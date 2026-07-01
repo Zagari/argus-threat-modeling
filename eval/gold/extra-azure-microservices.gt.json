@@ -4,7 +4,7 @@
   "cloud": "azure",
   "complexity": "complexo",
   "components": [
-    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Client apps"},
+    {"id": "C1", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Client apps"},
     {"id": "C2", "canonical": "load_balancer", "element_type": "Process", "label": "Azure Load Balancer (Public IP)"},
     {"id": "C3", "canonical": "api_gateway", "element_type": "Process", "label": "Ingress controller (AKS front end)"},
     {"id": "C4", "canonical": "compute", "element_type": "Process", "label": "Microsserviços 1–5 (AKS back end)"},

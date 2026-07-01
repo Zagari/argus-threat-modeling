@@ -4,7 +4,7 @@
   "cloud": "aws",
   "complexity": "complexo",
   "components": [
-    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Veículos conectados (edge / Greengrass Core)"},
+    {"id": "C1", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "Veículos conectados (edge / Greengrass Core)"},
     {"id": "C2", "canonical": "api_gateway", "element_type": "Process", "label": "AWS IoT Core (device gateway/broker)"},
     {"id": "C3", "canonical": "message_queue", "element_type": "DataStore", "label": "Kinesis Data Firehose / Data Streams"},
     {"id": "C4", "canonical": "object_storage", "element_type": "DataStore", "label": "Amazon S3 (raw data)"},
