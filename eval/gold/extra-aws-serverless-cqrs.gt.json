@@ -1,0 +1,32 @@
+{
+  "system_name": "Aplicação serverless CQRS / event-sourcing (AWS)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "aws",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Client"},
+    {"id": "C2", "canonical": "api_gateway", "element_type": "Process", "label": "Amazon API Gateway"},
+    {"id": "C3", "canonical": "serverless_fn", "element_type": "Process", "label": "Lambda — Command handler"},
+    {"id": "C4", "canonical": "serverless_fn", "element_type": "Process", "label": "Lambda — Query handlers"},
+    {"id": "C5", "canonical": "database_nosql", "element_type": "DataStore", "label": "DynamoDB (event store) + Streams"},
+    {"id": "C6", "canonical": "message_queue", "element_type": "DataStore", "label": "Amazon SNS"},
+    {"id": "C7", "canonical": "message_queue", "element_type": "DataStore", "label": "Amazon SQS (×2)"},
+    {"id": "C8", "canonical": "serverless_fn", "element_type": "Process", "label": "Lambda — Data transform (×2)"},
+    {"id": "C9", "canonical": "database_sql", "element_type": "DataStore", "label": "Aurora (read model)"},
+    {"id": "C10", "canonical": "search", "element_type": "DataStore", "label": "OpenSearch (read model)"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AWS Cloud"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "Client → API Gateway (internet → AWS Cloud)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": false, "label": "API GW → Lambda Command"},
+    {"source": "C2", "target": "C4", "crosses_boundary": false, "label": "API GW → Lambda Query"},
+    {"source": "C3", "target": "C5", "crosses_boundary": false, "label": "Command → DynamoDB (grava eventos)"},
+    {"source": "C5", "target": "C6", "crosses_boundary": false, "label": "DynamoDB Streams → SNS (via EventBridge Pipes/CDC)"},
+    {"source": "C6", "target": "C7", "crosses_boundary": false, "label": "SNS → SQS"},
+    {"source": "C7", "target": "C8", "crosses_boundary": false, "label": "SQS → Lambda Data transform"},
+    {"source": "C8", "target": "C9", "crosses_boundary": false, "label": "transform → Aurora (read model)"},
+    {"source": "C8", "target": "C10", "crosses_boundary": false, "label": "transform → OpenSearch (read model)"},
+    {"source": "C4", "target": "C9", "crosses_boundary": false, "label": "Query → Aurora (read model)"},
+    {"source": "C4", "target": "C10", "crosses_boundary": false, "label": "Query → OpenSearch (read model)"}
+  ]
+}

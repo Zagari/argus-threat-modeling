@@ -1,0 +1,20 @@
+{
+  "system_name": "Resolução DNS híbrida com Route 53 Resolver Endpoints (AWS)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "aws",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "compute", "element_type": "Process", "label": "EC2 (workload, subnet privada)"},
+    {"id": "C2", "canonical": "compute", "element_type": "Process", "label": "Route 53 Resolver + Inbound/Outbound Endpoints (DNS, ×2 AZ)"},
+    {"id": "C3", "canonical": "backend_external", "element_type": "ExternalEntity", "label": "corp.internal DNS Resolver (on-prem)"},
+    {"id": "C4", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Client on-premises"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AWS VPC (10.0.0.0/16)"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Corporate data center (172.16.0.0/16)"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": false, "label": "EC2 → Route 53 Resolver (consulta DNS)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": true, "label": "Outbound Endpoint → corp.internal DNS (Direct Connect/VPN — VPC ↔ on-prem)"},
+    {"source": "C4", "target": "C2", "crosses_boundary": true, "label": "Client on-prem → Inbound Endpoint (resolve PHZ aws.example.internal via DX/VPN)"},
+    {"source": "C3", "target": "C4", "crosses_boundary": false, "label": "corp DNS atende clients on-prem"}
+  ]
+}

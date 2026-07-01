@@ -1,0 +1,29 @@
+{
+  "system_name": "Topologia de rede hub-spoke (Azure)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "azure",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Rede cross-premises (on-prem)"},
+    {"id": "C2", "canonical": "compute", "element_type": "Process", "label": "VPN Gateway (Hub)"},
+    {"id": "C3", "canonical": "edge_security", "element_type": "Process", "label": "Azure Firewall (Hub)"},
+    {"id": "C4", "canonical": "edge_security", "element_type": "Process", "label": "Azure Bastion (Hub)"},
+    {"id": "C5", "canonical": "compute", "element_type": "Process", "label": "Azure Virtual Network Manager"},
+    {"id": "C6", "canonical": "compute", "element_type": "Process", "label": "VMs — Production spokes (×2)"},
+    {"id": "C7", "canonical": "compute", "element_type": "Process", "label": "VMs — Nonproduction spokes (×2)"},
+    {"id": "C8", "canonical": "monitoring", "element_type": "DataStore", "label": "Azure Monitor"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Hub VNet"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Production spoke VNets"},
+    {"id": "B3", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Nonproduction spoke VNets"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "cross-premises → VPN Gateway (on-prem → Hub VNet)"},
+    {"source": "C2", "target": "C6", "crosses_boundary": true, "label": "Hub → Production spokes (peering)"},
+    {"source": "C2", "target": "C7", "crosses_boundary": true, "label": "Hub → Nonproduction spokes (peering)"},
+    {"source": "C6", "target": "C3", "crosses_boundary": true, "label": "egress Production → Azure Firewall (forced tunnel, spoke → hub)"},
+    {"source": "C7", "target": "C3", "crosses_boundary": true, "label": "egress Nonproduction → Azure Firewall (forced tunnel)"},
+    {"source": "C4", "target": "C6", "crosses_boundary": true, "label": "Bastion (Hub) → VMs (spoke) — acesso administrativo"},
+    {"source": "C5", "target": "C6", "crosses_boundary": false, "label": "VNet Manager administra a topologia"},
+    {"source": "C6", "target": "C8", "crosses_boundary": false, "label": "VMs → Azure Monitor"}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "system_name": "Aplicação web 3-tier em AWS (Multi-AZ)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "aws",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Usuários"},
+    {"id": "C2", "canonical": "load_balancer", "element_type": "Process", "label": "Elastic Load Balancer (público)"},
+    {"id": "C3", "canonical": "compute", "element_type": "Process", "label": "EC2 — Web tier (×2 AZ)"},
+    {"id": "C4", "canonical": "load_balancer", "element_type": "Process", "label": "Load Balancer interno (web→app)"},
+    {"id": "C5", "canonical": "compute", "element_type": "Process", "label": "EC2 — App tier (×2 AZ)"},
+    {"id": "C6", "canonical": "database_sql", "element_type": "DataStore", "label": "Aurora Primary"},
+    {"id": "C7", "canonical": "database_sql", "element_type": "DataStore", "label": "Aurora Read Replica"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "VPC"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Subnet pública (web)"},
+    {"id": "B3", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Subnet privada (app/DB)"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "usuário → ELB (internet → VPC)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": true, "label": "ELB → EC2 web (subnet pública)"},
+    {"source": "C3", "target": "C4", "crosses_boundary": false, "label": "web → LB interno"},
+    {"source": "C4", "target": "C5", "crosses_boundary": true, "label": "LB interno → EC2 app (pública → privada)"},
+    {"source": "C5", "target": "C6", "crosses_boundary": false, "label": "app → Aurora Primary"},
+    {"source": "C5", "target": "C7", "crosses_boundary": false, "label": "app → Aurora Read Replica (leitura)"},
+    {"source": "C6", "target": "C7", "crosses_boundary": false, "label": "replicação Aurora Primary → Replica"}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "system_name": "Event Hubs + Functions com consumer groups (Azure)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "azure",
+  "complexity": "simples",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Event Producers"},
+    {"id": "C2", "canonical": "message_queue", "element_type": "DataStore", "label": "Azure Event Hubs (Partições 1–4)"},
+    {"id": "C3", "canonical": "serverless_fn", "element_type": "Process", "label": "Function App (Consumer group 1)"},
+    {"id": "C4", "canonical": "serverless_fn", "element_type": "Process", "label": "Function App (Consumer group 2)"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Namespace Event Hubs"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "Producers → Event Hubs (HTTPS/AMQP/Kafka, externo → namespace)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": false, "label": "Consumer group 1 → Function App 1"},
+    {"source": "C2", "target": "C4", "crosses_boundary": false, "label": "Consumer group 2 → Function App 2"}
+  ]
+}

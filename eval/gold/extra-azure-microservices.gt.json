@@ -1,0 +1,35 @@
+{
+  "system_name": "Microsserviços em AKS (Azure)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "azure",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Client apps"},
+    {"id": "C2", "canonical": "load_balancer", "element_type": "Process", "label": "Azure Load Balancer (Public IP)"},
+    {"id": "C3", "canonical": "api_gateway", "element_type": "Process", "label": "Ingress controller (AKS front end)"},
+    {"id": "C4", "canonical": "compute", "element_type": "Process", "label": "Microsserviços 1–5 (AKS back end)"},
+    {"id": "C5", "canonical": "object_storage", "element_type": "DataStore", "label": "Azure Container Registry"},
+    {"id": "C6", "canonical": "compute", "element_type": "Process", "label": "Azure Pipelines (CI/CD, Helm)"},
+    {"id": "C7", "canonical": "identity", "element_type": "Process", "label": "Microsoft Entra ID (RBAC / Managed Identity)"},
+    {"id": "C8", "canonical": "secrets", "element_type": "DataStore", "label": "Azure Key Vault"},
+    {"id": "C9", "canonical": "monitoring", "element_type": "DataStore", "label": "Log Analytics + Application Insights"},
+    {"id": "C10", "canonical": "database_nosql", "element_type": "DataStore", "label": "Azure Cosmos DB / DocumentDB"},
+    {"id": "C11", "canonical": "cache", "element_type": "DataStore", "label": "Azure Managed Redis"},
+    {"id": "C12", "canonical": "message_queue", "element_type": "DataStore", "label": "Azure Service Bus"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AKS cluster (VNet)"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "DevOps"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "Client → Load Balancer (internet → VNet)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": false, "label": "LB → Ingress"},
+    {"source": "C3", "target": "C4", "crosses_boundary": false, "label": "Ingress → microsserviços"},
+    {"source": "C4", "target": "C10", "crosses_boundary": false, "label": "ms → Cosmos DB"},
+    {"source": "C4", "target": "C11", "crosses_boundary": false, "label": "ms → Redis"},
+    {"source": "C4", "target": "C12", "crosses_boundary": false, "label": "ms → Service Bus"},
+    {"source": "C6", "target": "C5", "crosses_boundary": true, "label": "CI/CD → push imagem no ACR (DevOps → cluster)"},
+    {"source": "C6", "target": "C4", "crosses_boundary": true, "label": "CI/CD → deploy via Helm (DevOps → cluster)"},
+    {"source": "C4", "target": "C7", "crosses_boundary": false, "label": "ms ↔ Entra ID (RBAC/managed identity)"},
+    {"source": "C4", "target": "C8", "crosses_boundary": false, "label": "ms → Key Vault"},
+    {"source": "C4", "target": "C9", "crosses_boundary": false, "label": "ms → Log Analytics / App Insights"}
+  ]
+}

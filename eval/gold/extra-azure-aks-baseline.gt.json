@@ -1,0 +1,38 @@
+{
+  "system_name": "AKS Baseline (Azure, hub-spoke)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "azure",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Usuários (Internet)"},
+    {"id": "C2", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Operador (kubectl)"},
+    {"id": "C3", "canonical": "load_balancer", "element_type": "Process", "label": "Application Gateway (+ WAF)"},
+    {"id": "C4", "canonical": "edge_security", "element_type": "Process", "label": "Azure Firewall (egress)"},
+    {"id": "C5", "canonical": "edge_security", "element_type": "Process", "label": "Azure Bastion"},
+    {"id": "C6", "canonical": "load_balancer", "element_type": "Process", "label": "Internal Load Balancer"},
+    {"id": "C7", "canonical": "compute", "element_type": "Process", "label": "AKS — System node pool (CoreDNS, metrics-server)"},
+    {"id": "C8", "canonical": "compute", "element_type": "Process", "label": "AKS — User node pool (Ingress + Workload)"},
+    {"id": "C9", "canonical": "api_gateway", "element_type": "Process", "label": "API server do AKS (Private endpoint)"},
+    {"id": "C10", "canonical": "secrets", "element_type": "DataStore", "label": "Azure Key Vault (Private Link)"},
+    {"id": "C11", "canonical": "object_storage", "element_type": "DataStore", "label": "Container Registry (Private Link)"},
+    {"id": "C12", "canonical": "monitoring", "element_type": "DataStore", "label": "Azure Monitor / Managed Prometheus"},
+    {"id": "C13", "canonical": "compute", "element_type": "Process", "label": "VPN/ExpressRoute Gateway"},
+    {"id": "C14", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Rede on-premises"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Hub VNet"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Spoke VNet (AKS)"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C3", "crosses_boundary": true, "label": "Internet → Application Gateway (entra na Spoke VNet)"},
+    {"source": "C3", "target": "C6", "crosses_boundary": false, "label": "App Gateway → Internal LB"},
+    {"source": "C6", "target": "C8", "crosses_boundary": false, "label": "Internal LB → AKS user pool (Ingress)"},
+    {"source": "C8", "target": "C7", "crosses_boundary": false, "label": "user pool ↔ system pool"},
+    {"source": "C2", "target": "C5", "crosses_boundary": true, "label": "Operador → Bastion (entra na Hub VNet)"},
+    {"source": "C5", "target": "C9", "crosses_boundary": true, "label": "Bastion → API server (Hub → Spoke via peering)"},
+    {"source": "C8", "target": "C10", "crosses_boundary": false, "label": "AKS → Key Vault (Private Link)"},
+    {"source": "C8", "target": "C11", "crosses_boundary": false, "label": "AKS → ACR (Private Link)"},
+    {"source": "C8", "target": "C4", "crosses_boundary": true, "label": "AKS egress → Azure Firewall (Spoke → Hub)"},
+    {"source": "C14", "target": "C13", "crosses_boundary": true, "label": "on-prem → VPN/ER Gateway (entra Hub VNet)"},
+    {"source": "C13", "target": "C8", "crosses_boundary": true, "label": "Gateway (Hub) → AKS (Spoke) via peering"},
+    {"source": "C8", "target": "C12", "crosses_boundary": false, "label": "AKS → Azure Monitor"}
+  ]
+}

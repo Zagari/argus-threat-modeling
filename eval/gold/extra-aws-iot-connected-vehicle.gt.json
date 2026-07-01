@@ -1,0 +1,27 @@
+{
+  "system_name": "Plataforma de veículos conectados (AWS IoT)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "aws",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Veículos conectados (edge / Greengrass Core)"},
+    {"id": "C2", "canonical": "api_gateway", "element_type": "Process", "label": "AWS IoT Core (device gateway/broker)"},
+    {"id": "C3", "canonical": "message_queue", "element_type": "DataStore", "label": "Kinesis Data Firehose / Data Streams"},
+    {"id": "C4", "canonical": "object_storage", "element_type": "DataStore", "label": "Amazon S3 (raw data)"},
+    {"id": "C5", "canonical": "serverless_fn", "element_type": "Process", "label": "AWS Lambda (processamento por domínio)"},
+    {"id": "C6", "canonical": "compute", "element_type": "Process", "label": "Kinesis Data Analytics (anomaly detection)"},
+    {"id": "C7", "canonical": "database_nosql", "element_type": "DataStore", "label": "Amazon DynamoDB (×N domínios)"},
+    {"id": "C8", "canonical": "message_queue", "element_type": "DataStore", "label": "Amazon SNS (fan-out de notificações)"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "AWS Cloud"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "veículos → IoT Core (edge → AWS Cloud, MQTT/TLS)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": false, "label": "IoT Core → Kinesis (Firehose/Streams)"},
+    {"source": "C3", "target": "C4", "crosses_boundary": false, "label": "Firehose → S3 (raw)"},
+    {"source": "C3", "target": "C6", "crosses_boundary": false, "label": "Streams → Kinesis Analytics (anomaly)"},
+    {"source": "C6", "target": "C5", "crosses_boundary": false, "label": "Analytics → Lambda"},
+    {"source": "C2", "target": "C5", "crosses_boundary": false, "label": "IoT Core (rules) → Lambda"},
+    {"source": "C5", "target": "C7", "crosses_boundary": false, "label": "Lambda → DynamoDB"},
+    {"source": "C5", "target": "C8", "crosses_boundary": false, "label": "Lambda → SNS (publica/fan-out de notificações)"}
+  ]
+}

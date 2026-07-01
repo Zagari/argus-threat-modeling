@@ -1,0 +1,37 @@
+{
+  "system_name": "Reliable Web App .NET (Azure, multirregião)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "azure",
+  "complexity": "complexo",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Browser / Usuários"},
+    {"id": "C2", "canonical": "identity", "element_type": "Process", "label": "Microsoft Entra ID"},
+    {"id": "C3", "canonical": "cdn", "element_type": "Process", "label": "Azure Front Door (+ WAF)"},
+    {"id": "C4", "canonical": "app_service", "element_type": "Process", "label": "App Service — Front-end"},
+    {"id": "C5", "canonical": "app_service", "element_type": "Process", "label": "App Service — Back-end"},
+    {"id": "C6", "canonical": "database_sql", "element_type": "DataStore", "label": "Azure SQL Database"},
+    {"id": "C7", "canonical": "cache", "element_type": "DataStore", "label": "Azure Managed Redis"},
+    {"id": "C8", "canonical": "object_storage", "element_type": "DataStore", "label": "Azure Storage"},
+    {"id": "C9", "canonical": "secrets", "element_type": "DataStore", "label": "Azure Key Vault"},
+    {"id": "C10", "canonical": "object_storage", "element_type": "DataStore", "label": "Azure App Configuration"},
+    {"id": "C11", "canonical": "monitoring", "element_type": "DataStore", "label": "Log Analytics + Application Insights"},
+    {"id": "C12", "canonical": "edge_security", "element_type": "Process", "label": "Azure Bastion (Hub)"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Primary region"},
+    {"id": "B2", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Secondary region (failover)"},
+    {"id": "B3", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Spoke VNet"},
+    {"id": "B4", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Hub VNet"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "usuário autentica no Entra ID"},
+    {"source": "C1", "target": "C3", "crosses_boundary": true, "label": "usuário → Front Door (+WAF) (internet)"},
+    {"source": "C3", "target": "C4", "crosses_boundary": true, "label": "Front Door → App Service front-end (entra na Spoke VNet)"},
+    {"source": "C4", "target": "C5", "crosses_boundary": false, "label": "front-end → back-end"},
+    {"source": "C5", "target": "C6", "crosses_boundary": false, "label": "back-end → Azure SQL (private endpoint)"},
+    {"source": "C5", "target": "C7", "crosses_boundary": false, "label": "back-end → Redis (private endpoint)"},
+    {"source": "C5", "target": "C8", "crosses_boundary": false, "label": "back-end → Storage (private endpoint)"},
+    {"source": "C5", "target": "C9", "crosses_boundary": false, "label": "back-end → Key Vault (private endpoint)"},
+    {"source": "C5", "target": "C10", "crosses_boundary": false, "label": "back-end → App Configuration"},
+    {"source": "C5", "target": "C11", "crosses_boundary": false, "label": "telemetria → Log Analytics / App Insights"},
+    {"source": "C12", "target": "C5", "crosses_boundary": true, "label": "Bastion (Hub) → App Service (Hub → Spoke, administração)"}
+  ]
+}

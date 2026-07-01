@@ -9,15 +9,6 @@ Dois sistemas que recebem a **imagem de um diagrama de arquitetura** (AWS/Azure/
 
 Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais de cada estágio, a base de conhecimento e o **painel comparativo** Cíclope × ARGUS lado a lado (aba **Comparar**, com a *groundedness* dos dois medida pela mesma régua).
 
-## Estado atual
-
-- **Fase 0** ✅ — backend FastAPI + Cíclope E2E + troca de LLM em runtime + shell React.
-- **Fase 1** ✅ — detector YOLO11 (dataset sintético auto-rotulado; mAP@50 0,99 no teste sintético). Modelo: [`zagari/argus-detector`](https://huggingface.co/zagari/argus-detector).
-- **Fase 2** ✅ — núcleo ARGUS: **E2** (OCR/fusão/cross-check/topologia), **E3** (DFD), **E4** (STRIDE-per-element) + aba **ARGUS** na UI.
-- **Fase 3** ✅ — **conhecimento ancorado** (E5/E6): grafo `CWE→CAPEC→ATT&CK→D3FEND` + `STRIDE→ASVS/NIST` **curado por (classe × STRIDE)** e ranqueado por relevância (fonte de verdade portátil), **CVEs reais** (NVD, cache offline), **groundedness** (validação anti-alucinação) e **DREAD** determinístico. Camadas **opcionais**: **Chroma** (RAG semântico, embeddings locais) e **Neo4j** (Graph-RAG via Cypher + Browser). Ver [Conhecimento ancorado](#conhecimento-ancorado-fase-3--e5e6).
-- **Fase 4** 🚧 — **relatório PDF profissional** (estrutura Shostack) ✅ e **painel comparativo** Cíclope × ARGUS ✅; **revisão humana** (aceitar/editar/descartar ameaça) 📋.
-- **Fases 5–6** 📋 — estudo comparativo (gold set + LLM-judge), empacotamento.
-
 ## Stack
 
 | Camada | Tecnologia |

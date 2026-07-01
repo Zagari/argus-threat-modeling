@@ -1,0 +1,20 @@
+{
+  "system_name": "App Service básico (Azure)",
+  "_note": "Ground-truth NEUTRA autorada lendo o diagrama (Opção A, extras) — classes canônicas; contexto justo p/ o juiz. Não é saída de nenhum dos sistemas.",
+  "cloud": "azure",
+  "complexity": "simples",
+  "components": [
+    {"id": "C1", "canonical": "actor_user", "element_type": "ExternalEntity", "label": "Usuário"},
+    {"id": "C2", "canonical": "app_service", "element_type": "Process", "label": "Azure App Service (Easy Auth)"},
+    {"id": "C3", "canonical": "identity", "element_type": "Process", "label": "Microsoft Entra ID"},
+    {"id": "C4", "canonical": "database_sql", "element_type": "DataStore", "label": "Azure SQL Database"},
+    {"id": "C5", "canonical": "monitoring", "element_type": "DataStore", "label": "Application Insights"},
+    {"id": "B1", "canonical": "trust_boundary", "element_type": "TrustBoundary", "label": "Azure (App Service)"}
+  ],
+  "edges": [
+    {"source": "C1", "target": "C2", "crosses_boundary": true, "label": "usuário → App Service (HTTPS, internet → Azure)"},
+    {"source": "C2", "target": "C3", "crosses_boundary": true, "label": "App Service (Easy Auth) → Entra ID (autenticação)"},
+    {"source": "C2", "target": "C4", "crosses_boundary": false, "label": "App Service → Azure SQL (via managed identity)"},
+    {"source": "C2", "target": "C5", "crosses_boundary": false, "label": "App Service → Application Insights (telemetria)"}
+  ]
+}
