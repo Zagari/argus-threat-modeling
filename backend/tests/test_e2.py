@@ -32,6 +32,26 @@ def test_match_label_maps_known_synonyms() -> None:
     assert match_label("xyzzy nonsense") is None
 
 
+def test_match_label_elastic_collision() -> None:
+    """Regressão (melhoria guiada pela avaliação): 'Elastic Load' NÃO pode virar `search`.
+
+    O sinônimo genérico 'elastic' colidia com toda família AWS Elastic* (o juiz GPT-5 e a
+    análise do E1 flagraram 'Elastic Load Balancing' classificado como `search`). O rótulo
+    específico deve vencer; e serviços de rede por NOME mapeiam para `compute` (régua da GT)."""
+    assert match_label("AZ2 Elastic Load") == "load_balancer"
+    assert match_label("Elastic Load Balancing (ELB)") == "load_balancer"
+    # a família Elastic* não é busca
+    assert match_label("Amazon ElastiCache") == "cache"
+    assert match_label("Elastic File System") == "file_storage"
+    # busca real continua funcionando
+    assert match_label("Amazon OpenSearch") == "search"
+    assert match_label("Elasticsearch cluster") == "search"
+    # conectividade/DNS por nome → compute (alinha com a taxonomia neutra do gold set)
+    assert match_label("Route 53 Resolver") == "compute"
+    assert match_label("AWS Site-to-Site VPN") == "compute"
+    assert match_label("Internet Gateway") == "compute"
+
+
 def test_fusion_corrects_class_from_label() -> None:
     # ícone mal classificado como actor_user, mas rotulado "Application Load Balancer"
     comp = Component(

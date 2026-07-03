@@ -9,6 +9,7 @@ curado) ficam em `Threat.semantic_anchors`. Em mock/erro/sem-RAG, cai no determi
 from __future__ import annotations
 
 import json
+import os
 import re
 from functools import partial
 from pathlib import Path
@@ -111,6 +112,55 @@ def _apply_item(p: _Pair, item: _EnrichItem) -> None:
         p.t.mitigations = item.mitigations
 
 
+# ── Exequibilidade da mitigação por tipo de serviço (melhoria guiada pelo 2º juiz) ──────────
+# O juiz diverso (GPT-5) flagrou o ARGUS propondo contramedidas inaplicáveis ao serviço gerenciado
+# (MFA no plano de dados de WAF/Shield, "validação de entrada" em CloudWatch/CloudTrail, WAF
+# "protegendo" object storage). Aqui, um mapa CURADO e CONSERVADOR (classe × controle implausível)
+# ANOTA — não remove — a mitigação, marcando-a para revisão. Determinístico, sem LLM.
+_CTRL = {
+    "waf": re.compile(r"\bwaf\b|web application firewall", re.I),
+    "mfa": re.compile(r"\bmfa\b|multifator|multi-?fator|dois fatores|\b2fa\b", re.I),
+    "input": re.compile(r"valida[çc][ãa]o de entrada|input validation|sanitiza", re.I),
+}
+# controles IMPLAUSÍVEIS por classe canônica (alta precisão; só casos claros do rationale do juiz)
+_INFEASIBLE: dict[str, tuple[str, ...]] = {
+    "monitoring": ("waf", "mfa", "input"),      # CloudWatch/CloudTrail: observabilidade, não recebe input nem WAF
+    "object_storage": ("waf", "input"),          # S3/Blob: WAF é camada HTTP; não valida "entrada"
+    "file_storage": ("waf", "input"),
+    "secrets": ("waf", "input"),                 # KMS/Key Vault
+    "message_queue": ("waf", "input"),           # SNS/SQS/Event Hubs: mensageria, não é alvo de WAF
+    "cache": ("waf", "input"),
+    "database_sql": ("waf",),                    # WAF não protege o banco (é camada de app/rede)
+    "database_nosql": ("waf",),
+    "edge_security": ("mfa", "input"),           # WAF/Shield/Firewall: sem plano de dados de login
+    "load_balancer": ("mfa", "input"),
+    "cdn": ("mfa", "input"),
+}
+_REASON = {"waf": "WAF é controle de camada HTTP", "mfa": "MFA não se aplica ao plano de dados deste serviço",
+           "input": "validação de entrada é responsabilidade do processo, não deste serviço"}
+
+
+def flag_feasibility(threats: list[Threat], canon: dict[str, str]) -> int:
+    """Anota mitigações implausíveis para o tipo de serviço-alvo. Devolve quantas anotou."""
+    if os.getenv("ARGUS_E5_FEASIBILITY", "1") == "0":
+        return 0
+    n = 0
+    for t in threats:
+        cls = canon.get(t.component_id, "")
+        bad = _INFEASIBLE.get(cls)
+        if not bad:
+            continue
+        for m in t.mitigations:
+            if "[exequibilidade" in m.description:
+                continue
+            for key in bad:
+                if _CTRL[key].search(m.description):
+                    m.description += f" [exequibilidade a revisar: {_REASON[key]} em serviço do tipo '{cls}']"
+                    n += 1
+                    break
+    return n
+
+
 def enrich(threats: list[Threat], components: list[Component], store: KnowledgeStore) -> validate.ValidationReport:
     """Enriquece e valida as ameaças in-place; devolve o `ValidationReport` (groundedness + semântico)."""
     canon = {c.id: c.canonical for c in components}
@@ -136,6 +186,8 @@ def enrich(threats: list[Threat], components: list[Component], store: KnowledgeS
             _apply_deterministic(p)
         det = set(p.sg.ids("CWE")) | set(p.sg.ids("CAPEC"))  # procedência: só-semântico = no hit e fora do det
         p.t.semantic_anchors = [c for c in (p.t.cwe_ids + p.t.capec_ids) if c in p.sem and c not in det]
+
+    flag_feasibility(threats, canon)  # anota mitigações inexequíveis ao tipo de serviço (2º juiz)
 
     report = validate.validate_threats(threats, store, drop_invalid=True)
     report.sem_candidates = sem_total

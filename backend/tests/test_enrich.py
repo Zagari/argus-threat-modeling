@@ -49,3 +49,33 @@ def test_ref_filtra_ancora_alucinada_mantem_controle():
     assert kg_enrich._ref_ok("CWE-89", allowed)         # âncora candidata → mantém
     assert not kg_enrich._ref_ok("CWE-9999", allowed)   # âncora alucinada → descarta
     assert not kg_enrich._ref_ok("CAPEC-99999", allowed)
+
+
+def test_flag_feasibility_anota_mitigacao_inexequivel():
+    """Melhoria guiada pelo 2º juiz (GPT-5): mitigação inaplicável ao tipo de serviço é ANOTADA
+    (não removida), e a plausível fica intacta."""
+    from app.schemas import Mitigation
+    canon = {"C1": "monitoring", "C2": "object_storage", "C3": "compute"}
+    t1 = _threat("THR-1", "C1", "Tampering")   # monitoring: input validation é implausível
+    t1.mitigations = [Mitigation(description="Aplicar validação de entrada nos logs.")]
+    t2 = _threat("THR-2", "C2", "Information Disclosure")  # object_storage: WAF é implausível
+    t2.mitigations = [Mitigation(description="Proteger o bucket com um WAF.")]
+    t3 = _threat("THR-3", "C3", "Spoofing")    # compute: MFA/validação são plausíveis → NÃO anota
+    t3.mitigations = [Mitigation(description="Exigir MFA e validação de entrada na aplicação.")]
+
+    n = kg_enrich.flag_feasibility([t1, t2, t3], canon)
+    assert n == 2
+    assert "[exequibilidade a revisar" in t1.mitigations[0].description
+    assert "[exequibilidade a revisar" in t2.mitigations[0].description
+    assert "[exequibilidade" not in t3.mitigations[0].description   # compute é plausível
+
+    # idempotente: rodar de novo não duplica a anotação
+    assert kg_enrich.flag_feasibility([t1, t2, t3], canon) == 0
+
+
+def test_flag_feasibility_desligavel_por_env(monkeypatch):
+    from app.schemas import Mitigation
+    monkeypatch.setenv("ARGUS_E5_FEASIBILITY", "0")
+    t = _threat("THR-1", "C1", "Tampering"); t.mitigations = [Mitigation(description="validação de entrada")]
+    assert kg_enrich.flag_feasibility([t], {"C1": "monitoring"}) == 0
+    assert "[exequibilidade" not in t.mitigations[0].description

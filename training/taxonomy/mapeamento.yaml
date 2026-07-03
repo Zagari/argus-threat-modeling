@@ -61,6 +61,7 @@ classes:
     azure: ["load balancer", "application gateway"]
     gcp: ["cloud load balancing", "load balancing"]
     labels: ["load balancer", "balanceador", "elb", "alb", "nlb", "lb",
+             "elastic load balancing", "elastic load balancer", "elastic load",
              "application gateway", "haproxy", "nginx lb", "traffic manager"]
     cpe_hints: ["cpe:2.3:a:haproxy:haproxy", "cpe:2.3:a:f5:nginx"]
 
@@ -75,7 +76,9 @@ classes:
     gcp: ["compute engine", "kubernetes engine", "gke", "gce"]
     labels: ["ec2", "vm", "virtual machine", "máquina virtual", "server", "servidor",
              "compute", "container", "docker", "kubernetes", "k8s", "ecs", "eks",
-             "aks", "pod", "node", "gce", "compute engine"]
+             "aks", "pod", "node", "gce", "compute engine",
+             "route 53 resolver", "dns resolver", "direct connect", "site-to-site vpn",
+             "vpn gateway", "internet gateway", "nat gateway", "expressroute", "transit gateway"]
     cpe_hints: ["cpe:2.3:o:linux:linux_kernel", "cpe:2.3:a:docker:docker",
                 "cpe:2.3:a:kubernetes:kubernetes"]
 
@@ -151,7 +154,7 @@ classes:
     aws: ["efs", "elastic file system", "fsx"]
     azure: ["files", "azure files", "netapp files"]
     gcp: ["filestore"]
-    labels: ["efs", "fsx", "file storage", "file share", "nfs", "smb",
+    labels: ["efs", "elastic file system", "fsx", "file storage", "file share", "nfs", "smb",
              "azure files", "filer", "nas"]
     cpe_hints: []
 
@@ -209,7 +212,7 @@ classes:
     aws: ["opensearch", "elasticsearch", "cloudsearch", "kendra"]
     azure: ["cognitive search", "ai search", "search service"]
     gcp: ["vertex ai search", "enterprise search"]
-    labels: ["search", "busca", "opensearch", "elasticsearch", "elastic",
+    labels: ["search", "busca", "opensearch", "elasticsearch",
              "solr", "cognitive search", "ai search", "lucene", "algolia"]
     cpe_hints: ["cpe:2.3:a:elastic:elasticsearch", "cpe:2.3:a:apache:solr",
                 "cpe:2.3:a:apache:lucene"]
