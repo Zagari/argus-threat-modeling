@@ -1,0 +1,22 @@
+# Hugging Face Space (Gradio) — dependencies for the bring-your-own-key demo.
+# Subset of the backend runtime + ML deps. No server-only (fastapi/uvicorn) or
+# dev (pytest/ruff/mypy) packages; Chroma/Neo4j are intentionally omitted (the
+# Space uses the portable in-memory knowledge graph, LocalKG).
+
+gradio>=4.44
+
+# Backend runtime (mirror of backend/requirements.txt, runtime-only)
+pydantic>=2.6
+pydantic-settings
+python-dotenv
+litellm
+pillow
+jinja2
+weasyprint
+PyYAML
+httpx
+
+# ML for ARGUS — E1 detector (YOLO) + E2 OCR (mirror of backend/requirements-ml.txt)
+ultralytics>=8.3.0
+huggingface_hub>=0.24
+easyocr>=1.7

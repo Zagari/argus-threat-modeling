@@ -63,3 +63,6 @@ Thumbs.db
 /PROPOSTA-TECNICA.md
 /PLANO-IMPLEMENTACAO.md
 /docs/
+
+# Staging do HF Space (montado pelo build.sh)
+deploy/hf_space/_build/
