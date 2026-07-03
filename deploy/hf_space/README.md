@@ -8,7 +8,7 @@ sdk_version: 5.9.1
 app_file: app.py
 pinned: false
 license: mit
-short_description: STRIDE threat models from an architecture diagram (bring your own key)
+short_description: STRIDE threat modeling from architecture diagrams
 ---
 
 # 🛡️ ARGUS & Cíclope — STRIDE Threat Modeling from Architecture Diagrams
