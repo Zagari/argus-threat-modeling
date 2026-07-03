@@ -9,6 +9,31 @@ Dois sistemas que recebem a **imagem de um diagrama de arquitetura** (AWS/Azure/
 
 Mais uma **interface web** (React + FastAPI) que mostra os resultados parciais de cada estágio, a base de conhecimento e o **painel comparativo** Cíclope × ARGUS lado a lado (aba **Comparar**, com a *groundedness* dos dois medida pela mesma régua).
 
+## Arquitetura
+
+Monorepo com quatro frentes que compartilham um único contrato de saída, o `ThreatModel` — é ele que torna Cíclope e ARGUS **comparáveis de forma justa** (mesma estrutura de componentes, ameaças, mitigações e *scores*):
+
+```
+argus/
+├── backend/    # FastAPI · os dois sistemas atrás da mesma API · pipeline E1–E6
+├── frontend/   # React + Vite + TS · estágios ao vivo, base de conhecimento, painel comparativo
+├── training/   # dataset sintético auto-rotulado + treino do detector YOLO11
+└── deploy/     # Docker (LITE/FULL), nginx, CI/CD
+```
+
+Só o **E1** (detector) enxerga ícones de uma nuvem específica; do **E2** em diante tudo opera sobre **classes canônicas agnósticas** — o que permite cobrir AWS, Azure e GCP com um único modelo.
+
+## Estudo comparativo (resumo)
+
+A pergunta do trabalho — *"um olho ou cem?"* — foi respondida com um estudo sobre um **gold set de 26 diagramas**, verdade-base neutra, **N execuções** por sistema, uma **régua única de _groundedness_** e **LLM-as-judge cego** (pointwise + pairwise) com **dois juízes de famílias diferentes** (Claude Opus + GPT-5). Achados:
+
+- **Eixo objetivo (H2 — sólida):** *groundedness* **100% (ARGUS)** vs **~94,6% (Cíclope)** — o baseline alucina IDs (CWE/CAPEC inexistentes) em quase todo diagrama.
+- **Qualidade por ameaça (pointwise):** ARGUS **78,9** vs Cíclope **67,2** (+11,7).
+- **Confronto direto (pairwise, consenso dos 2 juízes):** nos **densos** o ARGUS lidera sem dominar (ARGUS 7 · empate 3 · Cíclope 4); nos **simples** o Cíclope é competitivo (Cíclope 3 · empate 2 · ARGUS 1 — **H3**).
+- **Concordância entre os dois juízes:** **62%** (o próprio estudo expõe as divergências).
+
+**Veredito honesto:** não é *"o ARGUS ganha em tudo"*. É **fundamentação + reprodutibilidade + cobertura sistemática** a um custo de latência maior — **H2 sólida**, **H3 sim**, **H1 parcialmente sustentada**. Detalhes no relatório técnico (Cap. 6).
+
 ## Stack
 
 | Camada | Tecnologia |
@@ -132,4 +157,4 @@ Configure a chave do LLM em runtime pela aba **Configurações** da UI, ou via `
 
 ## Licença
 
-A definir.
+**MIT** — código aberto para fins educacionais e de pesquisa. Veja o arquivo [`LICENSE`](LICENSE).
