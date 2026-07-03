@@ -3,7 +3,10 @@
 # dev (pytest/ruff/mypy) packages; Chroma/Neo4j are intentionally omitted (the
 # Space uses the portable in-memory knowledge graph, LocalKG).
 
-gradio>=4.44
+# gradio 5.9.1 tem um bug no gradio_client (get_api_info: "argument of type 'bool'
+# is not iterable") que derruba o Space na carga da página; 5.50 (gradio_client 1.14)
+# corrige. Mantido em 5.x: o builder do HF ainda não tem o 6.x no índice.
+gradio>=5.50,<6
 
 # Backend runtime (mirror of backend/requirements.txt, runtime-only)
 pydantic>=2.6

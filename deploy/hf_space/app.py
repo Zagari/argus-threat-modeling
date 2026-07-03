@@ -17,9 +17,17 @@ import tempfile
 from pathlib import Path
 
 # ── Locate the backend package (`app`) — works both in the Space layout
-#    (./backend/app) and in the monorepo layout (../../backend/app). ──
+#    (./backend/app, so _HERE is the repo root at /app) and in the monorepo
+#    layout (../../backend/app, so the root is two levels up). ──
 _HERE = Path(__file__).resolve().parent
-for _cand in (_HERE / "backend", _HERE.parents[1] / "backend"):
+# Candidate roots, built defensively: in the Space, _HERE == /app has a single
+# parent (/), so indexing parents[1] would raise IndexError — only add it if present.
+_ROOTS = [_HERE]
+if len(_HERE.parents) >= 2:
+    _ROOTS.append(_HERE.parents[1])
+
+for _root in _ROOTS:
+    _cand = _root / "backend"
     if (_cand / "app" / "config.py").exists():
         sys.path.insert(0, str(_cand))
         break
@@ -28,9 +36,9 @@ for _cand in (_HERE / "backend", _HERE.parents[1] / "backend"):
 # taxonomy YAML if it travels with the repo. Both degrade gracefully if absent.
 os.environ.setdefault("ARGUS_DETECTOR_HF", "zagari/argus-detector")
 # The YAML lives beside the app in the Space layout (./training/...) and up in the
-# monorepo layout (../../training/...). Try both.
-for _m in (_HERE / "training" / "taxonomy" / "mapeamento.yaml",
-           _HERE.parents[1] / "training" / "taxonomy" / "mapeamento.yaml"):
+# monorepo layout (../../training/...). Try both roots.
+for _root in _ROOTS:
+    _m = _root / "training" / "taxonomy" / "mapeamento.yaml"
     if _m.exists():
         os.environ.setdefault("ARGUS_MAPEAMENTO", str(_m))
         break
