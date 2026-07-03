@@ -53,9 +53,10 @@ a latência do ARGUS (~1–2 min) é dominada pelas chamadas ao VLM, não pelo d
 > `ARGUS_LLM_MOCK=0` (ver `deploy/.env.prod.example`). O modo LITE continua disponível para
 > quem clonar e buildar localmente sem `ARGUS_ML`.
 >
-> ⚠️ **Latência atrás de Cloudflare:** a análise do ARGUS leva ~1–2 min (3 chamadas ao VLM),
-> próximo do teto ~100s do Cloudflare *free* — pode haver 504 em execuções mais lentas. O
-> Cíclope (~30s) não tem esse risco. Mitigação futura: unir as chamadas VLM / análise assíncrona.
+> ⚠️ **Latência atrás de Cloudflare:** o ARGUS roda os lotes de LLM (E4/E5) **em paralelo**
+> (`ARGUS_LLM_CONCURRENCY`), o que trouxe a análise de ~5 min para **~72 s** no caso típico;
+> diagramas muito densos ainda podem passar do teto ~100 s do Cloudflare *free* (risco de 504). O
+> Cíclope (~30 s) não tem esse risco. Mitigação futura: análise assíncrona/streaming.
 
 ## Conhecimento ancorado (Fase 3 — E5/E6)
 

@@ -143,7 +143,7 @@ jobs:
     name: Deploy (self-hosted)
     needs: build-push
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: [self-hosted, argus]   # roda no runner dentro da VPN/servidor — sem SSH
+    runs-on: [self-hosted, argus]   # deploy roda no runner self-hosted (pull-based)
     concurrency:
       group: argus-deploy           # evita dois deploys simultâneos
       cancel-in-progress: false
